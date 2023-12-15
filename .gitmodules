@@ -1,0 +1,3 @@
+[submodule "comp/cs-oracle"]
+	path = comp/cs-oracle
+	url = https://github.com/standenboy/cs-oracle
