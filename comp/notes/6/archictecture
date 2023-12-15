@@ -1,0 +1,21 @@
+there are 3 busses, data, control, address
+the data carrys data from the cpu
+the address carrys mem addresses
+the control bus is used to talk to devices about what data to send
+
+von nueman architecture has all the things (cpu mem io) on the same bus
+
+harvard architecture has all the things seperateated on different busses, including mem split into program and data
+
+moddern cpus have a mix of the 2 architectures
+
+the two each have there own advantges
+
+von nueman is simpler overall however it can have limiting speeds as all the busses are shared 
+
+harvard is generally faster as it doesnt have to share any busses, however it can be harder to work with as the developer has to specify which but they are sending data too
+also the extra wires can make costs higher, however this will only ever effect very large scale production
+
+speed is determined by things like clock speed, core count and bus width
+
+a faster cpu may be faster overall, however certan workflows benifit from more cores 

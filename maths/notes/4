@@ -1,0 +1,14 @@
+so far so good with maths, todays work was quite hard however
+
+had to work on some completing the square
+
+also found out how to solve some weird quadratics
+
+if something is like x^6+x^3+2 its still a quadratic
+to solve it you would say let y = x^3
+then rewrite the equation as y^2+y+2
+then solve with the quadratic formula or factorizing
+and then cube root the ans to give it in terms of x for the final anwser
+
+you can only do that when all the powers line up with something that can be divided to match a quadratic
+so x + x^7 + 23 wouldnt work

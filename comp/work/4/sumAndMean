@@ -1,0 +1,6 @@
+#!/usr/bin/python3
+numbers = []
+for i in range(5):
+        numbers.append(int(input(f"num {i}: ")))
+print(f"sum = {float(sum(numbers))}")
+print(f"average = {(sum(numbers) / 5)}")

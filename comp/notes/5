@@ -1,0 +1,18 @@
+io devices
+barcode reader
+ it shines a light, then more light reflects from the white than the black, then it uses that to read a string
+ white is 0, black is 1
+ barcodes have a product number on the right and a manufacture number on the left
+ the right hand side codes are writen through a not gate (inversed)
+qr codes
+ the same as a barcode but 2d
+digital cameras
+ they look at how much light enters the lens then depending on its color and brightness it will output a different value
+ each pixel the camera outputs must have its own small light/color sensor
+lazer printer
+ a negative static charge is put on paper 
+ puts ink down thats atractive to the negative charge
+rfid
+ it sends some radio waves out, then reads the radio waves sent back
+ some devices require active power, while other can get power from the incoming radio waves
+ 

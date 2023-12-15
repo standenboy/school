@@ -1,0 +1,24 @@
+mosfet's
+(metal oxide semiconducting feild effect transistor)
+voltage controled device
+has a:
+drain equivilant to the collector on a transistor
+gate the base
+source the emmiter
+
+no current can flow into the gate
+
+its just a new kind of transistor for the most part
+differences between transistor:
+	when it is on, it still conducts slightly (about 0.4V)
+	this is because it has a slight resistance, whereas a transistor does not
+	the small resistance it has is given the name Rdson (something about resistance when on (r d s on))
+	there is a formula for this in the formula sheet
+
+	a mosfet will start to conduct when the input voltage is 3V unless the question says otherwise
+
+	when ploting a graph of a mosfet, with Vin and I at the drain (Id) the gradient of that line is called gm
+	Id = gm * (Vin - 3)
+	gm is called the transconductance
+
+	the gm and rdson are propertys of the mosfet

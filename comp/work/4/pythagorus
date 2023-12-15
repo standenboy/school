@@ -1,0 +1,6 @@
+#!/usr/bin/python
+base = float(input("base: "))
+height = float(input("height: "))
+
+hyp = ((base ** 2) + (height ** 2)) ** 0.5
+print(hyp)

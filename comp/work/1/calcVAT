@@ -1,0 +1,6 @@
+startingMoney = float(input("starting money: "))
+
+endingMoney = startingMoney - (startingMoney * 0.2)
+endingMoney = format(endingMoney, ".2f")
+
+print("you now have", endingMoney)

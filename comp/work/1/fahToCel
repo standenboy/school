@@ -1,0 +1,5 @@
+inputTemp = float(input("Temprature in fahrenheit: "))
+
+convertedTemp = (5 / 9) * (inputTemp - 32)
+
+print("the converted temp is", convertedTemp) 

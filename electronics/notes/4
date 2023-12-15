@@ -1,0 +1,10 @@
+the sum of currents into a node = the sum of currents exiting the node - kirchoffs first law
+the sum of the emf equals the sum of the potential differences across a loop - kirchoffs second law
+
+the emf is the voltage across a power supply
+
+remember that when a wire splits into 2 parralel branches its current splits while the voltage stays the same
+
+this is because voltage is a mesure of energy per unit of charge, which wouldn't change because each electron has the same charge.
+the current splits because its a way of messuring the amount of charge flowing
+ 

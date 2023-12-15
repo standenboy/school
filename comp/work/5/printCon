@@ -1,0 +1,5 @@
+word = "computing"
+for i in word:
+	if i != 'a' and i != 'e' and i != 'i' and i != 'o' and i != 'u':
+		print(i)
+

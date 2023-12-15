@@ -1,0 +1,15 @@
+the os is a tool designed to make the hardware easier to interactive with, it does this via masking the hardware into easier forms, look at /dev/wsmouse0 for an example
+
+it also needs to make programs easier to write and run, however doing this limits them to the platform they are compiled for
+
+an os may provide apis (/sys on linux) (/dev on openbsd) which allow talking to the hardware and sending signals much easier
+
+there will be a vaiety of different ways of interacting with the os, there is a gui (smelly gui), a tui (better gui), and a cli (the right one)
+
+the os also needs to deal with memory and cpu alication, which ensures the system isn't going to use 100% cpu for a split second while running ls
+
+a virtual machine (in the sense they want me to know), is a disk image, use doas dd if=/ of=/dev/usb0 to make one
+
+the os also manages stuff getting writen to the drives, this is via the file system, on linux it will be ext4, btrfs, etc and on windows it will be ntfs or fat 32/64
+
+remember that translators and compilers come under this topic as they translate to os specific binary files (see man clang for more)

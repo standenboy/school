@@ -1,0 +1,15 @@
+((1/r)+(1/r)+(1/r))^-1
+that is the total resistance of the circuit if it is in parralel
+we did this cool practical with a box to see where resistors are
+when you have resistors in series the supply voltage is shared un evenly across the resistors
+the sum of the voltages across the resistor will add up to the voltage from the power suply
+if the resistors are of the same resistance the voltage will be an even split
+greater voltage will go across the larger resistor
+each component has the has an equal proportion of the total voltage compared to the proportion that the resistor is to the total voltage
+
+(r1 / rt) = the proportion in restance
+
+voltage across a componet = (r1 / rt) x VoltageTotal
+
+kirchoff's first law, is that the current in all parralel branches adds up to the total current
+his second law is that the sum of the energy in point equals the sum of potential differences around any loop of a circuit 

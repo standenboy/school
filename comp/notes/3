@@ -1,0 +1,5 @@
+the first half of the lesson was recapping floating point numbers
+for a standard value there will always be 1 bit then the decimal point then the rest of the factional value
+a standard value will have a ten bit fractional value and a 6 bit exponent (both will be signed)
+
+second half of the lesson is programming

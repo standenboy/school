@@ -1,0 +1,11 @@
+trig rule, used to find missing sides on a triangle
+
+a^2 = b^2 + c^2 - 2bc cos(A)
+
+when rearranged can be:
+
+cos(A) = (b^2 + c^2 - a^2) / (2bc)  // use this one when you only have side lengths
+
+when using this use cos^-1 
+
+example in folder p1

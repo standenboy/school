@@ -1,0 +1,6 @@
+print = ("....") print("...")
+      ^ 
+heigth-Str = input("...") height = int(input("..."))
+      ^
+base-Str = input("...") base = int(input("..."))
+    ^

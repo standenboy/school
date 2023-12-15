@@ -1,0 +1,38 @@
+use these to convert to the standard unit 
+ie:
+ 1km = 1 x 1000 meter
+ 1mV = 1 / 1000 volts 
+
+G = giga = x 1,000,000,000 = x10^9
+M = mega = x 1,000,000 = x10^6
+k = kilo = x 1000 = x10^3
+m = milli = / 1000 = x10^-3
+u (funny u (mu)) = micro = / 1,000,000 = x10^-6
+n = nano = / 1,000,000,000 = x10^-9
+p = pico = / 1,000,000,000,000 = x10^-12
+
+you can do the inverse of those to convert to a more reasonable scale
+ie:
+ 120,000V = 12kV
+ 0.15A = 150mA
+
+first half of the lesson was learning those and touching up on standard form
+
+second half we are going over current and voltage
+
+current is the rate of flow of charge, to find the current, i = q/t with i being current, q is culombs and t is time
+AMETERS GO IN SERIS
+
+voltage is the energy tranfered per unit of charge 
+v = e/q with v being volts, e being energy, and q being culombs
+VOLTMETER GO IN PARRALEL
+
+later on we are doing practical, mesuring voltage with circuit with a bulb or a resistor
+plotted the results on a graph, my resistor graph was perfectly liner
+and my bulb graph is more similar to a cubic graph
+   -
+  /
+-
+kind of like that
+
+we looked at a bit of resistance at the end, worksheet work (BRING IT TO THE NEXT LESSON)

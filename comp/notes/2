@@ -1,0 +1,20 @@
+starting task 
+1) 103
+2) 10 10011011 
+3) 10101001 x wrong numbers used
+4) binary, denary, hexadecimal, octodecimal (base 8) x natural rational integer real
+
+from gcse remember spliting a binary number every 4 bits and convert to hex
+
+when you have signed bit it means - of the bit that is signed (usualy 128) + all the other values
+your colums would be -128, 64, 32, 16, 8, 4, 2, 1
+if you have less bits it might look like this -8, 4, 2, 1
+same for if you have more bits
+
+we did some fixed point binary, it goes like this, -128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25..
+it is clear why we use floating point numbers
+
+THE EXAM THINKS THAT 1G = 1000KB
+THEY CALL 1024KB = 1 Gibibyte 
+
+2^n is the maximum amount of values, n = the number of bits 
