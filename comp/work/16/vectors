@@ -1,0 +1,11 @@
+circle.center 5, 15
+circle.radius 4
+circle.fill red
+circle.outline yellow
+circle.weight 3pt
+
+square.posistion 10, 18
+square.width 5
+square.height 5
+square.fill red
+ 
