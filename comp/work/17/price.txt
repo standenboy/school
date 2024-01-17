@@ -1,0 +1,3 @@
+pens,13,1.80
+rubbers,8000,0.01
+rulers (beating kind),69420,100

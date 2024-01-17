@@ -1,0 +1,4 @@
+the circuit is comparing the voltage from a potentiomiter and a ldr
+if the there is a higher voltage going across the ldr than the potentiomiter then its going to turn on
+ 
+
