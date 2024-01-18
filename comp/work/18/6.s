@@ -1,0 +1,6 @@
+LDR 105, R0
+LSL R0, R0, 7
+LSR R0, R0, 7
+
+STR R0, 102
+
