@@ -1,7 +1,7 @@
 # school 
 this is just all my school work
 
-# cheet sheet
+# cheat sheet
 make changes to the submodule and push them to main
 
 then
