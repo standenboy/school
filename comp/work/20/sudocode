@@ -1,0 +1,10 @@
+temp <- input
+
+if temp < 10
+	output "its cold"
+else if temp < 18
+	output "its cool"
+else if temp < 25
+	output "its warm"
+else 
+	output "it too hot"
