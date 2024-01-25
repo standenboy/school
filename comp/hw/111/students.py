@@ -19,13 +19,17 @@ def top_student():
             return i[0]
 
 def grade_spread():
-    print('''
-    90+ 2
-    80+ 4
-    70+ 2
-    50+ 0
-    <50 0
-    ''')
+    prev = 0
+    current = 50
+    count = 0
+    for x in range(6): 
+        for i in students:
+            for j in i[1]:
+                if j <= current:
+                    count = count + 1
+        print(f"{prev} - {current}: {count}")
+        prev = current
+        current = current + 10
 
 def improvement(name):
     for i in students:
@@ -42,7 +46,8 @@ def improvement(name):
     return "not in list"
 
 
-print(calculate_mean("charlie"))
-print(top_student())	
+print(f"mean for charle: {calculate_mean('charlie')}")
+print(f"the top student is: {top_student()}")	
+print("the grade spread is")
 grade_spread()
-print(improvement("alice"))
+print(f"the grade improvement of alice is: {improvement('alice')}")
