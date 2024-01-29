@@ -1,0 +1,25 @@
+attributes are vairables in classes
+methods are functions in classes
+
+instanciate -> create an instance of a class, will give you an object that you can interacte with
+
+a class is a bit like a function that returns a specific data structure
+
+a procedure changes an attribute in an object
+
+a function returns the value of an attribute
+
+a constructor is a function that initializes the object when you instanciate the class
+
+an attribute is a private variable, can only be changed using a procedure in the class
+
+a procedure or funtion is (normally) public, and can be acessed anywhere in code
+
+
+getters and setters
+a getter will return a value of an attribute
+
+a setter will set an attribute
+
+
+
