@@ -1,0 +1,300 @@
+CS course work project
+
+zippy - a high level functional programing language
+
+zippy will be an interpreted language designed to replace C in higher level use
+C is used largely to write most of the unix desktop, however c can be difficult
+when writing larger programs, and is missing moddern features like oop or
+functional patterns (higher order functions)
+
+requirents:
+	- must be human readable, even a non programmer should be able to figure
+	out what a program is doing
+	- faster than competion, other languages that have tried to slot into
+	this position like python are far to slow, and thus it must be faster
+	- low runtime overhead, the interpreter should be small, it shouldn't 
+	force the developer to think about how the interpreter works to use it
+	efficently
+	- have moddern tools, a pkg manager and enviroment manager, making it
+	easy to develop for
+	- needs to support c libarys
+
+language info
+
+zippy will use function programming as a primary solution, however also support
+simple oop, with classes (no inheritence)
+its syntax will be comparable to lisp, with prolific use of "()"
+it will need a stdlib, which can be taken from C's stdlib
+
+types:
+
+	char - just like a c char
+	i32 - 32 bit signed int
+	f32 - 32 bit signed float
+	u32 - unsigned 32 bit int
+	i16- 16 bit signed int
+	u16 - 16 bit unsigned int
+	bool - TRUE/FALSE
+
+
+	arrays:
+	
+		arrays can be created like so
+		(let arr[]:char "hello there")
+		(let arr[]:i32 1, 2, 3)
+
+		all arrays are linked lists of there data type
+		their size is not fixed
+
+		you can get, or set the value of an array at a specific index using
+		arr[index]
+
+	strings:
+	
+		strings are arrays of chars
+		a string can be defined by a litteral like so
+		"hello world" - this is the same as 'h' 'e' 'l'....
+		because this is represented as a linked list there is no need to have a
+		NULL terminator like in c, the end of the string is jus the point where the 
+		linked list has no more nodes
+
+comments:
+	comments can be writen like so
+	! this is a comment
+
+indentation and spacing:
+	indentation and new lines arent at all necesary
+	any new lines will be converted to spaces, and tabs will be removed
+	the only place that needs spaces is when calling a function and giving its args
+
+scopes:
+	() can be placed anywhere, and anything that is in them is in there own scope
+	as soon as the bracket is closed, any variables defined in the scope
+	will be deleted 
+	any scope inherets all variables and functions from the scope that contains it
+	code writen in the main body of the file can be imagined like so
+	(
+		...
+		...
+		...
+		your code
+		...
+		...
+		...
+	)
+	however that level of indentation is not needed
+	
+	this can be helpful if you want to have two scopes with different imports
+	(
+		(import z)
+		(
+			(import x) 
+			! anything writen here has access to libary x and z
+		)
+		(
+			(import y)
+			! anything writen here has access to libary y and z
+		)
+		! anything writen here has access to libary z	
+	)
+	
+libarys:
+	libarys are similar to header files in c
+	when imported the user can use any function contained within the file
+	
+	it would be good practice to put your libary in a struct to avoid functions with the
+	same names coming from 2 libarys, however its not needed
+
+errors:
+	errors would be 
+
+keywords:
+
+	(defun name arg1:type arg2:type returnType
+		...
+		...
+		...
+	)
+	defines a function called name, can be done anywhere in the program, all functions 
+	must return a value, return type and arguments must be known at runtime
+	
+	(return VALUE)
+	returns VALUE from a function, VALUE must be of the same tupe as returnType
+	in defun
+
+	(for x a b
+		...
+		...
+		...
+	)
+	runs the code inside the loop, x will be increment by 1 each iteration and
+	it will have a starting value of a running until it reaches b (inclusive)
+	x cant be changed in any way other than the for loop
+	x, a, b are all of type i32
+
+	(while condtion
+		...
+		...
+		...
+	)
+	runs all code inside the loop until the condion is not TRUE
+	condition must be a bool (TRUE/FALSE)
+	
+	(let name:type value)
+	assign value to variable name, this will create the variable if it doesn't already
+	exist, and overwrite it if it does
+	names type must be defined by type
+
+	(const name:type value)
+	same as let but creates an imutable variable
+
+	(import libary)
+	searches the libary dir and imports the libary to the current project
+	libary can also be a specific path if it starts with / or ./ or ../
+
+	(struct name
+		...
+		...
+		...
+		(defun init arg1:type type
+			...
+			...
+			...
+		)
+		(defun deinit arg1:type type
+			...
+			...
+			...
+		)
+	)
+	structs can be used as a custom data type
+	creates a struct/class called name, functions called init will be ran when an
+	object is created
+	when deinit is called the code init will be ran, then the object will be deleted
+	if deinit is not defined it can still be called to delete the instace of the class
+
+	you can create a struct like so:
+		(let mystruct:name (name.init arg1 arg2))
+
+	you can call a method attached to an instace of a struct like this:
+		(mystruct.method arg1 arg2)
+
+	and to destroy it you can just use this:
+		(mystruct.deinit arg1 arg2)
+	
+	structs can be recursive
+	eg:
+		(struct node
+			(defun init next:node
+				(let next:node next)
+			)
+		)
+
+	a struct can have default values
+	eg:
+		(struct person
+			(let age:i32 50)
+			(let name[]:char "john doe")
+			...
+			...
+			...
+		)
+	this will make the struct have default values
+
+	overall in simple terms structs are just like c structs but they can contain
+	functions
+
+	(symbol name arg1:type arg2:type returntype location)
+	returns a function that can be called. the function is retrieved from a .o file
+	which can be writen in C, the args, should be the args that the function takes in
+	and there types
+	the interpreter will try to convert data to the equal type in C, however this may need
+	to be done manually
+	the location should be a string which is is the file path to the .o file
+
+	(anonfun arg1:type arg2:type returntype
+		...
+		...
+		...
+	)
+	returns a function with no name, can be used to make functions that return other functions
+	or assined to a variable (higher order functions)
+
+	(if condition
+		...
+		...
+		...
+	)(elif condition
+		...
+		...
+		...
+	)(else
+		...
+		...
+		...
+	)
+		
+	simple if statment, if condition is TRUE run the code inside, elif runs if the condition in it
+	is TRUE and if the previous has not been TRUE
+	else will run if nothing else is TRUE
+
+	(cast TYPE variable)
+	returns a variable casted to type TYPE, note this can error
+
+	conditions:
+		(= a b) returns TRUE if a is equal to be (works with arrays)
+		(!= a b) returns TRUE if a is not equal to be (works with arrays)
+		(> a b) returns TRUE if a > b (does not work with arrays)
+		(< a b) returns TRUE if a < b (does not work with arrays)
+		(>= a b) returns TRUE if a >= b (does not work with arrays)
+		(<= a b) returns TRUE if a <= b (does not work with arrays)
+		(! a) returns TRUE if a is FALSE (only works on bools)
+		(| a b) returns TRUE if a or b are TRUE (only works on bools)
+		(& a b) returns TRUE if a and b are TRUE (only works on bools)
+		(^ a b) returns TRUE if a xor b is true (only works on bools)
+
+		all these are just functions that can be used to assign values
+		eg:
+			(let mybool:bool (= a b))
+			! mybool will be TRUE if a = b
+	
+	mathmatical operations:
+		zippy uses reverse polish notation
+		(+ a b) returns a + b
+		(- a b)	returns a - b
+		(* a b) returns a * b
+		(/ a b) returns a / b, whole number eg: (/ 7 3) = 2
+		(/. a b) returns a / b, floating point number eg: (/. 7 3) = 2.5
+		(% a b) returns the remander of (/ a b)
+		(** a b) returns a ^ b
+
+
+sample code
+	(defun fib num:i32 i32
+		(if (< num 2)
+			(return num)
+		)
+		(else
+			(return (+ (fib (- num 1)) (fib (- num 2)) ))
+		)
+	)
+	(let a:i32 (fib 2))
+	! returns the 5th fib number
+
+stdlib:
+	(import io)
+	io contains a few types
+	they are:
+		(io.file)
+	io contains many io related functions
+	they are:
+
+	(io.write "hello %s\n" name) ! this is very similar to printf in C
+	(let input:char[] (io.read))
+	
+	(let file:io.file (io.open path[]:char "method"))
+	
+	(io.fwrite file:io.file "hello %s" name)
+	(let file[]:char (io.fread file:io.file))
+	(let line[]:char (io.freadline file:io.file lineno:i32))
+
