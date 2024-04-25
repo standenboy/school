@@ -1,0 +1,15 @@
+{
+(let fib:function 
+(defun num:i32 i32
+	(if (< num 2)
+		(return num)
+	)
+	(else
+		(return (+ (fib (- num 1)) (fib (- num 2)) ))
+	)
+))
+}
+(let a:i32 (fib 5))
+(const str[]:char "hello!")
+! returns the 5th fib number
+(const str[]:char "hello!")
