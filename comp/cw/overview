@@ -41,7 +41,7 @@ types:
 	
 		arrays can be created like so
 		(let arr[]:char "hello there")
-		(let arr[]:i32 1, 2, 3)
+		(let arr[]:i32 1 2 3)
 
 		all arrays are linked lists of there data type
 		their size is not fixed
@@ -59,15 +59,18 @@ types:
 		linked list has no more nodes
 
 comments:
+
 	comments can be writen like so
 	! this is a comment
 
 indentation and spacing:
+	
 	indentation and new lines arent at all necesary
 	any new lines will be converted to spaces, and tabs will be removed
 	the only place that needs spaces is when calling a function and giving its args
 
 scopes:
+
 	() can be placed anywhere, and anything that is in them is in there own scope
 	as soon as the bracket is closed, any variables defined in the scope
 	will be deleted 
@@ -99,6 +102,7 @@ scopes:
 	)
 	
 libarys:
+
 	libarys are similar to header files in c
 	when imported the user can use any function contained within the file
 	
@@ -106,49 +110,49 @@ libarys:
 	same names coming from 2 libarys, however its not needed
 
 errors:
+
 	errors would be 
 
 keywords:
 
-	(defun name arg1:type arg2:type returnType
+	(defun arg1:type arg2:type returnType
 		...
 		...
 		...
 	)
-	defines a function called name, can be done anywhere in the program, all functions 
+	defines a function, can be done anywhere in the program, all functions 
 	must return a value, return type and arguments must be known at runtime
+
+	returns the function that can be asigned with let
 	
 	(return VALUE)
 	returns VALUE from a function, VALUE must be of the same tupe as returnType
 	in defun
 
-	(for x a b
-		...
-		...
-		...
-	)
-	runs the code inside the loop, x will be increment by 1 each iteration and
+	(for x a b function)
+
+	runs the function inside the loop, x will be increment by 1 each iteration and
 	it will have a starting value of a running until it reaches b (inclusive)
 	x cant be changed in any way other than the for loop
 	x, a, b are all of type i32
 
-	(while condtion
-		...
-		...
-		...
-	)
+	(while condtion function)
+
 	runs all code inside the loop until the condion is not TRUE
 	condition must be a bool (TRUE/FALSE)
 	
 	(let name:type value)
+
 	assign value to variable name, this will create the variable if it doesn't already
 	exist, and overwrite it if it does
 	names type must be defined by type
 
 	(const name:type value)
+
 	same as let but creates an imutable variable
 
 	(import libary)
+
 	searches the libary dir and imports the libary to the current project
 	libary can also be a specific path if it starts with / or ./ or ../
 
@@ -167,6 +171,7 @@ keywords:
 			...
 		)
 	)
+
 	structs can be used as a custom data type
 	creates a struct/class called name, functions called init will be ran when an
 	object is created
@@ -199,26 +204,20 @@ keywords:
 			...
 			...
 		)
+
 	this will make the struct have default values
 
 	overall in simple terms structs are just like c structs but they can contain
 	functions
 
-	(symbol name arg1:type arg2:type returntype location)
+	(symbol arg1:type arg2:type returntype location)
+
 	returns a function that can be called. the function is retrieved from a .o file
 	which can be writen in C, the args, should be the args that the function takes in
 	and there types
 	the interpreter will try to convert data to the equal type in C, however this may need
 	to be done manually
 	the location should be a string which is is the file path to the .o file
-
-	(anonfun arg1:type arg2:type returntype
-		...
-		...
-		...
-	)
-	returns a function with no name, can be used to make functions that return other functions
-	or assined to a variable (higher order functions)
 
 	(if condition
 		...
@@ -239,7 +238,9 @@ keywords:
 	else will run if nothing else is TRUE
 
 	(cast TYPE variable)
-	returns a variable casted to type TYPE, note this can error
+
+	returns a variable casted to type TYPE, if type is function, will return a function with no args
+	that returns the variable value in its starting type
 
 	conditions:
 		(= a b) returns TRUE if a is equal to be (works with arrays)
@@ -270,15 +271,16 @@ keywords:
 
 
 sample code
-	(defun fib num:i32 i32
-		(if (< num 2)
-			(return num)
-		)
-		(else
-			(return (+ (fib (- num 1)) (fib (- num 2)) ))
+	(let fib:function (defun num:i32 i32
+			(if (< num 2)
+				(return num)
+			)
+			(else
+				(return (+ (fib (- num 1)) (fib (- num 2)) ))
+			)
 		)
 	)
-	(let a:i32 (fib 2))
+	(let a:i32 (fib 5))
 	! returns the 5th fib number
 
 stdlib:
