@@ -41,6 +41,13 @@ void *llgetat(ll_t *head, int index){
 	}
 }
 
+ll_t *llgetendnode(ll_t *head){
+	if (head->next == NULL)
+		return head;
+	else 
+		return llgetendnode(head->next);
+}
+
 void llfreeall(ll_t *head){
 	if (head->next != NULL)
 		llfreeall(head->next);

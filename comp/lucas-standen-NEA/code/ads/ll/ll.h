@@ -12,4 +12,5 @@ ll_t *llalloc();
 void llsetdata(ll_t *node, void *data);
 void llsetnext(ll_t *node, ll_t *next);
 void *llgetat(ll_t *head, int index);
+ll_t *llgetendnode(ll_t *head);
 void llfreeall(ll_t *head);

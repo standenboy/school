@@ -13,6 +13,7 @@ int main(){
 	}
 	for (int i = 0; i < 4; i++)
 		printf("%s\n", (char *)llgetat(head, i)); 
+	printf("%s\n", llgetendnode(head)->data);
 
 	llfreeall(head);
 }
