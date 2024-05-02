@@ -9,7 +9,7 @@ What tools are important for a language to have? (eg: pkg-manager, ide integrati
 .PP
 IDE integration (things like tab complete and debugging tools), a package manager, and the ability to interact with the user through the command line easily.
 .NH 1
-What features do you like from other languages (eg: zigs memory managment, haskells terse syntax)
+What features do you like from other languages (eg: advanced memory managment, haskells terse syntax)
 .PP
 The ability to pass the memory reference of an object or function and a collection of built-in or standard functions like "print", "split", or "sort"
 .NH 1
