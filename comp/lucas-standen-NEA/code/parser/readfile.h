@@ -1,1 +1,0 @@
-char *readfile(char *filepath);

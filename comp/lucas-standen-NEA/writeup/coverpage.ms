@@ -16,7 +16,7 @@ and the second anything goes wrong, it is vague on how to fix things.
 
 .B "I need a language that stops me from shooting myself in the foot"
 
-C has been standard for many decades now and its age is showing, it lacks many modern features like OOP, or higher level function abstractions, that have become common
+C has been standard for many decades now and its age is showing, it lacks many modern features like OOP, or higher level functional abstractions, that have become common
 in modern years due to there helpfulness. This is not to fault C's achievements either, the language is my personal choice for most projects for a reason, 
 it's fast and powerful; any solution I make should not cut that away.
 
@@ -63,7 +63,8 @@ As Zippy will be interpreted, I should compare it to other such languages; tryin
 function.
 
 Zippy is by far not the first language, and I'm only one person, so I can't expect to beat others in everything. 
-However a few small goals will give the project a good scope.
+
+Below are a few languages that zippy should be compared to throught developemen:
 .NH 3
 Python
 .PP
@@ -71,13 +72,18 @@ Python is a high level OOP language that was designed in 1991. It was made to ma
 Although it has become standard for many use cases, it is slow and inefficient, and very bloated.
 
 https://www.python.org/
+
+Zippy should take pythons high level abstractions, as they make programing very easy and it should try and take notes from its libaries as they are mostly well writen, 
+and well documented.
 .NH 3
 Lisp
 .PP
-Lisp is the second ever programming language, developed at MiT, it is the first functional language, creating many common features like higher order functions, 
-recursion, and garbage collection. It is generally not used anymore as it feels old compared to other functional languages, like ocaml or haskell.
+Lisp is the second ever programming language, developed at MiT, it is the first functional language, creating many common features like higher order functions, recursion, 
+and garbage collection. It is generally not used anymore as it feels old compared to other functional languages, like ocaml or haskell.
 
 https://lisp-lang.org/
+
+Zippy should try to take alot from the syntax of lisp, () make it easy to see what parts of code will effect what, and make things easy to parse.
 .NH 3
 Perl
 .PP
@@ -86,6 +92,9 @@ Perl is often described as the glue of the universe (see xkcd https://3d.xkcd.co
 Making it poorly suited towards general use.
 
 https://www.perl.org/
+
+Zippy should take from perls minimalisum, it is a small language that is of a similar size to bash or zsh, while feeling closer to python. If zippy can achieve a 
+similar small size, while remaining powerful I will be pleased
 
 .NH 2
 Questionnaires
@@ -226,7 +235,7 @@ is via a mathematical example
 
 Take the follow expression for example:
 
-(1 + 10 * (3 - (2 * 4)))
+(1 + (10 * (3 - (2 * 4))))
 
 We know that this is equal to -49 
 
@@ -252,10 +261,91 @@ Implementing AST's
 As a prototype i will make a program that can take mathematical expressions and evaluate them, and allowing for functions (in the form f(x)).
 It will do this via AST's
 
-Talk about the code
+This prototype takes 173 lines of code, it takes a string as a cmd line argument then converts it 
+into an abstract syntax tree, and finally it executes it. This is just a simple prototype and thus 
+it is small in scope. It can only do simple operators (+-*/) and requires litteral values to be 
+surrounded by [] so it knows its not another expression to evaluate.
 
-show the code
 
+typedef struct ast_node ast_node;
+
+
+typedef enum op {
+
+        ADD = 0,
+
+        SUB = 1,
+
+        MUL = 2,
+
+        DIV = 3,
+
+} op;
+
+
+typedef struct ast_node {
+
+        op operation;
+
+        int realLeft;
+
+        int realRight;
+
+        ast_node *right;
+
+        ast_node *left;
+
+} ast_node;
+
+
+Above is the code for the AST, it stores an operation (which is just an integer), and it stores 
+a real left and real right value, along side two other nodes. The real values are integers, this 
+would be the 2 numbers in reference in the expression. The 2 nodes are a recursive data structure,
+much like putting an object of a class inside the definition of that class itself. They are used to 
+store values that may still be expressions, for example (+ [1] (+ [1] [1])) the second part of this
+expression would be in the "right" vairable. When code is executed I can check if "left", or "right"
+are null and if they are i know that i am at the lowest expression that is only litteral values.
+Then I can execute that node and work my way up the tree.
+
+
+The execution code can be seen here.
+
+
+int exec(ast_node *exp){
+
+        if (exp->left != NULL)
+
+                exp->realLeft = exec(exp->left);
+
+        if (exp->right != NULL)
+
+                exp->realRight = exec(exp->right);
+
+
+
+        if (exp->operation == ADD)
+
+                return exp->realLeft+ exp->realRight;
+
+        if (exp->operation == SUB)
+
+                return exp->realLeft - exp->realRight;
+
+        if (exp->operation == MUL)
+
+                return exp->realLeft * exp->realRight;
+
+        if (exp->operation == DIV)
+
+                return exp->realLeft/ exp->realRight;
+
+	return 0;
+
+}
+
+
+The rest of the code is the process of converting the string input to litteral values and inserting
+them into the AST
 
 .NH 1
 Design
