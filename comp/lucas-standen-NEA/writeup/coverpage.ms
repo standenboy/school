@@ -276,7 +276,7 @@ When you solve that expression you know to start with (2 * 4), then 3 - the answ
 
 We can represent the steps as a tree like so:
 
-.PSPIC ast.ps
+.PSPIC ast.ps 
 
 .PP
 As you can see, you need to evaluate the expression in the most brackets first, then the next, and 
@@ -378,6 +378,7 @@ int exec(ast_node *exp){
 
 The rest of the code is the process of converting the string input to litteral values and inserting
 them into the AST
+
 
 .NH 1
 Design
