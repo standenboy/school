@@ -6,6 +6,23 @@ Lucas standen
 7949
 .AB
 .NH 1
+Reading this document
+.PP
+This document is writen in roff and can be found online at 
+
+https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/writeup
+
+It is using the ms macro of troff. It can be compiled using the Makefile, or make.sh. A table of
+contents has been generated using pdftocgen, it is embedded into the pdf, most pdf readers have
+a button to open it (firefox has it in the top left, in zathura press tab to view it).
+
+A note on formating of the roff, the text is limited to 100 characters per line and is writen in plan
+ascii, no utf8 emojis and the like. code snippets are left in plain text, and the full section of 
+code they are from should be linked above them; assuming they are from a file and not a small
+example. Any comments on code snippets will be removed for the sake of readability in the roff 
+document, however the can still be found in the raw files.
+
+.NH 1
 Analysis
 .NH 2
 The current problem
@@ -35,6 +52,123 @@ debugging tools.
 The goal of Zippy is to make codding easier, while remaining fast, with a interpreter writen in C.
 
 .NH 2
+What is a programming language
+.NH 3
+A very simple explanation
+.PP
+At its lowest definition a PL is a set of specific words, that when given to a computer in the 
+right order have a reproducible behaviour. A more human way of saying that, would be its how we
+control computers.
+.NH 3
+Why are there so many
+.PP
+When someone is looking at code it can often be seen as just that, however there are hundreds of 
+languages that all take the idea of "code" in very different ways. Some are designed for specific 
+hardware, some are designed for making general use programs while others are highly specialized.
+It is important to see "code", as more than just one overarching term and instead see where the code
+is being used, and evaluate it from that.
+
+
+.NH 2
+Researching, and getting a scope of the project
+.PP 
+Before I start to design a language i should first find examples of others and find what i want my
+language to be like.
+
+I'd like my language to feel modern so i should take inspiration from what other modern languages
+do, however on the backed i want my language to be stable and fast, for that i should look at 
+older projects.
+
+.NH 3
+Examples of older similar projects, that are a good base for my language
+.NH 4
+Python
+.PP
+Python is a high level OOP language that was designed in 1991. It was made to make programming easy 
+while still being able to use some of C's functions. Although it has become standard for many use 
+cases, it is slow and inefficient, and very bloated.
+
+https://www.python.org/
+
+Zippy should take pythons high level abstractions, as they make programming very easy and it should 
+try and take notes from its libraries as they are mostly well written, and well documented.
+.NH 4
+Lisp
+.PP
+Lisp is the second ever programming language, developed at MiT, it is the first functional language, 
+creating many common features like higher order functions, recursion, and garbage collection. It is 
+generally not used any more as it feels old compared to other functional languages, like Ocaml or 
+Haskell.
+
+https://lisp-lang.org/
+
+Zippy should try to take alot from the syntax of lisp, () make it easy to see what parts of code 
+will effect what, and make things easy to parse.
+.NH 4
+Perl
+.PP
+Perl is scripting language designed for use in linux, when bash is too slow, or not suited for the 
+job. Perl is often described as the glue of the universe (see xkcd https://3d.xkcd.com/224/). 
+Its syntax is quite strange however and it is slow. Making it poorly suited towards general use.
+
+https://www.perl.org/
+
+Zippy should take from perls minimalism, it is a small language that is of a similar size to bash 
+or zsh, while feeling closer to python. If zippy can achieve a similar small size, while remaining 
+powerful I will be happy.
+
+.NH 3
+Examples of new similar projects that are also a good base
+.NH 4
+Gleam
+.PP
+Gleam is a modern language releasing in the past 5 years. It is highly functional, with no mutable
+data, no traditional loops. Instead recursion can be used to replace alot of these features. 
+Gleam compiles to erlang/Beam bytecode, much like java to the jvm, and doing this has made Gleam
+a highly scalable language with good library support out the box.
+
+https://gleam.run/
+
+Zippy should take from the functional elements of Gleam, as they keep programs safer, however Zippy
+should not remove all procedural elements, as for loops are very helpful
+.NH 4
+Haskell
+.PP
+Haskell is another modern functional language known for being very complicated, however incredibly
+powerful. Its syntax feels very mathematical, and incredibly terse.
+
+https://www.haskell.org/
+
+Perhaps Zippy could learn from Haskell, as it provides functional and procedural elements, making it
+a well rounded language
+.NH 4
+Hare
+.PP
+Hare was designed to be a 100 year language, and thus stability is its main goal, it is not set to 
+have a syntax change any time soon, and it has strong emphasis on memory safety. It fits into the 
+same part of the tech stack as C, and thus it can be used for some very low level work.
+
+https://harelang.org/
+
+I think Zippy should have a strong emphasis on stability, to many times have i segfaulted do to a
+tiny mistake. Zippy should also look to Hare small size, you can buy a copy of Hare on a 
+.B "SINGLE 3 1/2'' FLOPPY"
+
+.NH 3
+What should be taken away from these languages?
+.PP
+I was already leaning towards functional programming when I started this project however now I 
+believe it's the only option for producing safe applications. Zippy will be a functional language
+with a strong emphasis on recursion.
+
+I also believe that I should take size of the interpreter into account, as this is important for 
+keeping the project manageable and consistent.
+
+And finally I think that syntax should be inspired by Lisp, although Lisp itself can be a messy
+language, with the right changes I am confident that I can make a attractive language for the 21st
+century.
+
+.NH 2
 Clients
 .PP
 In a project of this nature, the Client is every programmer alive; which is a pretty large scope. 
@@ -62,50 +196,6 @@ I've wanted to take out a project like this for a long long time, and this is th
 opportunity to do so, I will be assessing myself along the way of this, building the project to my 
 personal specification.
 
-.NH 2
-Examples of similar projects
-.PP
-As Zippy will be interpreted, I should compare it to other such languages; trying to compare it to 
-C++/rust/go, isn't helpful as they are so very different in the way they function.
-
-Zippy is by far not the first language, and I'm only one person, so I can't expect to beat others in 
-everything. 
-
-Below are a few languages that zippy should be compared to throught developemen:
-.NH 3
-Python
-.PP
-Python is a high level OOP language that was designed in 1991. It was made to make programming easy 
-while still being able to use some of C's functions. Although it has become standard for many use 
-cases, it is slow and inefficient, and very bloated.
-
-https://www.python.org/
-
-Zippy should take pythons high level abstractions, as they make programing very easy and it should 
-try and take notes from its libaries as they are mostly well writen, and well documented.
-.NH 3
-Lisp
-.PP
-Lisp is the second ever programming language, developed at MiT, it is the first functional language, 
-creating many common features like higher order functions, recursion, and garbage collection. It is 
-generally not used anymore as it feels old compared to other functional languages, like ocaml or haskell.
-
-https://lisp-lang.org/
-
-Zippy should try to take alot from the syntax of lisp, () make it easy to see what parts of code 
-will effect what, and make things easy to parse.
-.NH 3
-Perl
-.PP
-Perl is scripting language designed for use in linux, when bash is too slow, or not suited for the 
-job. Perl is often described as the glue of the universe (see xkcd https://3d.xkcd.com/224/). 
-Its syntax is quite strange however and it is slow. Making it poorly suited towards general use.
-
-https://www.perl.org/
-
-Zippy should take from perls minimalisum, it is a small language that is of a similar size to bash 
-or zsh, while feeling closer to python. If zippy can achieve a similar small size, while remaining 
-powerful I will be happy.
 
 .NH 2
 Questionnaires
@@ -119,7 +209,7 @@ In the section bellow you will find questionnaires from the analyses stage of my
 Questionnaire 1 for Amy C  
 
 .BI "[30th April 2024]"
-.BI "answered by amy, see pull request she left"
+.BI "answered by Amy, see pull request she left"
 .NH 4 
 What do you find the most important in a language? (eg: speed, readability)
 .PP
@@ -183,7 +273,8 @@ bundler should be a priority, perhaps they could be written in Zippy after the i
 .NH 3 
 The first elements of the project
 .PP
-At this stage I can say that I'm confident in my project and its scope. I have a goal in mind for it.
+At this stage I can say that I'm confident in my project and its scope. I have a goal in mind for 
+it.
 
 .B "The key things to take away from this section are:"
 
@@ -298,6 +389,8 @@ into an abstract syntax tree, and finally it executes it. This is just a simple 
 it is small in scope. It can only do simple operators (+-*/) and requires litteral values to be 
 surrounded by [] so it knows its not another expression to evaluate.
 
+https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
+
 
 typedef struct ast_node ast_node;
 
@@ -341,6 +434,8 @@ Then I can execute that node and work my way up the tree.
 
 
 The execution code can be seen here.
+
+https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
 
 
 int exec(ast_node *exp){

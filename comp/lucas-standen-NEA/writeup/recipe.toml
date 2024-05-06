@@ -1,25 +1,6 @@
 [[heading]]
-# NEA cover page
+# 1. Reading this document
 level = 1
-greedy = true
-font.name = "Times-Bold"
-font.size = 12.0
-# font.size_tolerance = 1e-5
-# font.color = 0x000000
-# font.superscript = false
-# font.italic = false
-# font.serif = true
-# font.monospace = false
-# font.bold = true
-# bbox.left = 264.4620056152344
-# bbox.top = 113.74666595458984
-# bbox.right = 347.53759765625
-# bbox.bottom = 125.74666595458984
-# bbox.tolerance = 1e-5
-
-[[heading]]
-# 1.1. The current problem
-level = 2
 greedy = true
 font.name = "Times-Bold"
 font.size = 10.0
@@ -31,8 +12,27 @@ font.size = 10.0
 # font.monospace = false
 # font.bold = true
 # bbox.left = 110.99996948242188
-# bbox.top = 253.2888946533203
-# bbox.right = 220.6298828125
-# bbox.bottom = 263.28887939453125
+# bbox.top = 229.2888946533203
+# bbox.right = 221.8401641845703
+# bbox.bottom = 239.2888946533203
+# bbox.tolerance = 1e-5
+
+[[heading]]
+# 2.1. The current problem
+level = 2
+greedy = true
+font.name = "Times-Bold"
+font.size = 10.0
+# font.size_tolerance = 1e-5
+# font.color = 0x000000
+# font.superscript = false
+# font.italic = false
+# font.serif = true
+# font.monospace = false
+# font.bold = true
+# bbox.left = 111.00103759765625
+# bbox.top = 448.88885498046875
+# bbox.right = 220.63095092773438
+# bbox.bottom = 458.88885498046875
 # bbox.tolerance = 1e-5
 
