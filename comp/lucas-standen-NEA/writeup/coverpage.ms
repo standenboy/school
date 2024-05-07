@@ -196,7 +196,6 @@ I've wanted to take out a project like this for a long long time, and this is th
 opportunity to do so, I will be assessing myself along the way of this, building the project to my 
 personal specification.
 
-
 .NH 2
 Questionnaires
 .PP
@@ -270,7 +269,7 @@ issue; a ballooning code-base is unlikely as only one person is writing the proj
 I am also taking on the fact that my client wants good command line tools, so a pkg-manager and 
 bundler should be a priority, perhaps they could be written in Zippy after the interpreter is done.
 
-.NH 3 
+.NH 2 
 The first elements of the project
 .PP
 At this stage I can say that I'm confident in my project and its scope. I have a goal in mind for 
@@ -386,7 +385,7 @@ It will do this via AST's
 
 This prototype takes 173 lines of code, it takes a string as a cmd line argument then converts it 
 into an abstract syntax tree, and finally it executes it. This is just a simple prototype and thus 
-it is small in scope. It can only do simple operators (+-*/) and requires litteral values to be 
+it is small in scope. It can only do simple operators (+-*/) and requires literal values to be 
 surrounded by [] so it knows its not another expression to evaluate.
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
@@ -428,8 +427,8 @@ a real left and real right value, along side two other nodes. The real values ar
 would be the 2 numbers in reference in the expression. The 2 nodes are a recursive data structure,
 much like putting an object of a class inside the definition of that class itself. They are used to 
 store values that may still be expressions, for example (+ [1] (+ [1] [1])) the second part of this
-expression would be in the "right" vairable. When code is executed I can check if "left", or "right"
-are null and if they are i know that i am at the lowest expression that is only litteral values.
+expression would be in the "right" variable. When code is executed I can check if "left", or "right"
+are null and if they are i know that i am at the lowest expression that is only literal values.
 Then I can execute that node and work my way up the tree.
 
 
@@ -470,10 +469,32 @@ int exec(ast_node *exp){
 
 }
 
+This code will execute the operation, unless there is a deeper node, if there is a deeper node, 
+then it executes it, and places the result in the right or left spot respectively
 
-The rest of the code is the process of converting the string input to litteral values and inserting
+Here is an example input and output:
+
+ ./ast "(+ (- [3] [1]) (- [3] [1]))"
+
+ 4
+
+Note the [] used to tell the program where the literal values are.
+
+Overall this was a relatively successful prototype, however it isn't fully functional as a language 
+it has fit the design.
+
+The rest of the code is the process of converting the string input to literal values and inserting
 them into the AST
 
+.NH 3
+Feedback
+.PP
+From my first Client (Amy C), she said that putting the numbers inside square brackets was
+inconvenient and annoying and it would be better if the numbers were separated by spaces instead of
+separate square bracket surrounded literals.
+
+As this is a prototype I won't fix this issue, however in the actual language this is a needed 
+feature that I will be implementing.
 
 .NH 1
 Design
