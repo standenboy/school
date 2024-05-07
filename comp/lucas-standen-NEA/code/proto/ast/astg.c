@@ -19,11 +19,25 @@ typedef struct ast_node {
 	ast_node *left;
 } ast_node;
 
+void freeAst(ast_node *head){
+	if (head->left != NULL)
+		freeAst(head->left);
+	if (head->right != NULL)
+		freeAst(head->left);
+	free(head);
+}
+
 int exec(ast_node *exp){
-	if (exp->left != NULL)
+	if (exp->left != NULL){
 		exp->realLeft = exec(exp->left);
-	if (exp->right != NULL)
+		freeAst(exp->left);
+		exp->left = NULL;
+	}
+	if (exp->right != NULL){
 		exp->realRight = exec(exp->right);
+		freeAst(exp->right);
+		exp->right = NULL;
+	}
 
 	if (exp->operation == ADD)
 		return exp->realLeft+ exp->realRight;
@@ -36,10 +50,3 @@ int exec(ast_node *exp){
 	return 0;
 }
 
-void freeAst(ast_node *head){
-	if (head->left != NULL)
-		freeAst(head->left);
-	if (head->right != NULL)
-		freeAst(head->left);
-	free(head);
-}
