@@ -496,6 +496,98 @@ separate square bracket surrounded literals.
 As this is a prototype I won't fix this issue, however in the actual language this is a needed 
 feature that I will be implementing.
 
+.NH 2
+Objectives
+.NH 3
+An interpreter for the Zippy language
+.NH 4
+A lisp like syntax 
+.PP
+This is to ensure the language can be parsed quickly, and is easy to write.
+.NH 4
+A powerful abstract syntax tree 
+.PP
+That the programmer can use to debug their code, and to allow for easy extensibility, the full tree
+should be a linked list of AST's each on being its own expression, a function will make a link
+between 2 nodes in the linked list of AST's.
+.NH 4
+Immutable by default
+.PP
+The core to creating a safe language is immutability, forcing this makes it easy to write safe 
+programs. Having a let keyword to assign variables immutably and a set one to assign them mutably
+.NH 4
+Functional language
+.PP
+This language should lean into the functional programming paradigm, taking inspiration from other
+functional languages such as lisp, and gleam.
+.NH 5
+Recursion
+.PP
+Zippy must support recursive algorithms being implemented into it, this will make the AST, have
+nodes linking back to parent nodes in a linked list.
+.NH 5
+Higher order functions
+.PP
+Zippy must support the usage of higher order functions, this will mean the AST needs to have an
+unlimited depth as otherwise the limit would be quickly reached, it can't be hard-coded, it must be 
+dynamic.
+.NH 4
+Performance is key
+.PP
+The interpreter must be fast and memory efficient, the language is designed to work as an 
+alternative to C, one of the fastest languages of all time, the interpreter must be fast, however
+memory footprint is not as much of a requirement.
+
+.NH 3
+Standard library for Zippy 
+.NH 4
+io
+.PP
+The language must have a simple to use I/O library to make outputs easy.
+.NH 4
+string
+.PP
+The language should have a sting library that provides a string type, and many complex algorithms 
+that can be applied to them (concatenation, insertion, appending, splitting, stripping).
+.NH 4
+sorts
+.PP
+The language should have a sorting library that provides algorithms used for sorting (like merge 
+sort).
+.NH 4
+graphs
+.PP
+the language must have a graph library, that allows for easy creation and working with graphs, it
+should provide many algorithms to help traverse these graphs
+
+.NH 3
+Tooling for the Zippy language
+.NH 4
+zpypkg
+.PP
+Zippy must provide a package manager, that allows code to be shared between multiple users, easily.
+It should sync projects via git and allow them to be stored on any git host the user likes.
+.NH 4
+Syntax check
+.PP
+Zippy should have a built in syntax checker, that can be run independently of the interpreter, this
+means that a lot of the checking that interpreted languages do, can be done once by the developer,
+before shipping the app, as opposed to every time the program is run, which brings down performance.
+.NH 4
+Vim integration.
+.PP
+Zippy should have integration with the Vim editor for syntax highlighting, this can be done via
+generating an AST then colouring function calls a specific colour, and variables another, etc, etc.
+.NH 3
+Integration with C, via a C API
+.NH 4
+C API
+.PP
+You should be able to execute a string of zippy code in C using a library that is linked with 
+interpreter. This could allow Zippy to be used as a configuration language like Lua.
+
+
+
 .NH 1
 Design
 .NH 1

@@ -1,6 +1,6 @@
 %!PS-Adobe-3.0
 %%Creator: groff version 1.23.0
-%%CreationDate: Tue May  7 15:14:41 2024
+%%CreationDate: Wed May  8 13:22:55 2024
 %%DocumentNeededResources: font Times-Bold
 %%+ font Times-Italic
 %%+ font Times-Roman
@@ -8,7 +8,7 @@
 %%DocumentSuppliedResources: file ast.ps
 %%+ procset grops 1.23 0
 %%LanguageLevel: 2
-%%Pages: 9
+%%Pages: 11
 %%PageOrder: Ascend
 %%DocumentMedia: Default 612 792 0 () ()
 %%Orientation: Portrait
@@ -2370,11 +2370,118 @@ E -.15(ve)-.25 G(ly).15 E(Here is an e)111 360 Q
  \214rst Client \(Amy C\), she said that putting the numbers inside squ\
 are brack)136 555.6 R(ets)-.1 E -.1(wa)111 567.6 S 3.248(si).1 G(ncon)
 -3.248 E -.15(ve)-.4 G .748(nient and anno).15 F .748(ying and it w)-.1
-F .747(ould be better if the numbers were seperated by spaces)-.1 F
-(instead of seperate square brack)111 579.6 Q(et surrounded litterals.)
--.1 E F1 2.5(3. Design)111 615.6 R 2.5(4. T)111 639.6 R
-(echnical Solution)-.92 E 2.5(5. T)111 663.6 R(esting)-.92 E 2.5(6. Ev)
-111 687.6 R(aluation)-.1 E 0 Cg EP
+F .747(ould be better if the numbers were separated by spaces)-.1 F
+(instead of separate square brack)111 579.6 Q(et surrounded literals.)
+-.1 E .549(As this is a prototype I w)111 603.6 R(on')-.1 E 3.049<748c>
+-.18 G 3.049(xt)-3.049 G .549(his issue, ho)-3.049 F(we)-.25 E -.15(ve)
+-.25 G 3.049(ri).15 G 3.049(nt)-3.049 G .549
+(he actual language this is a needed fea-)-3.049 F
+(ture that I will be implementing.)111 615.6 Q F1 2.5(2.10. Objecti)111
+651.6 R -.1(ve)-.1 G(s).1 E 2.5(2.10.1. An)111 675.6 R(inter)2.5 E(pr)
+-.1 E(eter f)-.18 E(or the Zippy language)-.25 E 2.5(2.10.1.1. A)111
+699.6 R(lisp lik)2.5 E 2.5(es)-.1 G(yntax)-2.5 E F0
+(This is to ensure the language can be parsed quickly)136 715.2 Q 2.5
+(,a)-.65 G(nd is easy to write.)-2.5 E 0 Cg EP
+%%Page: 10 10
+%%BeginPageSetup
+BP
+%%EndPageSetup
+/F0 10/Times-Roman@0 SF(-10-)297.67 48 Q/F1 10/Times-Bold@0 SF 2.5
+(2.10.1.2. A)111 84 R(po)2.5 E(werful abstract syntax tr)-.1 E(ee)-.18 E
+F0 .773(That the programmer can use to deb)136 99.6 R .773
+(ug their code, and to allo)-.2 F 3.272(wf)-.25 G .772(or easy e)-3.272
+F(xtensibility)-.15 E 3.272(,t)-.65 G(he)-3.272 E .033
+(full tree should be a link)111 111.6 R .034(ed list of AST')-.1 F 2.534
+(se)-.55 G .034(ach on being its o)-2.534 F .034(wn e)-.25 F .034
+(xpression, a function will mak)-.15 F 2.534(ea)-.1 G
+(link between 2 nodes in the link)111 123.6 Q(ed list of AST')-.1 E(s.)
+-.55 E F1 2.5(2.10.1.3. Immutable)111 147.6 R(by default)2.5 E F0 1.165
+(The core to creating a safe language is immutability)136 163.2 R 3.665
+(,f)-.65 G 1.165(orcing this mak)-3.665 F 1.164(es it easy to write)-.1
+F .383(safe programs. Ha)111 175.2 R .383(ving a let k)-.2 F -.15(ey)-.1
+G -.1(wo).15 G .383(rd to assign v).1 F .383
+(ariables immutably and a set one to assign them)-.25 F(mutably)111
+187.2 Q F1 2.5(2.10.1.4. Functional)111 211.2 R(language)2.5 E F0 1.197
+(This language should lean into the functional programming paradigm, ta\
+king inspiration)136 226.8 R
+(from other functional languages such as lisp, and gleam.)111 238.8 Q F1
+2.5(2.10.1.4.1. Recursion)111 262.8 R F0(Zipp)136 278.4 Q 4.24(ym)-.1 G
+1.74(ust support recursi)-4.24 F 2.04 -.15(ve a)-.25 H 1.74
+(lgorithms being implemented into it, this will mak).15 F 4.24(et)-.1 G
+(he)-4.24 E(AST)111 290.4 Q 2.5(,h)-.74 G -2.25 -.2(av e)-2.5 H
+(nodes linking back to parent nodes in a link)2.7 E(ed list.)-.1 E F1
+2.5(2.10.1.4.2. Higher)111 314.4 R(order functions)2.5 E F0(Zipp)136 330
+Q 3.25(ym)-.1 G .749(ust support the usage of higher order functions, t\
+his will mean the AST needs to)-3.25 F(ha)111 342 Q .661 -.15(ve a)-.2 H
+2.861(nu).15 G .361(nlimited depth as otherwise the limit w)-2.861 F
+.362(ould be quickly reached, it can')-.1 F 2.862(tb)-.18 G 2.862(eh)
+-2.862 G(ard-coded,)-2.862 E(it must be dynamic.)111 354 Q F1 2.5
+(2.10.1.5. P)111 378 R(erf)-.2 E(ormance is k)-.25 E(ey)-.1 E F0 .516
+(The interpreter must be f)136 393.6 R .516(ast and memory ef)-.1 F .516
+(\214cient, the language is designed to w)-.25 F .516(ork as an)-.1 F
+(alternati)111 405.6 Q 1.476 -.15(ve t)-.25 H 3.676(oC).15 G 3.676(,o)
+-3.676 G 1.176(ne of the f)-3.676 F 1.176
+(astest languages of all time, the interpreter must be f)-.1 F 1.177
+(ast, ho)-.1 F(we)-.25 E -.15(ve)-.25 G(r).15 E
+(memory footprint is not as much of a requirement.)111 417.6 Q F1 2.5
+(2.10.2. Standard)111 453.6 R(library f)2.5 E(or Zippy)-.25 E 2.5
+(2.10.2.1. io)111 477.6 R F0(The language must ha)136 493.2 Q .3 -.15
+(ve a s)-.2 H(imple to use I/O library to mak).15 E 2.5(eo)-.1 G
+(utputs easy)-2.5 E(.)-.65 E F1 2.5(2.10.2.2. string)111 517.2 R F0 .168
+(The language should ha)136 532.8 R .468 -.15(ve a s)-.2 H .168
+(ting library that pro).15 F .168(vides a string type, and man)-.15 F
+2.668(yc)-.15 G(omple)-2.668 E 2.668(xa)-.15 G(l-)-2.668 E(gorithms tha\
+t can be applied to them \(concatenation, insertion, appending, splitti\
+ng, stripping\).)111 544.8 Q F1 2.5(2.10.2.3. sorts)111 568.8 R F0 .669
+(The language should ha)136 584.4 R .969 -.15(ve a s)-.2 H .669
+(orting library that pro).15 F .67
+(vides algorithms used for sorting \(lik)-.15 F(e)-.1 E(mer)111 596.4 Q
+(ge sort\).)-.18 E F1 2.5(2.10.2.4. graphs)111 620.4 R F0 1.431
+(the language must ha)136 636 R 1.731 -.15(ve a g)-.2 H 1.431
+(raph library).15 F 3.931(,t)-.65 G 1.431(hat allo)-3.931 F 1.43
+(ws for easy creation and w)-.25 F 1.43(orking with)-.1 F
+(graphs, it should pro)111 648 Q(vide man)-.15 E 2.5(ya)-.15 G
+(lgorithms to help tra)-2.5 E -.15(ve)-.2 G(rse these graphs).15 E F1
+2.5(2.10.3. T)111 684 R(ooling f)-.92 E(or the Zippy language)-.25 E 2.5
+(2.10.3.1. zpypkg)111 708 R F0(Zipp)136 723.6 Q 3.685(ym)-.1 G 1.185
+(ust pro)-3.685 F 1.185(vide a package manager)-.15 F 3.685(,t)-.4 G
+1.185(hat allo)-3.685 F 1.186(ws code to be shared between multiple)-.25
+F 0 Cg EP
+%%Page: 11 11
+%%BeginPageSetup
+BP
+%%EndPageSetup
+/F0 10/Times-Roman@0 SF(-11-)297.67 48 Q .408(users, easily)111 84 R
+5.408(.I)-.65 G 2.908(ts)-5.408 G .408
+(hould sync projects via git and allo)-2.908 F 2.908(wt)-.25 G .408
+(hem to be stored on an)-2.908 F 2.908(yg)-.15 G .407(it host the user)
+-2.908 F(lik)111 96 Q(es.)-.1 E/F1 10/Times-Bold@0 SF 2.5
+(2.10.3.2. Syntax)111 120 R(check)2.5 E F0(Zipp)136 135.6 Q 3.742(ys)-.1
+G 1.242(hould ha)-3.742 F 1.542 -.15(ve a b)-.2 H 1.242
+(uilt in syntax check)-.05 F(er)-.1 E 3.742(,t)-.4 G 1.242
+(hat can be run independently of the inter)-3.742 F(-)-.2 E(preter)111
+147.6 Q 3.264(,t)-.4 G .764(his means that a lot of the checking that i\
+nterpreted languages do, can be done once by)-3.264 F .026(the de)111
+159.6 R -.15(ve)-.25 G(loper).15 E 2.526(,b)-.4 G .027
+(efore shipping the app, as opposed to e)-2.526 F -.15(ve)-.25 G .027
+(ry time the program is run, which brings).15 F(do)111 171.6 Q
+(wn performance.)-.25 E F1 2.5(2.10.3.3. V)111 195.6 R(im integration.)
+-.37 E F0(Zipp)136 211.2 Q 2.568(ys)-.1 G .068(hould ha)-2.568 F .367
+-.15(ve i)-.2 H(nte).15 E .067(gration with the V)-.15 F .067
+(im editor for syntax highlighting, this can be done)-.6 F .418(via gen\
+erating an AST then colouring function calls a speci\214c colour)111
+223.2 R 2.918(,a)-.4 G .418(nd v)-2.918 F .418(ariables another)-.25 F
+2.918(,e)-.4 G(tc,)-2.918 E(etc.)111 235.2 Q F1 2.5(2.10.4. Integration)
+111 259.2 R(with C, via a C API)2.5 E 2.5(2.10.4.1. C)111 283.2 R(API)
+2.5 E F0 -1.1(Yo)136 298.8 S 2.63(us)1.1 G .13(hould be able to e)-2.63
+F -.15(xe)-.15 G .13(cute a string of zipp).15 F 2.63(yc)-.1 G .13
+(ode in C using a library that is link)-2.63 F .13(ed with)-.1 F
+(interpreter)111 310.8 Q 2.5(.T)-.55 G(his could allo)-2.5 E 2.5(wZ)-.25
+G(ipp)-2.5 E 2.5(yt)-.1 G 2.5(ob)-2.5 G 2.5(eu)-2.5 G
+(sed as a con\214guration language lik)-2.5 E 2.5(eL)-.1 G(ua.)-2.5 E F1
+2.5(3. Design)111 370.8 R 2.5(4. T)111 394.8 R(echnical Solution)-.92 E
+2.5(5. T)111 418.8 R(esting)-.92 E 2.5(6. Ev)111 442.8 R(aluation)-.1 E
+0 Cg EP
 %%Trailer
 end
 %%EOF
