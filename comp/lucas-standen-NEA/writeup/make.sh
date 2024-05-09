@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for i in $(ls | grep .ms); do 
-	groff -ms $i -Tps > $(echo $i | cut -f1 -d".").ps
+	groff -ms $i -e -Tps > $(echo $i | cut -f1 -d".").ps
 	ps2pdf $(echo $i | cut -f1 -d".").ps 
 
 	pdftocgen coverpage.pdf < recipe.toml | pdftocio coverpage.pdf

@@ -67,7 +67,6 @@ ast_node *genAst(char *expression){
 	 * if that number is another expression{
 	 * 	grab everything inside its braket and then call this function on it
 	 * }
-	 * execute the output
 	 */
 
 	int i = 0, j = 0;

@@ -7,7 +7,7 @@ Lucas standen
 .AB
 .NH 1
 Reading this document
-.PP
+.LP
 This document is writen in roff and can be found online at 
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/writeup
@@ -17,16 +17,15 @@ contents has been generated using pdftocgen, it is embedded into the pdf, most p
 a button to open it (firefox has it in the top left, in zathura press tab to view it).
 
 A note on formating of the roff, the text is limited to 100 characters per line and is writen in plan
-ascii, no utf8 emojis and the like. code snippets are left in plain text, and the full section of 
+ascii, no utf8 emojis and the like. Code snippets are left in plain text, and the full section of 
 code they are from should be linked above them; assuming they are from a file and not a small
-example. Any comments on code snippets will be removed for the sake of readability in the roff 
-document, however the can still be found in the raw files.
+example. 
 
 .NH 1
 Analysis
 .NH 2
 The current problem
-.PP
+.LP
 For general small and simple projects, I write in C. However this leads to hours of debugging due to 
 segfaults, and memory leaks. Due to the languages manual memory management the programmer is 
 required to know so much information about the hardware they write for, and the second anything goes 
@@ -41,7 +40,7 @@ most projects for a reason, it's fast and powerful; any solution I make should n
 
 .NH 2
 A solution
-.PP
+.LP
 .BI "Zippy LANG"
 
 A next generation language, for general use. Designed for keeping code simple, neat and readable.
@@ -55,13 +54,13 @@ The goal of Zippy is to make codding easier, while remaining fast, with a interp
 What is a programming language
 .NH 3
 A very simple explanation
-.PP
+.LP
 At its lowest definition a PL is a set of specific words, that when given to a computer in the 
 right order have a reproducible behaviour. A more human way of saying that, would be its how we
 control computers.
 .NH 3
 Why are there so many
-.PP
+.LP
 When someone is looking at code it can often be seen as just that, however there are hundreds of 
 languages that all take the idea of "code" in very different ways. Some are designed for specific 
 hardware, some are designed for making general use programs while others are highly specialized.
@@ -71,7 +70,7 @@ is being used, and evaluate it from that.
 
 .NH 2
 Researching, and getting a scope of the project
-.PP 
+.LP 
 Before I start to design a language i should first find examples of others and find what i want my
 language to be like.
 
@@ -83,7 +82,7 @@ older projects.
 Examples of older similar projects, that are a good base for my language
 .NH 4
 Python
-.PP
+.LP
 Python is a high level OOP language that was designed in 1991. It was made to make programming easy 
 while still being able to use some of C's functions. Although it has become standard for many use 
 cases, it is slow and inefficient, and very bloated.
@@ -94,7 +93,7 @@ Zippy should take pythons high level abstractions, as they make programming very
 try and take notes from its libraries as they are mostly well written, and well documented.
 .NH 4
 Lisp
-.PP
+.LP
 Lisp is the second ever programming language, developed at MiT, it is the first functional language, 
 creating many common features like higher order functions, recursion, and garbage collection. It is 
 generally not used any more as it feels old compared to other functional languages, like Ocaml or 
@@ -106,7 +105,7 @@ Zippy should try to take alot from the syntax of lisp, () make it easy to see wh
 will effect what, and make things easy to parse.
 .NH 4
 Perl
-.PP
+.LP
 Perl is scripting language designed for use in linux, when bash is too slow, or not suited for the 
 job. Perl is often described as the glue of the universe (see xkcd https://3d.xkcd.com/224/). 
 Its syntax is quite strange however and it is slow. Making it poorly suited towards general use.
@@ -121,7 +120,7 @@ powerful I will be happy.
 Examples of new similar projects that are also a good base
 .NH 4
 Gleam
-.PP
+.LP
 Gleam is a modern language releasing in the past 5 years. It is highly functional, with no mutable
 data, no traditional loops. Instead recursion can be used to replace alot of these features. 
 Gleam compiles to erlang/Beam bytecode, much like java to the jvm, and doing this has made Gleam
@@ -133,7 +132,7 @@ Zippy should take from the functional elements of Gleam, as they keep programs s
 should not remove all procedural elements, as for loops are very helpful
 .NH 4
 Haskell
-.PP
+.LP
 Haskell is another modern functional language known for being very complicated, however incredibly
 powerful. Its syntax feels very mathematical, and incredibly terse.
 
@@ -143,20 +142,24 @@ Perhaps Zippy could learn from Haskell, as it provides functional and procedural
 a well rounded language
 .NH 4
 Hare
-.PP
+.LP
 Hare was designed to be a 100 year language, and thus stability is its main goal, it is not set to 
 have a syntax change any time soon, and it has strong emphasis on memory safety. It fits into the 
 same part of the tech stack as C, and thus it can be used for some very low level work.
 
 https://harelang.org/
 
-I think Zippy should have a strong emphasis on stability, to many times have i segfaulted do to a
+I think Zippy should have a strong emphasis on stability, much like Hare, to many times have I segfaulted due to a
 tiny mistake. Zippy should also look to Hare small size, you can buy a copy of Hare on a 
-.B "SINGLE 3 1/2'' FLOPPY"
+
+.B "SINGLE 3 1/2'' FL.LPY"
+
+.LP
+This is something I too should try to achieve.
 
 .NH 3
 What should be taken away from these languages?
-.PP
+.LP
 I was already leaning towards functional programming when I started this project however now I 
 believe it's the only option for producing safe applications. Zippy will be a functional language
 with a strong emphasis on recursion.
@@ -170,35 +173,35 @@ century.
 
 .NH 2
 Clients
-.PP
+.LP
 In a project of this nature, the Client is every programmer alive; which is a pretty large scope. 
 To narrow this down as much as possible, I will interview a small handful of people throughout the 
 project, of different skill levels.
 
 .NH 3
 Client 1, Amy C
-.PP
+.LP
 My first client is a friend of mine, Amy C, she is a confident programmer who has completed many 
 complicated projects. I am choosing her as a client as she can give me technical feed back on my 
 project and its function/utility.
 .NH 3
 Client 2, a technical user, but not a programmer
-.PP
+.LP
 some stuff about this person.
 .NH 3
 Client 3, a normie
-.PP
+.LP
 some stuff about how the normie finds the completed project.
 .NH 3
 Client 4, myself
-.PP
+.LP
 I've wanted to take out a project like this for a long long time, and this is the perfect 
 opportunity to do so, I will be assessing myself along the way of this, building the project to my 
 personal specification.
 
 .NH 2
 Questionnaires
-.PP
+.LP
 It is important to get feedback from end users, so I will take multiple questionnaires throughout 
 the project. I will then use them to slightly edit the requirements of my project this should make 
 the final outcome more helpful and what people want.
@@ -211,53 +214,53 @@ Questionnaire 1 for Amy C
 .BI "answered by Amy, see pull request she left"
 .NH 4 
 What do you find the most important in a language? (eg: speed, readability)
-.PP
+.LP
 Speed, readability, debugging ease and disk space efficiency.
 .NH 4
 What tools are important for a language to have? (eg: pkg-manager, IDE integration)
-.PP
+.LP
 IDE integration (things like tab complete and debugging tools), a package manager, and the ability 
 to interact with the user through the command line easily.
 .NH 4
 What features do you like from other languages (eg: C's advanced memory management, haskell's terse 
 syntax)
-.PP
+.LP
 The ability to pass the memory reference of an object or function and a collection of built-in or 
 standard functions like "print", "split", or "sort".
 .NH 4
 What do you want to program in this language (eg: websites, low level systems)
-.PP
+.LP
 Lightweight command line tools and web back ends.
 .NH 4
 Do you intend to use graphics in the programs you write?
-.PP
+.LP
 No.
 .NH 4
 Would you prefer a language that focuses on ease of use, or power of the code?
-.PP
+.LP
 I like a good balance between the two.
 .NH 4
 What were your last 3 projects? (could they have been written in Zippy?)
-.PP
+.LP
 A website, a small command-line tool and a midi keyboard (program runs on a Raspberry Pi Pico).
 .NH 4
 How many languages would you use on a single project? (could Zippy be used in your codebase?)
-.PP
+.LP
 I try to use as little languages in a project as possible, so likely not in an existing project.
 .NH 4
 Do you care for low level control, or would you prefer high level abstractions?
-.PP
+.LP
 I think low-level control is very important, but high-level abstractions are convenient, so a good 
 balance between the two is best.
 .NH 4
 Would you be happy to develop libraries for things that aren't already implemented 
 (eg: an SQL library)
-.PP
+.LP
 Potentially if it is simple enough to implement new things.
 
 .NH 3
 Notes from questionnaire 1
-.PP
+.LP
 Some of the key things that I'm taking away from this first questionnaire, are my client/users 
 initial needs and use cases. I think it's clear my language can be of assistance to my client, Zippy 
 will be a good language for web back ends and small command line tools, which my client expressed
@@ -271,7 +274,7 @@ bundler should be a priority, perhaps they could be written in Zippy after the i
 
 .NH 2 
 The first elements of the project
-.PP
+.LP
 At this stage I can say that I'm confident in my project and its scope. I have a goal in mind for 
 it.
 
@@ -287,23 +290,29 @@ Keep the language readable and easy, with powerful tools available.
 Ensure the language is well supported with tools like a pkg-manager.
 
 .NH 2
-Abstract data structures and there implementations
-.PP
+Moddeling
+.LP
 In larger projects, when a programmer needs a data structure that the language they are writing in 
 doesn't provide, they will need to make their own.
 
 Bellow are a few examples of these data structures that C doesn't already provide.
 .NH 3
 Linked lists
-.PP
+.LP
 this is an alternative implementation of a list, where you store some data, and the memory address 
 to the next node. Then you can move through the list by reading the data then reading the data of 
 the next node, and then repeating until the 'next' part of the node is empty.
 
+A diagram showing this can be seen here:
+
+.PSPIC linkedlist.ps
+
+.LP
 In C this is easy to implement as you can find a memory address very easily with '&' to find where 
 a bit of data is stored. I will need to use a 'struct', which is a bit like a class in C (however 
 you can't attach a function to it). A simple implementation looks like this:
 
+.b1
 typedef struct ll {
 
 	void *data; // the data of the node
@@ -311,6 +320,7 @@ typedef struct ll {
 	ll *next; // the next node
 
 } ll;
+.b2
 
 The pro's of a linked list are the fact that they can have data appended to the start or end easily 
 by changing the root node, or the next node.
@@ -322,18 +332,20 @@ In my project I would like to use linked list in the AST (see later sections for
 lists in the language.
 .NH 3
 Dictionaries
-.PP
+.LP
 A dictionary is a simple data structure that just stores, a bit of data, and a number or string to 
 identify it.
 A dictionary like a linked list can be implemented with a struct in c like so:
 
-typedef struct dict {
+.b1
+typedef struct dict { 
 
-	void *data; // the data of the dict
+	void *data; // the data of the dict 
 
-	int id; // the id of the dict
+	int id; // the id of the dict 
 
 } dict;
+.b2
 
 In my project I think I could use a linked list represent a zippy variable and an ID that i can use 
 to identify it, this could make execution faster as i can compare ID's
@@ -343,7 +355,7 @@ rather than string values
 Prototyping hard features
 .NH 3
 Abstract Syntax Trees (AST) theory
-.PP
+.LP
 In a programming language many abstract data types will be used to allow the code to execute, 
 however I think the hardest part of this is an abstract syntax tree. This is a data structure that 
 holds the code in an ordered form that can be analysed and executed in a simple way. It is a tree 
@@ -368,7 +380,8 @@ We can represent the steps as a tree like so:
 
 .PSPIC ast.ps 
 
-.PP
+.I "[Evalutates to 2 * (2 + 2)]"
+
 As you can see, you need to evaluate the expression in the most brackets first, then the next, and 
 so on, working you way up
 
@@ -378,7 +391,7 @@ tree, then to show a whole program you can create a list of trees
 
 .NH 3
 Implementing AST's
-.PP
+.LP
 As a prototype i will make a program that can take mathematical expressions and evaluate them, and 
 allowing for functions (in the form f(x)).
 It will do this via AST's
@@ -393,33 +406,25 @@ https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/pro
 
 typedef struct ast_node ast_node;
 
-
+.b1
 typedef enum op {
-
         ADD = 0,
-
         SUB = 1,
-
         MUL = 2,
-
         DIV = 3,
 
 } op;
 
-
 typedef struct ast_node {
-
         op operation;
-
         int realLeft;
-
         int realRight;
-
         ast_node *right;
-
         ast_node *left;
 
 } ast_node;
+
+.b2
 
 
 Above is the code for the AST, it stores an operation (which is just an integer), and it stores 
@@ -436,38 +441,26 @@ The execution code can be seen here.
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
 
-
+.b1
 int exec(ast_node *exp){
-
         if (exp->left != NULL)
-
                 exp->realLeft = exec(exp->left);
-
         if (exp->right != NULL)
-
                 exp->realRight = exec(exp->right);
 
-
-
         if (exp->operation == ADD)
-
                 return exp->realLeft+ exp->realRight;
-
         if (exp->operation == SUB)
-
                 return exp->realLeft - exp->realRight;
-
         if (exp->operation == MUL)
-
                 return exp->realLeft * exp->realRight;
-
         if (exp->operation == DIV)
-
                 return exp->realLeft/ exp->realRight;
 
 	return 0;
 
 }
+.b2
 
 This code will execute the operation, unless there is a deeper node, if there is a deeper node, 
 then it executes it, and places the result in the right or left spot respectively
@@ -488,7 +481,7 @@ them into the AST
 
 .NH 3
 Feedback
-.PP
+.LP
 From my first Client (Amy C), she said that putting the numbers inside square brackets was
 inconvenient and annoying and it would be better if the numbers were separated by spaces instead of
 separate square bracket surrounded literals.
@@ -502,38 +495,38 @@ Objectives
 An interpreter for the Zippy language
 .NH 4
 A lisp like syntax 
-.PP
+.LP
 This is to ensure the language can be parsed quickly, and is easy to write.
 .NH 4
 A powerful abstract syntax tree 
-.PP
+.LP
 That the programmer can use to debug their code, and to allow for easy extensibility, the full tree
 should be a linked list of AST's each on being its own expression, a function will make a link
 between 2 nodes in the linked list of AST's.
 .NH 4
 Immutable by default
-.PP
+.LP
 The core to creating a safe language is immutability, forcing this makes it easy to write safe 
 programs. Having a let keyword to assign variables immutably and a set one to assign them mutably
 .NH 4
 Functional language
-.PP
+.LP
 This language should lean into the functional programming paradigm, taking inspiration from other
 functional languages such as lisp, and gleam.
 .NH 5
 Recursion
-.PP
+.LP
 Zippy must support recursive algorithms being implemented into it, this will make the AST, have
 nodes linking back to parent nodes in a linked list.
 .NH 5
 Higher order functions
-.PP
+.LP
 Zippy must support the usage of higher order functions, this will mean the AST needs to have an
 unlimited depth as otherwise the limit would be quickly reached, it can't be hard-coded, it must be 
 dynamic.
 .NH 4
 Performance is key
-.PP
+.LP
 The interpreter must be fast and memory efficient, the language is designed to work as an 
 alternative to C, one of the fastest languages of all time, the interpreter must be fast, however
 memory footprint is not as much of a requirement.
@@ -542,21 +535,21 @@ memory footprint is not as much of a requirement.
 Standard library for Zippy 
 .NH 4
 io
-.PP
+.LP
 The language must have a simple to use I/O library to make outputs easy.
 .NH 4
 string
-.PP
+.LP
 The language should have a sting library that provides a string type, and many complex algorithms 
 that can be applied to them (concatenation, insertion, appending, splitting, stripping).
 .NH 4
 sorts
-.PP
+.LP
 The language should have a sorting library that provides algorithms used for sorting (like merge 
 sort).
 .NH 4
 graphs
-.PP
+.LP
 the language must have a graph library, that allows for easy creation and working with graphs, it
 should provide many algorithms to help traverse these graphs
 
@@ -564,32 +557,342 @@ should provide many algorithms to help traverse these graphs
 Tooling for the Zippy language
 .NH 4
 zpypkg
-.PP
+.LP
 Zippy must provide a package manager, that allows code to be shared between multiple users, easily.
 It should sync projects via git and allow them to be stored on any git host the user likes.
 .NH 4
 Syntax check
-.PP
+.LP
 Zippy should have a built in syntax checker, that can be run independently of the interpreter, this
 means that a lot of the checking that interpreted languages do, can be done once by the developer,
 before shipping the app, as opposed to every time the program is run, which brings down performance.
 .NH 4
 Vim integration.
-.PP
+.LP
 Zippy should have integration with the Vim editor for syntax highlighting, this can be done via
 generating an AST then colouring function calls a specific colour, and variables another, etc, etc.
 .NH 3
 Integration with C, via a C API
 .NH 4
 C API
-.PP
+.LP
 You should be able to execute a string of zippy code in C using a library that is linked with 
 interpreter. This could allow Zippy to be used as a configuration language like Lua.
 
+.NH 2
+Desirable features
+.LP
+If time allows I'd like to add some of the following features to flesh out the language:
+.NH 3
+Raylib support
+.LP
+Raylib is a powerful game engine for C, however it has been ported to most languages under the 
+sun due to how simple it is. If I have time, porting raylib to zippy would make the language
+far more useable, as it can be use for graphics programming.
 
+https://www.raylib.com/
+
+.NH 3
+LSP
+.LP
+A LSP (language server protocall), is used in code IDE's to auto complete code for you, I'd
+like one for zippy. Although I am unsure as to how to tackle this. I believe a program called
+treesitter can be helpful for this.
+.NH 3
+Networking sockets
+.LP
+If possible I'd also like to provide bindings for unix network sockets, however this would be
+very difficult, as I would need to allow zippy stucts to be directly converted to C stucts,
+when executing ELF symbols (Parts of an execuable file).
 
 .NH 1
 Design
+.NH 2
+Language specification
+.LP
+Like any other programing language zippy needs to have a defined syntax, as metioned in the 
+objectives section of Analysis, I want the language to follow a lisp like syntax.
+
+I also believe higher order functions should be taken as standard and many core functions will use
+them.
+
+.NH 3
+Data types
+.NH 4
+Basic types
+.LP
+i32 - signed integer of size 32 bits
+
+u32 - unsigned integer of size 32 bits
+
+i64 - signed integer of size 64 bits
+
+u64 - unsigned integer of size 64 bits
+
+char - single ascii code
+
+.NH 4
+Advaced types
+.LP
+function - a function that can be used
+
+struct - initilizer for an object
+
+obj - instace of a struct
+
+generic - should be avoided, removes checks for data types when inputing values to functions
+will cause many runtime errors, however when absolutely needed it is useful
+
+err - error type, can be given to terminate function to bring down the program, or have
+info drawn on the error
+
+.NH 4
+Arrays
+.LP
+Arrays can be show like so:
+
+x:type[]
+
+With x being the vairable name, type being the type of variable, and [] showing its an array
+
+All arrays are dynamic, represented by a linked list on the back end.
+.NH 5
+Strings
+.LP
+Strings, like in C are arrays of chars
+
+.NH 3
+Built in functions
+.NH 4
+defun
+.LP
+(defun a:type b:type returntype
+
+	...
+
+	...
+
+)
+
+Returns a function that take A and B as an argument (fixed types), and returns a value of
+returntype.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+let
+.LP
+(let x:type value)
+.NH 5
+Errors
+.LP
+Can systax error.
+
+Creates constant x of type type to value.
+
+.NH 4
+set
+.LP
+(set x:type value)
+
+Creates/recreates the vairable value of x to value.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+if/elif/else
+.LP
+(if condition function)
+
+(elif condition function)
+
+(else function)
+
+
+Executes the function provided if the conditon is true.
+
+Elif works the same, exept only if the previous if statement is false.
+
+Else executes only if all previous statements were false.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+for
+.LP
+(for i conditon function)
+
+Runs the function while the condition is true, and increments i every time the function
+is called.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+
+.NH 4
+while
+.LP
+(while condition function)
+
+Runs the function if the condition is true, keeps running until it is false.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+symbol
+.LP
+(symbol a:type b:type c:type returntype name:char[] elf:char[])
+
+Returns a function that takes arguments A, B, C (of fixed types), the name of the function,
+and the file path of the elf.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+Can throw other errors, via returning an err type
+
+.NH 4
+struct
+.LP
+(struct
+
+	_a:type
+
+	b:type
+
+	c:type
+
+)
+
+Returns a struct (a class) that can have a default value, the default value can be set
+using an underscore infront of the variable name. A default vairable will be returned
+if you use the struct without specifing a value.
+
+Use let to asign it a name:
+
+(let a:struct (struct
+
+	...
+
+	...
+
+	...
+
+	)
+
+)
+
+Then to instatiate the stuct use the following:
+
+(let a:obj struct)
+
+The struct argument needs to have been set prior.
+
+To read from the struct use this:
+
+(if (= a.num b.num) .... )
+
+Or if you have set a default value you can use the following
+
+(if (= a b.num) .... )
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+Arithmetic operations
+.LP
+Simple operations 
+
+(+ a b) returns a + b
+
+(- a b) returns a - b
+
+(* a b) returns a * b
+
+(/ a b) returns a / b
+
+.NH 4
+Comparison
+.LP
+All return true or false
+
+(= a b) returns if a = b
+
+(!= a b) returns if a != b
+
+(> a b) returns if a > b
+
+(< a b) returns if a < b
+
+(=> a b) returns if a => b
+
+(=< a b) returns if a =< b
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+cast
+.LP 
+(cast a:generic type:char[])
+
+returns a but cast to data type type, which is a string.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+Can throw errors, via err, if value can't be casted to given type
+
+.NH 4
+typeof
+.LP
+(typeof a:generic)
+
+returns in a string the type that variable A is.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+terminate
+.LP
+(terminate error:error)
+
+Kills the program at the current point, frees all related memory, prints
+error info stored in error.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+.NH 4
+return
+.LP
+(return a:type)
+
+Must be used in defun, returns "a" from the function, "a" must be of the functions return type.
+.NH 5
+Errors
+.LP
+Can systax error.
+
+Can throw erros via err.
+
 .NH 1
 Technical Solution
 .NH 1
