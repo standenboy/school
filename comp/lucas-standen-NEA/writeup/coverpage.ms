@@ -1,5 +1,7 @@
 .TL
-NEA cover page
+The final solution
+
+To bad code
 .AU
 Lucas standen
 .AI
@@ -8,7 +10,7 @@ Lucas standen
 .NH 1
 Reading this document
 .LP
-This document is writen in roff and can be found online at 
+This document is writen in roff and can be found online at:
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/writeup
 
@@ -152,7 +154,7 @@ https://harelang.org/
 I think Zippy should have a strong emphasis on stability, much like Hare, to many times have I segfaulted due to a
 tiny mistake. Zippy should also look to Hare small size, you can buy a copy of Hare on a 
 
-.B "SINGLE 3 1/2'' FL.LPY"
+.B "SINGLE 3 1/2'' FLOLPY"
 
 .LP
 This is something I too should try to achieve.
@@ -185,9 +187,11 @@ My first client is a friend of mine, Amy C, she is a confident programmer who ha
 complicated projects. I am choosing her as a client as she can give me technical feed back on my 
 project and its function/utility.
 .NH 3
-Client 2, a technical user, but not a programmer
+Client 2, Rayn M 
 .LP
-some stuff about this person.
+Another friend of mine, Rayn M, is a technical computer user, however he does not know how to 
+program at a high level. He will be a good client as he can show me how my language looks to 
+some one who doesn't understand the inside workings, helping me design the structure of the code.
 .NH 3
 Client 3, a normie
 .LP
@@ -493,16 +497,16 @@ feature that I will be implementing.
 Objectives
 .NH 3
 An interpreter for the Zippy language
+.NH 3
+Linked list of AST's
+.LP
+All of a loaded program should be represented as a linked list of individual AST's, The developer
+should be able to access the AST for easy hacking. Functions can be represented as a pointer to 
+another part of the list.
 .NH 4
 A lisp like syntax 
 .LP
 This is to ensure the language can be parsed quickly, and is easy to write.
-.NH 4
-A powerful abstract syntax tree 
-.LP
-That the programmer can use to debug their code, and to allow for easy extensibility, the full tree
-should be a linked list of AST's each on being its own expression, a function will make a link
-between 2 nodes in the linked list of AST's.
 .NH 4
 Immutable by default
 .LP
@@ -595,7 +599,7 @@ https://www.raylib.com/
 .NH 3
 LSP
 .LP
-A LSP (language server protocall), is used in code IDE's to auto complete code for you, I'd
+A LSP (language server protocol), is used in code IDE's to auto complete code for you, I'd
 like one for zippy. Although I am unsure as to how to tackle this. I believe a program called
 treesitter can be helpful for this.
 .NH 3
@@ -610,7 +614,7 @@ Design
 .NH 2
 Language specification
 .LP
-Like any other programing language zippy needs to have a defined syntax, as metioned in the 
+Like any other programming language zippy needs to have a defined syntax, as mentioned in the 
 objectives section of Analysis, I want the language to follow a lisp like syntax.
 
 I also believe higher order functions should be taken as standard and many core functions will use
@@ -632,19 +636,19 @@ u64 - unsigned integer of size 64 bits
 char - single ascii code
 
 .NH 4
-Advaced types
+Advanced types
 .LP
 function - a function that can be used
 
-struct - initilizer for an object
+struct - initializer for an object
 
-obj - instace of a struct
+obj - instance of a struct
 
-generic - should be avoided, removes checks for data types when inputing values to functions
-will cause many runtime errors, however when absolutely needed it is useful
+generic - should be avoided, removes checks for data types when inputting values to functions
+will cause many runtime errors, however when absolutely needed it is useful.
 
 err - error type, can be given to terminate function to bring down the program, or have
-info drawn on the error
+info drawn on the error.
 
 .NH 4
 Arrays
@@ -653,7 +657,7 @@ Arrays can be show like so:
 
 x:type[]
 
-With x being the vairable name, type being the type of variable, and [] showing its an array
+With x being the variable name, type being the type of variable, and [] showing its an array
 
 All arrays are dynamic, represented by a linked list on the back end.
 .NH 5
@@ -679,7 +683,7 @@ returntype.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 let
@@ -688,7 +692,7 @@ let
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 Creates constant x of type type to value.
 
@@ -697,11 +701,11 @@ set
 .LP
 (set x:type value)
 
-Creates/recreates the vairable value of x to value.
+Creates/recreates the variable value of x to value.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 if/elif/else
@@ -713,27 +717,27 @@ if/elif/else
 (else function)
 
 
-Executes the function provided if the conditon is true.
+Executes the function provided if the condition is true.
 
-Elif works the same, exept only if the previous if statement is false.
+Elif works the same, except only if the previous if statement is false.
 
 Else executes only if all previous statements were false.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 for
 .LP
-(for i conditon function)
+(for i (condition) function)
 
 Runs the function while the condition is true, and increments i every time the function
 is called.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 
 .NH 4
@@ -745,7 +749,7 @@ Runs the function if the condition is true, keeps running until it is false.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 symbol
@@ -757,9 +761,9 @@ and the file path of the elf.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
-Can throw other errors, via returning an err type
+Can throw other errors, via returning an err type.
 
 .NH 4
 struct
@@ -775,10 +779,10 @@ struct
 )
 
 Returns a struct (a class) that can have a default value, the default value can be set
-using an underscore infront of the variable name. A default vairable will be returned
-if you use the struct without specifing a value.
+using an underscore in front of the variable name. A default variable will be returned
+if you use the struct without specifying a value.
 
-Use let to asign it a name:
+Use let to assign it a name:
 
 (let a:struct (struct
 
@@ -792,7 +796,7 @@ Use let to asign it a name:
 
 )
 
-Then to instatiate the stuct use the following:
+Then to instantiate the struct use the following:
 
 (let a:obj struct)
 
@@ -802,13 +806,13 @@ To read from the struct use this:
 
 (if (= a.num b.num) .... )
 
-Or if you have set a default value you can use the following
+Or if you have set a default value you can use the following:
 
 (if (= a b.num) .... )
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 Arithmetic operations
@@ -842,7 +846,7 @@ All return true or false
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 cast
@@ -853,9 +857,9 @@ returns a but cast to data type type, which is a string.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
-Can throw errors, via err, if value can't be casted to given type
+Can throw errors, via err, if value can't be cast to a given type.
 
 .NH 4
 typeof
@@ -866,19 +870,18 @@ returns in a string the type that variable A is.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 terminate
 .LP
 (terminate error:error)
 
-Kills the program at the current point, frees all related memory, prints
-error info stored in error.
+Kills the program at the current point, frees all related memory, prints error info stored in error.
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
 .NH 4
 return
@@ -889,9 +892,11 @@ Must be used in defun, returns "a" from the function, "a" must be of the functio
 .NH 5
 Errors
 .LP
-Can systax error.
+Can syntax error.
 
-Can throw erros via err.
+Can throw errors via err.
+.NH 3
+Questionare 2 for Rayn M
 
 .NH 1
 Technical Solution
