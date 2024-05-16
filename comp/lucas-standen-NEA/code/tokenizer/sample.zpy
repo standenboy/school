@@ -1,0 +1,5 @@
+(let x:char[] "he
+llo")
+
+(let y:i32 20)
+

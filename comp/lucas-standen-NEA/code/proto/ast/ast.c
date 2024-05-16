@@ -4,11 +4,12 @@
 
 #include "astg.h"
 
-void getBrackets(char *in, int bpos, char *out){ // gets the content of the brackets that open at bpos
+void getBrackets(char *in, int bpos, char *out){ 
+	// gets the content of the brackets that open at bpos
 	if (in[0] != '(' && in[0] != '[')
 		out = NULL;
 
-	char *input = malloc(strlen(in) + 1);
+	char *input = malloc(strlen(in) + 1); // cpy in for mem safety
 	char *Pinput = input;
 	memcpy(input, in, strlen(in) + 1);
 
@@ -19,7 +20,7 @@ void getBrackets(char *in, int bpos, char *out){ // gets the content of the brac
 	}
 	i = 0;
 	int depth = 0;
-	while (input[0] != '\0'){
+	while (input[0] != '\0'){ // loop through input
 		out[i] = input[0];
 		if (input[0] == '(' || input[0] == '[')
 			depth++;
@@ -38,7 +39,7 @@ void getBrackets(char *in, int bpos, char *out){ // gets the content of the brac
 	free(Pinput);
 }
 
-int getContents(char *brackets){
+int getContents(char *brackets){ // get all the content in brackets
 	int i = 0;
 	char *num = malloc(strlen(brackets));
 	while (brackets[0] != '\0'){
@@ -133,9 +134,8 @@ ast_node *genAst(char *expression){
 	return out;
 }
 
-
 int main(int argc, char **argv){
-	if (argc < 2)
+	if (argc < 2) // die if no argument given
 		exit(1);
 
 	ast_node *head = genAst(argv[1]);

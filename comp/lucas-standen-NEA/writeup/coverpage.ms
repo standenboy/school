@@ -1,12 +1,14 @@
 .TL
-The final solution
+The solution
 
 To bad code
 .AU
-Lucas standen
+Lucas Standen
 .AI
 7949
+
 .AB
+
 .NH 1
 Reading this document
 .LP
@@ -18,10 +20,11 @@ It is using the ms macro of troff. It can be compiled using the Makefile, or mak
 contents has been generated using pdftocgen, it is embedded into the pdf, most pdf readers have
 a button to open it (firefox has it in the top left, in zathura press tab to view it).
 
-A note on formating of the roff, the text is limited to 100 characters per line and is writen in plan
-ascii, no utf8 emojis and the like. Code snippets are left in plain text, and the full section of 
-code they are from should be linked above them; assuming they are from a file and not a small
-example. 
+A note on formating of the roff, the text is limited to 100 characters per line and is writen in 
+plain ascii, no utf8 emojis and the like. Code snippets are left in plain text, while full files
+are converted to a ps file via https://carbon.now.sh/ they should be 150mm ^ 2 (as ps is a vector 
+format this wont lower quality, you might need to zoom in though) and then have there source linked 
+above them; assuming they are from a file and not a small example. 
 
 .NH 1
 Analysis
@@ -115,7 +118,7 @@ Its syntax is quite strange however and it is slow. Making it poorly suited towa
 https://www.perl.org/
 
 Zippy should take from perls minimalism, it is a small language that is of a similar size to bash 
-or zsh, while feeling closer to python. If zippy can achieve a similar small size, while remaining 
+or zsh, while feeling closer to python. If Zippy can achieve a similar small size, while remaining 
 powerful I will be happy.
 
 .NH 3
@@ -152,7 +155,7 @@ same part of the tech stack as C, and thus it can be used for some very low leve
 https://harelang.org/
 
 I think Zippy should have a strong emphasis on stability, much like Hare, to many times have I segfaulted due to a
-tiny mistake. Zippy should also look to Hare small size, you can buy a copy of Hare on a 
+tiny mistake. Zippy should also look to Hare's small size, you can buy a copy of Hare on a 
 
 .B "SINGLE 3 1/2'' FLOLPY"
 
@@ -316,16 +319,13 @@ In C this is easy to implement as you can find a memory address very easily with
 a bit of data is stored. I will need to use a 'struct', which is a bit like a class in C (however 
 you can't attach a function to it). A simple implementation looks like this:
 
-.b1
 typedef struct ll {
-
-	void *data; // the data of the node
-
-	ll *next; // the next node
+        void *data; // the data of the node
+        ll *next; // the next node
 
 } ll;
-.b2
 
+.LP
 The pro's of a linked list are the fact that they can have data appended to the start or end easily 
 by changing the root node, or the next node.
 
@@ -341,17 +341,14 @@ A dictionary is a simple data structure that just stores, a bit of data, and a n
 identify it.
 A dictionary like a linked list can be implemented with a struct in c like so:
 
-.b1
-typedef struct dict { 
-
-	void *data; // the data of the dict 
-
-	int id; // the id of the dict 
+typedef struct dict {
+        void *data;
+        int id;    
 
 } dict;
-.b2
 
-In my project I think I could use a linked list represent a zippy variable and an ID that i can use 
+.LP
+In my project I think I could use a linked list represent a Zippy variable and an ID that i can use 
 to identify it, this could make execution faster as i can compare ID's
 rather than string values
 
@@ -369,7 +366,7 @@ way to show it is via a mathematical example
 
 Take the follow expression for example:
 
-(1 + (10 * (3 - (2 * 4))))
+.BX "(1 + (10 * (3 - (2 * 4))))"
 
 We know that this is equal to -49 
 
@@ -407,30 +404,9 @@ surrounded by [] so it knows its not another expression to evaluate.
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
 
+.PSPIC astg.ps
 
-typedef struct ast_node ast_node;
-
-.b1
-typedef enum op {
-        ADD = 0,
-        SUB = 1,
-        MUL = 2,
-        DIV = 3,
-
-} op;
-
-typedef struct ast_node {
-        op operation;
-        int realLeft;
-        int realRight;
-        ast_node *right;
-        ast_node *left;
-
-} ast_node;
-
-.b2
-
-
+.LP
 Above is the code for the AST, it stores an operation (which is just an integer), and it stores 
 a real left and real right value, along side two other nodes. The real values are integers, this 
 would be the 2 numbers in reference in the expression. The 2 nodes are a recursive data structure,
@@ -441,39 +417,20 @@ are null and if they are i know that i am at the lowest expression that is only 
 Then I can execute that node and work my way up the tree.
 
 
-The execution code can be seen here.
+The exec function will execute the operation, unless there is a deeper node, if there is a deeper 
+node, then it executes it, and places the result in the right or left spot respectively.
+
+Expressions are taken as input with the following code, and converted into the AST:
 
 https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast
 
-.b1
-int exec(ast_node *exp){
-        if (exp->left != NULL)
-                exp->realLeft = exec(exp->left);
-        if (exp->right != NULL)
-                exp->realRight = exec(exp->right);
-
-        if (exp->operation == ADD)
-                return exp->realLeft+ exp->realRight;
-        if (exp->operation == SUB)
-                return exp->realLeft - exp->realRight;
-        if (exp->operation == MUL)
-                return exp->realLeft * exp->realRight;
-        if (exp->operation == DIV)
-                return exp->realLeft/ exp->realRight;
-
-	return 0;
-
-}
-.b2
-
-This code will execute the operation, unless there is a deeper node, if there is a deeper node, 
-then it executes it, and places the result in the right or left spot respectively
+.PSPIC ast.c.ps
 
 Here is an example input and output:
 
  ./ast "(+ (- [3] [1]) (- [3] [1]))"
 
- 4
+.BX 4
 
 Note the [] used to tell the program where the literal values are.
 
@@ -493,11 +450,29 @@ separate square bracket surrounded literals.
 As this is a prototype I won't fix this issue, however in the actual language this is a needed 
 feature that I will be implementing.
 
+.NH 3
+Mixing linked lists and AST's
+.LP
+Mixing these 2 data structures together you can repressent an entire program. A linked list of
+AST's is how Zippy will repressent all code the user writes
+
+Here is an example of this:
+
+.PSPIC AST+LL.ps
+
+.LP
+In this example the linked list is represented by the numbers seen at the top, and the AST's are the 
+tree's moving down.
+
+As you can see when a value is referenced that is from a different AST the tree will link to another 
+one. This will work the same for function calls, however instead of linking to value definitions it
+will link to function definitions.
+
 .NH 2
 Objectives
 .NH 3
 An interpreter for the Zippy language
-.NH 3
+.NH 4 
 Linked list of AST's
 .LP
 All of a loaded program should be represented as a linked list of individual AST's, The developer
@@ -507,11 +482,6 @@ another part of the list.
 A lisp like syntax 
 .LP
 This is to ensure the language can be parsed quickly, and is easy to write.
-.NH 4
-Immutable by default
-.LP
-The core to creating a safe language is immutability, forcing this makes it easy to write safe 
-programs. Having a let keyword to assign variables immutably and a set one to assign them mutably
 .NH 4
 Functional language
 .LP
@@ -529,11 +499,16 @@ Zippy must support the usage of higher order functions, this will mean the AST n
 unlimited depth as otherwise the limit would be quickly reached, it can't be hard-coded, it must be 
 dynamic.
 .NH 4
-Performance is key
+Performance
 .LP
 The interpreter must be fast and memory efficient, the language is designed to work as an 
 alternative to C, one of the fastest languages of all time, the interpreter must be fast, however
 memory footprint is not as much of a requirement.
+.NH 4
+Safe
+.LP
+Code that the user writes must be safe, and not prone to errors. This can be handeled via the strong
+syntax checker and type safety.
 
 .NH 3
 Standard library for Zippy 
@@ -565,22 +540,18 @@ zpypkg
 Zippy must provide a package manager, that allows code to be shared between multiple users, easily.
 It should sync projects via git and allow them to be stored on any git host the user likes.
 .NH 4
-Syntax check
+Syntax checker
 .LP
-Zippy should have a built in syntax checker, that can be run independently of the interpreter, this
-means that a lot of the checking that interpreted languages do, can be done once by the developer,
-before shipping the app, as opposed to every time the program is run, which brings down performance.
-.NH 4
-Vim integration.
-.LP
-Zippy should have integration with the Vim editor for syntax highlighting, this can be done via
-generating an AST then colouring function calls a specific colour, and variables another, etc, etc.
+Zippy shouldn't have a built in syntax checker, instead it should be something that can be run 
+independently of the interpreter, this means that a lot of the checking that interpreted languages 
+do, can be done once by the developer, before shipping the app, as opposed to every time the program 
+is run, which brings down performance.
 .NH 3
 Integration with C, via a C API
 .NH 4
 C API
 .LP
-You should be able to execute a string of zippy code in C using a library that is linked with 
+You should be able to execute a string of Zippy code in C using a library that is linked with 
 interpreter. This could allow Zippy to be used as a configuration language like Lua.
 
 .NH 2
@@ -591,22 +562,28 @@ If time allows I'd like to add some of the following features to flesh out the l
 Raylib support
 .LP
 Raylib is a powerful game engine for C, however it has been ported to most languages under the 
-sun due to how simple it is. If I have time, porting raylib to zippy would make the language
+sun due to how simple it is. If I have time, porting Raylib to Zippy would make the language
 far more useable, as it can be use for graphics programming.
 
-https://www.raylib.com/
+https://www.Raylib.com/
 
+.NH 3
+Vim integration.
+.LP
+Zippy should have integration with the Vim editor for syntax highlighting, this can be done via
+generating a linked list of AST's then colouring function calls a specific colour, and variables 
+another, etc, etc.
 .NH 3
 LSP
 .LP
 A LSP (language server protocol), is used in code IDE's to auto complete code for you, I'd
-like one for zippy. Although I am unsure as to how to tackle this. I believe a program called
+like one for Zippy. Although I am unsure as to how to tackle this. I believe a program called
 treesitter can be helpful for this.
 .NH 3
 Networking sockets
 .LP
 If possible I'd also like to provide bindings for unix network sockets, however this would be
-very difficult, as I would need to allow zippy stucts to be directly converted to C stucts,
+very difficult, as I would need to allow Zippy stucts to be directly converted to C stucts,
 when executing ELF symbols (Parts of an execuable file).
 
 .NH 1
@@ -614,7 +591,7 @@ Design
 .NH 2
 Language specification
 .LP
-Like any other programming language zippy needs to have a defined syntax, as mentioned in the 
+Like any other programming language Zippy needs to have a defined syntax, as mentioned in the 
 objectives section of Analysis, I want the language to follow a lisp like syntax.
 
 I also believe higher order functions should be taken as standard and many core functions will use
@@ -671,10 +648,8 @@ Built in functions
 defun
 .LP
 (defun a:type b:type returntype
-
-	...
-
-	...
+        ...
+        ...
 
 )
 
@@ -769,12 +744,9 @@ Can throw other errors, via returning an err type.
 struct
 .LP
 (struct
-
-	_a:type
-
-	b:type
-
-	c:type
+        _a:type
+        b:type
+        c:type
 
 )
 
@@ -785,14 +757,10 @@ if you use the struct without specifying a value.
 Use let to assign it a name:
 
 (let a:struct (struct
-
-	...
-
-	...
-
-	...
-
-	)
+        ...
+        ...
+        ...
+        )
 
 )
 
@@ -895,8 +863,156 @@ Errors
 Can syntax error.
 
 Can throw errors via err.
+.NH 2 
+Questionnaire 2 for Rayn M
+
+.NH 2
+Programming language and libraries
+.LP
+As mentioned before Zippy will be written in C, with some parts being written in Zippy itself.
+I will try and keep most dependencies/libraries to a minimal to make the project easier to manage.
+
 .NH 3
-Questionare 2 for Rayn M
+Libraries
+.LP
+The libraries I will use are the following:
+
+C stdlib
+
+C unistd
+
+C errno
+
+Unix device files
+
+Zippy strings
+
+Zippy graphs
+
+Zippy sorts
+
+Addition libraries (may not be implemented):
+
+Raylib
+
+C sockets + Zippy sockets
+
+.NH 3
+Modularization
+.LP
+To make the project more manageable I will split it into many C files, this is to keep it from 
+becoming impossible to edit code.
+
+The file layout looks as follows:
+
+    Makefile
+    ads
+        Makefile
+        ast
+            Makefile
+            ast.c
+            ast.h
+            types.c
+            types.h
+        dict
+             Makefile
+             dict.c
+             dict.h
+             dicttest.c
+        ll
+             Makefile
+             ll.c
+             ll.h
+             lltest.c
+    execution
+        Makefile
+        exec.c
+        exec.h
+        types.c
+        types.h
+    libs
+        Makefile
+        graphs
+            graphs.zpy
+        io
+            io.zpy
+        stdlib
+            Makefile
+            stdlib.c
+            stdlib.zpy
+        string
+            string.zpy
+        proto
+            ast
+                Makefile
+                ast.c
+                astg.c
+                astg.h
+    tokenizer
+        Makefile
+        parser.c
+        parser.h
+        tokenizer.c
+        tokenizer.h
+        types.c
+        types.h
+    zpy
+        Makefile
+        zpy.c
+        zpycheck.c
+    zpycheck
+        Makefile
+        errors.c
+        errors.h
+        zpycheck.c
+        zpycheck.h
+    zpypkg
+        deps.zpy
+        download.zpy
+        zpypkg.zpy
+
+As you can see this is split up over around 40 files and 16 folders, each file should not go over
+~500 lines of code. This is to keep everything as easy to manage as possible.
+
+This level of modularization in needed for the development of Zippy as without it, files will become
+a mess that can't be worked with.
+
+All .c files will be compiled into .o files, then the .o files can be linked with the final zpy.c
+to generate the final executable.
+
+
+.NH 3
+Build system
+.LP
+The entire project is being build with GNU make files, each folder that builds something will have
+its own makefile. This will mean the entire project can be compiled with a single make in the root
+folder of the project. 
+
+Example of make:
+
+make -j2
+
+This will build all files specified by 'Makefile' with 2 threads.
+
+The project should be build with gcc, and ld. It should be build with the -O3 build flag to ensure 
+the program runs as fast as possible. -O3 forces the compiler to build with optimizations.
+
+When the project is finished, I will try compiling with clang and tcc, to compare performance.
+
+.NH 3
+Time table
+.LP
+The first step is to tackle the interpreter, so the zpy.c file needs to be finished. The tokenizer,
+execution, and libs folders need to be finished, after this point you should be able to execute 
+Zippy code however not syntax check it or get error handling.
+
+The next step is zpycheck, the syntax and error handler, this should be ran before code is shipped 
+to the user. It can reuse a lot of code from the tokenizer and execution steps.
+
+Finally i need to make zpypkg, this should be easy as most of it can be written in Zippy, and a few
+bits can be written in bash. It should be a good test to how Zippy can be written.
+
+If time allows it is at this point that I will write a Raylib library.
 
 .NH 1
 Technical Solution
