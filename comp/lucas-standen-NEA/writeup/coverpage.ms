@@ -612,6 +612,8 @@ u64 - unsigned integer of size 64 bits
 
 char - single ascii code
 
+float - standard C float
+
 .NH 4
 Advanced types
 .LP
@@ -867,10 +869,42 @@ Can throw errors via err.
 Questionnaire 2 for Rayn M
 
 .NH 2
-Programming language and libraries
+What language do you use to make a programming language
 .LP
 As mentioned before Zippy will be written in C, with some parts being written in Zippy itself.
 I will try and keep most dependencies/libraries to a minimal to make the project easier to manage.
+
+.NH 3
+What is C?
+.LP
+C was made by Dennis Ritchie, in 1972 at AT&T's bell labs. It was designed to make programming low
+level systems far easier than it had been before. It was used to create the unix operating system
+which would go on to inspire most modern operating systems in some way. (macos still has code from
+the original release of C+unix).
+
+The language quickly caught on outside of bell labs after more available releases of unix arrived 
+such as bsd 4.4, sun os and GNU. It was found to be able to do all the things that you could do in 
+ASM however with far less a headache.
+
+.NH 3
+Why is C?
+.LP
+As mentioned C can do anything that ASM can do, meaning it is lightning fast and can take advantage
+of direct memory access. This allows you to make very fast lightweight executables that can rival
+the performance of handwritten ASM (often beating it if you enable compiler optimisations). It is 
+this that makes C the perfect language for any and all programming languages, where speed is key, 
+and allfeatures need to be available are present.
+
+.NH 3
+How is C?
+.LP
+C is compiled to ASM, the main compilers available are clang, gcc and MSVC, I will be using gcc
+as it is generally standard in linux environments.
+
+Many build systems are available for C, the main ones being cmake and gnu make. Both of them have 
+the goal of putting the compiling process in one command. Cmake is cross platform (sorta windows 
+doesn't work well but it does work).
+
 
 .NH 3
 Libraries
@@ -981,7 +1015,7 @@ All .c files will be compiled into .o files, then the .o files can be linked wit
 to generate the final executable.
 
 
-.NH 3
+.NH 4 
 Build system
 .LP
 The entire project is being build with GNU make files, each folder that builds something will have
@@ -999,7 +1033,7 @@ the program runs as fast as possible. -O3 forces the compiler to build with opti
 
 When the project is finished, I will try compiling with clang and tcc, to compare performance.
 
-.NH 3
+.NH 2 
 Time table
 .LP
 The first step is to tackle the interpreter, so the zpy.c file needs to be finished. The tokenizer,
@@ -1009,10 +1043,10 @@ Zippy code however not syntax check it or get error handling.
 The next step is zpycheck, the syntax and error handler, this should be ran before code is shipped 
 to the user. It can reuse a lot of code from the tokenizer and execution steps.
 
-Finally i need to make zpypkg, this should be easy as most of it can be written in Zippy, and a few
+Finally I need to make zpypkg, this should be easy as most of it can be written in Zippy, and a few
 bits can be written in bash. It should be a good test to how Zippy can be written.
 
-If time allows it is at this point that I will write a Raylib library.
+If time allows it is at this point that I will write a Raylib library and a unix/C sockets library.
 
 .NH 1
 Technical Solution
