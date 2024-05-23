@@ -1048,6 +1048,26 @@ bits can be written in bash. It should be a good test to how Zippy can be writte
 
 If time allows it is at this point that I will write a Raylib library and a unix/C sockets library.
 
+.NH 2
+Flow through the system
+.LP
+The alogrithum to run code is quite complex however it can be boiled down to a few simple steps:
+
+.B "read the text file (strip line breaks and tabs)"
+.B "create an empty linked list"
+.B "get the first expression from the text file (with be encapsulated with "()""
+.B "get the function call and its args into a token"
+.B "if the arguments of the function are there own function call, then convert them into a token"
+.B "set that token as the argument in the first token"
+.B "append the root token to the linked list"
+.B "repeat until the text file string is empty"
+.B "allocate memory for the program and prepare the exection step"
+.B "at the start of the linked list traverse to the bottem of the tree (made of tokens)"
+.B "execute the lowest token"
+.B "repeat until all tokens including the root have been executed"
+.B "move to the next node of the linked list"
+.B "repeat until the linked list is empty"
+
 .NH 1
 Technical Solution
 .NH 1
