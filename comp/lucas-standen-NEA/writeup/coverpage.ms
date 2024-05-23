@@ -865,6 +865,13 @@ Errors
 Can syntax error.
 
 Can throw errors via err.
+
+.NH 2
+Memory management
+.LP
+Memory will be allocated when a variable is initialized, and freed when the program stops.
+Although this isn't the fastest method, it is simple and has less runtime overhead.
+
 .NH 2 
 Questionnaire 2 for Rayn M
 
@@ -904,7 +911,6 @@ as it is generally standard in linux environments.
 Many build systems are available for C, the main ones being cmake and gnu make. Both of them have 
 the goal of putting the compiling process in one command. Cmake is cross platform (sorta windows 
 doesn't work well but it does work).
-
 
 .NH 3
 Libraries
@@ -1067,6 +1073,12 @@ The alogrithum to run code is quite complex however it can be boiled down to a f
 .B "repeat until all tokens including the root have been executed"
 .B "move to the next node of the linked list"
 .B "repeat until the linked list is empty"
+
+Within each of these steps is many smaller steps. The hardest part will be making the tokens, as
+this requires alot of string manipultation. The execution will be a recursive alogrithum. All trees
+will be represented via structs (see section on AST's).
+
+PUT SOME FLOW CHARTS HERE
 
 .NH 1
 Technical Solution
