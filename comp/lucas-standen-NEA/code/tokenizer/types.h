@@ -10,8 +10,6 @@ typedef enum types {
 	FLOAT_t = 4,
 	CHAR_T = 5,
 	FUNCTION_T = 6,
-	STRUCT_T = 7,
-	OBJ_T = 8,
 } types;
 
 // int types
@@ -24,14 +22,6 @@ typedef uint64_t u64;
 
 // char and float types are still called char and float so no typedef needed
 
-// function type
-typedef struct functionToken { 
-	int id; // a function id to avoid strings
-	types returnType; // what the function returns
-	types *args; // the types of args a function takes
-	ll_t astHead; // the code for the function
-} functionToken;
-
 // built in functions
 typedef enum builtInFuncs {
 	DEFUN = 0,
@@ -43,7 +33,6 @@ typedef enum builtInFuncs {
 	FOR = 6,
 	WHILE = 7,
 	SYMBOL = 8,
-	STRUCT = 9,
 	
 	// arithmetic
 	ADD = 10,
@@ -61,14 +50,24 @@ typedef enum builtInFuncs {
 
 	CAST = 20,
 	TYPEOF = 21,
-	TERMINATE = 22,
+	EXIT = 22,
 	RETURN = 23, 
 } builtInFuncs;
+
+// function type
+typedef struct functionToken { 
+	int id; // a function id to avoid strings
+	types returnType; // what the function returns
+	types *args; // the types of args a function takes
+	ll_t *func; // the code for the function
+	builtInFuncs builtInFunc; // a built in functions
+} functionToken;
+
+// built in functions
 
 typedef struct ast_node ast_node;
 
 typedef struct ast_node {
-	builtInFuncs builtInFunc; // if it's a builtin function call use this, else -1
 	functionToken *func; // if it's not builtin then use this
 	void **literalArgs; // the args of the node, this will be an array of litteral values
 	ast_node **args; // the non litteral tokens

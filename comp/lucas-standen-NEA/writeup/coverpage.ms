@@ -619,15 +619,8 @@ Advanced types
 .LP
 function - a function that can be used
 
-struct - initializer for an object
-
-obj - instance of a struct
-
 generic - should be avoided, removes checks for data types when inputting values to functions
 will cause many runtime errors, however when absolutely needed it is useful.
-
-err - error type, can be given to terminate function to bring down the program, or have
-info drawn on the error.
 
 .NH 4
 Arrays
@@ -657,19 +650,11 @@ defun
 
 Returns a function that take A and B as an argument (fixed types), and returns a value of
 returntype.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 let
 .LP
 (let x:type value)
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 Creates constant x of type type to value.
 
@@ -679,10 +664,6 @@ set
 (set x:type value)
 
 Creates/recreates the variable value of x to value.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 if/elif/else
@@ -699,10 +680,6 @@ Executes the function provided if the condition is true.
 Elif works the same, except only if the previous if statement is false.
 
 Else executes only if all previous statements were false.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 for
@@ -711,11 +688,6 @@ for
 
 Runs the function while the condition is true, and increments i every time the function
 is called.
-.NH 5
-Errors
-.LP
-Can syntax error.
-
 
 .NH 4
 while
@@ -723,10 +695,6 @@ while
 (while condition function)
 
 Runs the function if the condition is true, keeps running until it is false.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 symbol
@@ -736,53 +704,6 @@ symbol
 Returns a function that takes arguments A, B, C (of fixed types), the name of the function,
 and the file path of the elf.
 .NH 5
-Errors
-.LP
-Can syntax error.
-
-Can throw other errors, via returning an err type.
-
-.NH 4
-struct
-.LP
-(struct
-        _a:type
-        b:type
-        c:type
-
-)
-
-Returns a struct (a class) that can have a default value, the default value can be set
-using an underscore in front of the variable name. A default variable will be returned
-if you use the struct without specifying a value.
-
-Use let to assign it a name:
-
-(let a:struct (struct
-        ...
-        ...
-        ...
-        )
-
-)
-
-Then to instantiate the struct use the following:
-
-(let a:obj struct)
-
-The struct argument needs to have been set prior.
-
-To read from the struct use this:
-
-(if (= a.num b.num) .... )
-
-Or if you have set a default value you can use the following:
-
-(if (= a b.num) .... )
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 Arithmetic operations
@@ -813,10 +734,6 @@ All return true or false
 (=> a b) returns if a => b
 
 (=< a b) returns if a =< b
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 cast
@@ -824,12 +741,6 @@ cast
 (cast a:generic type:char[])
 
 returns a but cast to data type type, which is a string.
-.NH 5
-Errors
-.LP
-Can syntax error.
-
-Can throw errors, via err, if value can't be cast to a given type.
 
 .NH 4
 typeof
@@ -837,10 +748,6 @@ typeof
 (typeof a:generic)
 
 returns in a string the type that variable A is.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 terminate
@@ -848,10 +755,6 @@ terminate
 (terminate error:error)
 
 Kills the program at the current point, frees all related memory, prints error info stored in error.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
 .NH 4
 return
@@ -859,14 +762,77 @@ return
 (return a:type)
 
 Must be used in defun, returns "a" from the function, "a" must be of the functions return type.
-.NH 5
-Errors
-.LP
-Can syntax error.
 
-Can throw errors via err.
+.NH 3
+List of keywords
+.LP
+defun
+
+for
+
+while
+
+if
+
+elif
+
+else
+
+exit
+
+return
+
+symbol
+
+set
+
+let
+
+
 .NH 2 
 Questionnaire 2 for Rayn M
+.NH 3
+How do you find this layout of the language? 
+.LP
+.I "(5-6 points)"
+- I like the immutable nature of the language
+- I like the simplicity
+- I like the low level performance this will have
+- I dislike the word terminate
+- I like the procedural approach, with the function robustness
+- I dislike the brackets!
+.NH 3
+Response
+.LP
+Although he does dislike some of my features I believe them to be core parts of the language so 
+I will keep them. I will also keep his points in mind though, I don't want to discourage learning
+the language due to its abstract syntax.
+
+However as per his request I will change the terminate keyword to the more normal exit.
+
+An updated keyword list is as flows:
+
+defun
+
+for
+
+while
+
+if
+
+elif
+
+else
+
+terminate
+
+return
+
+symbol
+
+set
+
+let
 
 .NH 2
 What language do you use to make a programming language
@@ -939,71 +905,7 @@ becoming impossible to edit code.
 
 The file layout looks as follows:
 
-    Makefile
-    ads
-        Makefile
-        ast
-            Makefile
-            ast.c
-            ast.h
-            types.c
-            types.h
-        dict
-             Makefile
-             dict.c
-             dict.h
-             dicttest.c
-        ll
-             Makefile
-             ll.c
-             ll.h
-             lltest.c
-    execution
-        Makefile
-        exec.c
-        exec.h
-        types.c
-        types.h
-    libs
-        Makefile
-        graphs
-            graphs.zpy
-        io
-            io.zpy
-        stdlib
-            Makefile
-            stdlib.c
-            stdlib.zpy
-        string
-            string.zpy
-        proto
-            ast
-                Makefile
-                ast.c
-                astg.c
-                astg.h
-    tokenizer
-        Makefile
-        parser.c
-        parser.h
-        tokenizer.c
-        tokenizer.h
-        types.c
-        types.h
-    zpy
-        Makefile
-        zpy.c
-        zpycheck.c
-    zpycheck
-        Makefile
-        errors.c
-        errors.h
-        zpycheck.c
-        zpycheck.h
-    zpypkg
-        deps.zpy
-        download.zpy
-        zpypkg.zpy
+PLACE HERE
 
 As you can see this is split up over around 40 files and 16 folders, each file should not go over
 ~500 lines of code. This is to keep everything as easy to manage as possible.

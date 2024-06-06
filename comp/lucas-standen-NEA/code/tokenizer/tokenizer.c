@@ -1,154 +1,128 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "parser.h"
-#include "util.h"
 #include "types.h"
+#include "util.h"
 
-int functionIdCounter = 0;
-
-ast_node *GenAst(char *exp); // generates the ast of 1 expression
-int getArgCount(char *exp); // counts how many args are pressent in exp
-char **GetStringArgs(char *exp); // gets the string args of an expression
-char *GetFunction(char *exp); // gets the function used in 1 expression
-builtInFuncs IsBuiltIn(char *func); // returns the id of a function thats built in, or -1 if its not
-
-
-builtInFuncs IsBuiltIn(char *func){
+void getBuiltIn(char *func, ast_node *node){
 	if (strcmp(func, "defun") == 0){
-		return DEFUN;
+		node->func->builtInFunc = DEFUN;
 	}else if (strcmp(func, "let") == 0){
-		return LET;
+		node->func->builtInFunc = LET;
 	}else if (strcmp(func, "set") == 0){
-		return SET;
+		node->func->builtInFunc = SET;
 	}else if (strcmp(func, "if") == 0){
-		return IF;
+		node->func->builtInFunc = IF;
 	}else if (strcmp(func, "elif") == 0){
-		return ELIF;
+		node->func->builtInFunc = ELIF;
 	}else if (strcmp(func, "else") == 0){
-		return ELSE;
+		node->func->builtInFunc = ELSE;
 	}else if (strcmp(func, "for") == 0){
-		return FOR;
+		node->func->builtInFunc = FOR;
 	}else if (strcmp(func, "while") == 0){
-		return WHILE;
+		node->func->builtInFunc = WHILE;
 	}else if (strcmp(func, "symbol") == 0){
-		return SYMBOL;
-	}else if (strcmp(func, "struct") == 0){
-		return STRUCT;
+		node->func->builtInFunc = SYMBOL;
 	}else if (strcmp(func, "+") == 0){
-		return ADD;
+		node->func->builtInFunc = ADD;
 	}else if (strcmp(func, "-") == 0){
-		return SUB;
+		node->func->builtInFunc = SUB;
 	}else if (strcmp(func, "*") == 0){
-		return MUL;
+		node->func->builtInFunc = MUL;
 	}else if (strcmp(func, "/") == 0){
-		return DIV;
+		node->func->builtInFunc = DIV;
 	}else if (strcmp(func, "=") == 0){
-		return EQ;
+		node->func->builtInFunc = EQ;
 	}else if (strcmp(func, "!=") == 0){
-		return NEQ;
+		node->func->builtInFunc = NEQ;
 	}else if (strcmp(func, ">") == 0){
-		return GT;
+		node->func->builtInFunc = GT;
 	}else if (strcmp(func, "<") == 0){
-		return LT;
+		node->func->builtInFunc = LT;
 	}else if (strcmp(func, ">=") == 0){
-		return GTEQ;
+		node->func->builtInFunc = GTEQ;
 	}else if (strcmp(func, "<=") == 0){
-		return LTEQ;
+		node->func->builtInFunc = LTEQ;
 	}else if (strcmp(func, "cast") == 0){
-		return CAST;
+		node->func->builtInFunc = CAST;
 	}else if (strcmp(func, "typeof") == 0){
-		return TYPEOF;
-	}else if (strcmp(func, "terminate") == 0){
-		return TERMINATE;
+		node->func->builtInFunc = TYPEOF;
+	}else if (strcmp(func, "exit") == 0){
+		node->func->builtInFunc = EXIT;
 	}else if (strcmp(func, "return") == 0){
-		return RETURN;
+		node->func->builtInFunc = RETURN;
 	}
 	else {
-		return -1;
+		node->func->builtInFunc = -1;
 	}
 }
 
-char *GetFunction(char *exp){ // takes exp with brackets
-	char *out = CheckedMalloc(strlen(exp));
-	int i = 1;
-	char c = exp[i];
-	while (c != ' '){
-		out[i-1] = c;
-		i++;
-		c = exp[i];
+ll_t *getUserDefinedFunction(char *function);
+
+void expressFunction(char *function, ast_node *node){
+	if ((node->func->builtInFunc = getBuiltIn(function)) == -1){
+		node->func->func = getUserDefinedFunction(function);
+	} else {
+		node->func->func = NULL;
 	}
-	i++;
-	out[i] = '\0';
-	out = CheckedRealloc(out, i);
-	return out;
 }
 
-// TODO make it count any arg inside () as one arg
-char **GetStringArgs(char *exp){ // takes exp without brackets
-	int spaceCount = 0;
-	int i = 0;
-	char c = exp[i];
-	while (c != '\0'){
-		spaceCount++;
-		i++;
-		c = exp[i];
+ast_node *tokenize(char *input){
+	ast_node *node;
 
-	}
+	char *exp, *function, **args;
+	size_t i, j;
+	int depth;
 
-	char **out = CheckedMalloc(spaceCount);
-	for (int i = 0; i < spaceCount; i++){
-		out[i] = CheckedMalloc(strlen(exp));
-	}
-
-	int tokCounter = 0;
-	i = 0;
-	int charCounter = 0;
-	while (exp[i] != '\0'){
-		if (exp[i] != ' '){
-			if (tokCounter != 0){
-				out[tokCounter-1][charCounter] = exp[i];
-				charCounter++;
+	for (int i = 0; i < strlen(input); i++){
+		if (input[i] == '('){
+			depth = 1;
+			j = i;
+			exp = CheckedMalloc(strlen(input));
+			while (depth != 0){
+				if (input[j] == '('){
+					depth++;
+				} else if (input[j] == ')'){
+					depth--;
+				}
+				exp[j - i] = input[j+1];
+				j++;
+				if (input[j] == '\0'){
+					fprintf(stderr, "error brace not closed");
+					exit(1);
+				}
 			}
-		} else{
-			out[tokCounter][i] = '\0';
-			charCounter = 0;
-			tokCounter++;
+			j -= 2;
+			exp[j] = '\0';
+			printf("%s\n", exp);
+		}else if (input[i] == '"'){
+			i++;
+			while (input[i] != '"') i++;
 		}
-		i++;
 	}
 
-	return out;
-}
+	node = CheckedMalloc(sizeof(ast_node));
 
-ast_node *GenAst(char *exp){ // takes exp with brackets
-	ast_node *head = CheckedMalloc(sizeof(ast_node));
-	char *function = GetFunction(exp);
-	head->builtInFunc = IsBuiltIn(function);	
+	i = 0;
+	function = CheckedMalloc(strlen(exp));
+	while (exp[i] != ' '){
+		function[i] = exp[i];
+		i++;	
+	}
+
+	function[i] = '\0';
+	function = CheckedRealloc(function, i);
+	printf("%s\n", function);
+
+	expressFunction(function, node);
+
 	free(function);
+	free(exp);
 
-	if (head->builtInFunc == -1){
-		head->func = CheckedMalloc(sizeof(functionToken));
-		head->func->id = functionIdCounter;
-		functionIdCounter++;
-	}else {
-		head->func = NULL;
-	}
-
-	return head;
+	return NULL;
 }
 
 int main(){
-	ast_node *node = GenAst("(+ 1 2)");
-	printf("%d\n", node->builtInFunc);
-
-	char **args = GetStringArgs("+ 1 2");
-	for (int i = 0; i < 2; i++){
-		printf("%s\n", args[i]);
-	}
-
-	free(args);
-
-	free(node);
+	char sample[] = "(+ \"hello(\" 1)";
+	tokenize(sample);
 }
