@@ -4,9 +4,11 @@
 #include "types.h"
 #include "util.h"
 
-void getBuiltIn(char *func, ast_node *node){
+#define MAXARGS 8
+
+int getBuiltIn(char *func, ast_node *node){
 	if (strcmp(func, "defun") == 0){
-		node->func->builtInFunc = DEFUN;
+		node->func->builtInFunc= DEFUN;
 	}else if (strcmp(func, "let") == 0){
 		node->func->builtInFunc = LET;
 	}else if (strcmp(func, "set") == 0){
@@ -51,57 +53,72 @@ void getBuiltIn(char *func, ast_node *node){
 		node->func->builtInFunc = EXIT;
 	}else if (strcmp(func, "return") == 0){
 		node->func->builtInFunc = RETURN;
+	}else {
+		node->func->builtInFunc = NIL;
+		return -1;
 	}
-	else {
-		node->func->builtInFunc = -1;
-	}
+	return 0;
 }
 
 ll_t *getUserDefinedFunction(char *function);
 
 void expressFunction(char *function, ast_node *node){
-	if ((node->func->builtInFunc = getBuiltIn(function)) == -1){
-		node->func->func = getUserDefinedFunction(function);
+	node->func = CheckedMalloc(sizeof(functionToken));
+	if ((getBuiltIn(function, node)) == -1){
+		//node->func->func = getUserDefinedFunction(function);
 	} else {
 		node->func->func = NULL;
 	}
 }
 
-ast_node *tokenize(char *input){
-	ast_node *node;
-
-	char *exp, *function, **args;
-	size_t i, j;
-	int depth;
-
-	for (int i = 0; i < strlen(input); i++){
-		if (input[i] == '('){
-			depth = 1;
-			j = i;
-			exp = CheckedMalloc(strlen(input));
-			while (depth != 0){
-				if (input[j] == '('){
-					depth++;
-				} else if (input[j] == ')'){
-					depth--;
-				}
-				exp[j - i] = input[j+1];
-				j++;
-				if (input[j] == '\0'){
-					fprintf(stderr, "error brace not closed");
-					exit(1);
-				}
-			}
-			j -= 2;
-			exp[j] = '\0';
-			printf("%s\n", exp);
-		}else if (input[i] == '"'){
-			i++;
-			while (input[i] != '"') i++;
+void expressArgs(char **args, ast_node *node){
+	for (int i = 0; i < MAXARGS; i++){
+		if (node->args[i] == NULL){
+			memcpy(node->literalArgs[i], args[i], strlen(args[i]) + 1);
 		}
 	}
+	
+}
+
+ast_node *tokenize(char *input){
+	ast_node *node, *child;
+
+	char *exp, *function, **args;
+	size_t i = 0, argCount = -1;
+	int depth = 0;
 
 	node = CheckedMalloc(sizeof(ast_node));
+	node->args = CheckedMalloc(sizeof(ast_node) * MAXARGS);
+	node->literalArgs = CheckedMalloc(sizeof(void *) * MAXARGS);
+
+	if (input[i] == '('){
+		depth = 1;
+		i++;
+		exp = CheckedMalloc(strlen(input));
+		while (depth != 0){
+			if (input[i] == ' ') argCount++;
+			if (input[i] == '('){
+				child = tokenize(&input[i]);
+				node->args[argCount] = child;
+				depth++;
+			} else if (input[i] == ')'){
+				depth--;
+			}
+			exp[i - 1] = input[i];
+			if (input[i] == '\0'){
+				fprintf(stderr, "error brace not closed\n");
+				exit(1);
+			}
+			i++;
+		}
+		exp[i-2] = '\0';
+		exp = CheckedRealloc(exp, strlen(exp) + 1);
+		printf("%s\n", exp);
+	}else if (input[i] == '"'){
+		i++;
+		while (input[i] != '"') i++;
+	}
+
 
 	i = 0;
 	function = CheckedMalloc(strlen(exp));
@@ -116,13 +133,19 @@ ast_node *tokenize(char *input){
 
 	expressFunction(function, node);
 
-	free(function);
+	i++;
+	args = Split(&input[i], ' ');
+	// need a length
+	expressArgs(args, node /* length */ );
+
 	free(exp);
 
-	return NULL;
+	return node;
 }
 
 int main(){
-	char sample[] = "(+ \"hello(\" 1)";
-	tokenize(sample);
+	char sample[] = "(+ (- 2 2) 1)";
+	ast_node *root = tokenize(sample);
+	printf("%d", root->args[0]->func->builtInFunc);
+	free(root);
 }

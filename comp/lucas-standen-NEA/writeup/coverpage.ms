@@ -788,6 +788,11 @@ set
 
 let
 
+.NH 2
+Memory management
+.LP
+Memory will be allocated when a variable is initialized, and freed when the program stops.
+Although this isn't the fastest method, it is simple and has less runtime overhead.
 
 .NH 2 
 Questionnaire 2 for Rayn M
@@ -824,7 +829,7 @@ elif
 
 else
 
-terminate
+exit
 
 return
 
@@ -870,7 +875,6 @@ as it is generally standard in linux environments.
 Many build systems are available for C, the main ones being cmake and gnu make. Both of them have 
 the goal of putting the compiling process in one command. Cmake is cross platform (sorta windows 
 doesn't work well but it does work).
-
 
 .NH 3
 Libraries
@@ -949,6 +953,32 @@ Finally I need to make zpypkg, this should be easy as most of it can be written 
 bits can be written in bash. It should be a good test to how Zippy can be written.
 
 If time allows it is at this point that I will write a Raylib library and a unix/C sockets library.
+
+.NH 2
+Flow through the system
+.LP
+The alogrithum to run code is quite complex however it can be boiled down to a few simple steps:
+
+.B "read the text file (strip line breaks and tabs)"
+.B "create an empty linked list"
+.B "get the first expression from the text file (with be encapsulated with "()""
+.B "get the function call and its args into a token"
+.B "if the arguments of the function are there own function call, then convert them into a token"
+.B "set that token as the argument in the first token"
+.B "append the root token to the linked list"
+.B "repeat until the text file string is empty"
+.B "allocate memory for the program and prepare the exection step"
+.B "at the start of the linked list traverse to the bottem of the tree (made of tokens)"
+.B "execute the lowest token"
+.B "repeat until all tokens including the root have been executed"
+.B "move to the next node of the linked list"
+.B "repeat until the linked list is empty"
+
+Within each of these steps is many smaller steps. The hardest part will be making the tokens, as
+this requires alot of string manipultation. The execution will be a recursive alogrithum. All trees
+will be represented via structs (see section on AST's).
+
+PUT SOME FLOW CHARTS HERE
 
 .NH 1
 Technical Solution

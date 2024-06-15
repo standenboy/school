@@ -24,6 +24,7 @@ typedef uint64_t u64;
 
 // built in functions
 typedef enum builtInFuncs {
+	// general
 	DEFUN = 0,
 	LET = 1,
 	SET = 2,
@@ -48,10 +49,12 @@ typedef enum builtInFuncs {
 	GTEQ = 18,
 	LTEQ = 19,
 
+	// misc
 	CAST = 20,
 	TYPEOF = 21,
 	EXIT = 22,
 	RETURN = 23, 
+	NIL = -1,
 } builtInFuncs;
 
 // function type
@@ -62,8 +65,6 @@ typedef struct functionToken {
 	ll_t *func; // the code for the function
 	builtInFuncs builtInFunc; // a built in functions
 } functionToken;
-
-// built in functions
 
 typedef struct ast_node ast_node;
 
