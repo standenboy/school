@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "util.h"
-
-char *Parse(char *fileName); // general parser function
+#include "../global/util.h"
 
 char *ReadFile(char *fileName); // reads the file into a single var
+char *Parse(char *fileName); // general parser function
 
 char *ReadFile(char *filename){
 	FILE *f = fopen(filename, "r");

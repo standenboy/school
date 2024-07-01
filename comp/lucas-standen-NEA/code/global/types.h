@@ -1,17 +1,6 @@
 #include <stdint.h>
 #include "../ads/ll/ll.h"
 
-// all language types
-typedef enum types { 
-	I32_T = 0,
-	I64_T = 1,
-	U32_T = 2,
-	U64_T = 3,
-	FLOAT_t = 4,
-	CHAR_T = 5,
-	FUNCTION_T = 6,
-} types;
-
 // int types
 typedef int32_t i32;
 typedef int64_t i64;
@@ -54,15 +43,14 @@ typedef enum builtInFuncs {
 	TYPEOF = 21,
 	EXIT = 22,
 	RETURN = 23, 
+	WRITE = 24,
 	NIL = -1,
 } builtInFuncs;
 
 // function type
 typedef struct functionToken { 
 	int id; // a function id to avoid strings
-	types returnType; // what the function returns
-	types *args; // the types of args a function takes
-	ll_t *func; // the code for the function
+	char *name; // the code for the function
 	builtInFuncs builtInFunc; // a built in functions
 } functionToken;
 
@@ -70,7 +58,7 @@ typedef struct ast_node ast_node;
 
 typedef struct ast_node {
 	functionToken *func; // if it's not builtin then use this
-	void **literalArgs; // the args of the node, this will be an array of litteral values
+	char **literalArgs; // the args of the node, this will be an array of litteral values
 	ast_node **args; // the non litteral tokens
 	// if litteralArgs[x] is real then args[x] should be NULL, and vice versa
 } ast_node;

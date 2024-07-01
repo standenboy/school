@@ -1,12 +1,24 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "types.h"
-#include "util.h"
+#include "../global/types.h"
+#include "../global/util.h"
 
 #define MAXARGS 8
+#define MAXFUNCS 2048
+#define MAXVARS 8192
 
-int getBuiltIn(char *func, ast_node *node){
+char *userDefinedFunctions[MAXFUNCS];
+char *userDefinedVars[MAXVARS];
+size_t userFuncCount = 0;
+size_t userVarCount = 0;
+
+int getBuiltIn(char *func, ast_node *node); // checks if a function is built in to zippy
+void expressFunction(char *function, ast_node *node); // puts a string into the ast_node struct
+ast_node *tokenize(char *input); // does the tokenization
+void printAst(ast_node *root); // shows an ast and its sub nodes
+
+int getBuiltIn(char *func, ast_node *node){ // returns NIL when the function doesn't exist
 	if (strcmp(func, "defun") == 0){
 		node->func->builtInFunc= DEFUN;
 	}else if (strcmp(func, "let") == 0){
@@ -53,6 +65,8 @@ int getBuiltIn(char *func, ast_node *node){
 		node->func->builtInFunc = EXIT;
 	}else if (strcmp(func, "return") == 0){
 		node->func->builtInFunc = RETURN;
+	}else if (strcmp(func, "write") == 0){
+		node->func->builtInFunc = WRITE;
 	}else {
 		node->func->builtInFunc = NIL;
 		return -1;
@@ -60,24 +74,10 @@ int getBuiltIn(char *func, ast_node *node){
 	return 0;
 }
 
-ll_t *getUserDefinedFunction(char *function);
-
 void expressFunction(char *function, ast_node *node){
 	node->func = CheckedMalloc(sizeof(functionToken));
-	if ((getBuiltIn(function, node)) == -1){
-		//node->func->func = getUserDefinedFunction(function);
-	} else {
-		node->func->func = NULL;
-	}
-}
-
-void expressArgs(char **args, ast_node *node){
-	for (int i = 0; i < MAXARGS; i++){
-		if (node->args[i] == NULL){
-			memcpy(node->literalArgs[i], args[i], strlen(args[i]) + 1);
-		}
-	}
-	
+	if ((getBuiltIn(function, node)) == NIL) // non user defined function
+		node->func->name = function;
 }
 
 ast_node *tokenize(char *input){
@@ -113,7 +113,6 @@ ast_node *tokenize(char *input){
 		}
 		exp[i-2] = '\0';
 		exp = CheckedRealloc(exp, strlen(exp) + 1);
-		printf("%s\n", exp);
 	}else if (input[i] == '"'){
 		i++;
 		while (input[i] != '"') i++;
@@ -129,23 +128,60 @@ ast_node *tokenize(char *input){
 
 	function[i] = '\0';
 	function = CheckedRealloc(function, i);
-	printf("%s\n", function);
 
 	expressFunction(function, node);
 
-	i++;
-	args = Split(&input[i], ' ');
-	// need a length
-	expressArgs(args, node /* length */ );
+	char *tok;
+	tok = strtok(strstr(exp, " ") + 1, " ");
+	argCount = 0;
+	depth = 0;
+	do {
+		if (node->args[argCount] != NULL){
+			argCount++;
+		}
+		if (tok[0] != '(' && tok[strlen(tok)-1] != ')' && depth == 0){
+			if (node->args[argCount] == NULL){
+				node->literalArgs[argCount] = malloc(strlen(tok)+1);
+				node->literalArgs[argCount] = tok;
+			}
+			argCount++;
+		}
+		
+		if (tok[0] == '(') depth++;
+		if (tok[strlen(tok)-1] == ')') depth--;
+		tok = strtok(NULL, " ");
+	} while (tok != NULL);
 
-	free(exp);
+	if (strcmp(function, "set") == 0 || strcmp(function, "let") == 0){
+		char *varName; 
+		char *varType;
+		varName = strtok(node->literalArgs[0], ":");		
+		varType = strtok(NULL, ":");	
+		if (strcmp(varType, "function") == 0){
+			userDefinedFunctions[userFuncCount] = CheckedMalloc(25);
+			userDefinedFunctions[userFuncCount] = varName;
+			userFuncCount++;
+		}else {
+			userDefinedVars[userVarCount] = CheckedMalloc(15);
+			userDefinedVars[userVarCount] = varName;
+			userVarCount++;
+		}
+	}
+
+	CheckedFree(exp);
 
 	return node;
 }
 
-int main(){
-	char sample[] = "(+ (- 2 2) 1)";
-	ast_node *root = tokenize(sample);
-	printf("%d", root->args[0]->func->builtInFunc);
-	free(root);
+void printAst(ast_node *root){
+	printf("-----------\n");
+	if (root->func->builtInFunc == -1) printf("function: %s\n", root->func->name);
+	else printf("function (built in): %d\n", root->func->builtInFunc);
+	for (int i = 0; i < MAXARGS + 1; i++){
+		if (root->args[i] != NULL) printAst(root->args[i]);
+		else {
+			if (root->literalArgs[i] != NULL) printf("%s\n", root->literalArgs[i]);
+		}
+	}
+	printf("-----------\n");
 }

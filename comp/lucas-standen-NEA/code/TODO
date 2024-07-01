@@ -1,0 +1,10 @@
+MAKE LITERAL ARGS A UNION
+something like this
+union {
+	i32 i32Value;
+	u32 u32Value;
+	164 i32Value;
+	u64 u32Value;
+	char charValue;
+	float floatValue;
+}
