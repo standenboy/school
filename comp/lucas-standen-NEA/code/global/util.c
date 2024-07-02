@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <error.h>
+#include <ctype.h>
+
+#include "types.h"
+
 
 // functions for user
 void Die(); // brings down the program
@@ -70,4 +74,34 @@ void CheckedFreeALL(){
 			free(MEMptrs[i]);
 		}
 	}
+}
+
+I64 *isNum(char *str){
+	for (int i = 0; i < strlen(str); i++){
+		if (isdigit(str[i]) == 0 && str[i] != '-'){
+			return NULL;	
+		}
+	}
+	I64 *out = CheckedMalloc(sizeof(I64));
+	out->data = strtol(str, NULL, 10);
+	return out;
+}
+
+Float *isFloat(char *str){
+	for (int i = 0; i < strlen(str); i++){
+		if (isdigit(str[i]) == 0 && str[i] != '-' && str[i] != '.'){
+			return NULL;	
+		}
+	}
+	Float *out = CheckedMalloc(sizeof(Float));
+	out->data = strtod(str, NULL);
+	return out;
+}
+Char *isChar(char *str){
+	if (strlen(str) == 1){
+		Char *out = malloc(sizeof(Char));
+		out->data = str[0];
+		return out;
+	}
+	else return NULL;
 }

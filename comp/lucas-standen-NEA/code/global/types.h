@@ -1,15 +1,39 @@
 #include <stdint.h>
-#include "../ads/ll/ll.h"
 
 // int types
-typedef int32_t i32;
-typedef int64_t i64;
+typedef struct I32 {
+	int32_t data;
+} I32;
+
+typedef struct I64 {
+	int64_t data;
+} I64;
 
 // uint types
-typedef uint32_t u32;
-typedef uint64_t u64;
+typedef struct U32 {
+	uint32_t data;
+} U32;
 
-// char and float types are still called char and float so no typedef needed
+typedef struct U64 {
+	uint64_t data;
+} U64;
+
+typedef struct Char {
+	char data;
+} Char;
+
+typedef struct Float {
+	float data;
+} Float;
+
+typedef union litteral {
+	I32 *i32;
+	I64 *i64;
+	U32 *u32;
+	I64 *u64;
+	Char *ch;
+	Float *fl;
+} litteral;
 
 // built in functions
 typedef enum builtInFuncs {
@@ -58,7 +82,7 @@ typedef struct ast_node ast_node;
 
 typedef struct ast_node {
 	functionToken *func; // if it's not builtin then use this
-	char **literalArgs; // the args of the node, this will be an array of litteral values
+	litteral **literalArgs; // the args of the node, this will be an array of litteral values
 	ast_node **args; // the non litteral tokens
 	// if litteralArgs[x] is real then args[x] should be NULL, and vice versa
 } ast_node;

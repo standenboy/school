@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../global/types.h"
 #include "../global/util.h"
 
 char *ReadFile(char *fileName); // reads the file into a single var

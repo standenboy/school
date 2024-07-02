@@ -13,23 +13,23 @@ void *doCall(ast_node *node){
 		}
 	}
 
-	char *str = CheckedMalloc(20);
+	I64 *outi64 = CheckedMalloc(sizeof(I64));
 	switch (id){
 		case ADD:
-			snprintf(str, 20, "%d", atoi(node->literalArgs[0]) + atoi(node->literalArgs[1]));
-			return str;
+			outi64->data = node->literalArgs[0]->i64->data + node->literalArgs[1]->i64->data;
+			return outi64;
 			break;
 		case SUB:
-			snprintf(str, 20, "%d", atoi(node->literalArgs[0]) - atoi(node->literalArgs[1]));
-			return str;
+			outi64->data = node->literalArgs[0]->i64->data - node->literalArgs[1]->i64->data;
+			return outi64;
 			break;
 		case DIV:
-			snprintf(str, 20, "%d", atoi(node->literalArgs[0]) / atoi(node->literalArgs[1]));
-			return str;
+			outi64->data = node->literalArgs[0]->i64->data / node->literalArgs[1]->i64->data;
+			return outi64;
 			break;
 		case MUL:
-			snprintf(str, 20, "%d", atoi(node->literalArgs[0]) * atoi(node->literalArgs[1]));
-			return str;
+			outi64->data = node->literalArgs[0]->i64->data * node->literalArgs[1]->i64->data;
+			return outi64;
 			break;
 
 		case WRITE:
@@ -37,7 +37,7 @@ void *doCall(ast_node *node){
 			break;
 
 		case EXIT:
-			int returnValue = atoi(node->literalArgs[0]);
+			int returnValue = node->literalArgs[0]->i64->data;
 			CheckedFreeALL();
 			exit(returnValue);
 			break;

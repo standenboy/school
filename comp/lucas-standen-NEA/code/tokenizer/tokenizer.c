@@ -141,8 +141,14 @@ ast_node *tokenize(char *input){
 		}
 		if (tok[0] != '(' && tok[strlen(tok)-1] != ')' && depth == 0){
 			if (node->args[argCount] == NULL){
-				node->literalArgs[argCount] = malloc(strlen(tok)+1);
-				node->literalArgs[argCount] = tok;
+				node->literalArgs[argCount] = CheckedMalloc(sizeof(litteral));
+				if (isNum(tok) != NULL){
+					node->literalArgs[argCount]->i64 = isNum(tok);
+				} else if (isFloat(tok) != NULL){
+					node->literalArgs[argCount]->fl = isFloat(tok);
+				} else if (isChar(tok) != NULL){
+					node->literalArgs[argCount]->ch = isChar(tok);
+				}
 			}
 			argCount++;
 		}
@@ -151,22 +157,6 @@ ast_node *tokenize(char *input){
 		if (tok[strlen(tok)-1] == ')') depth--;
 		tok = strtok(NULL, " ");
 	} while (tok != NULL);
-
-	if (strcmp(function, "set") == 0 || strcmp(function, "let") == 0){
-		char *varName; 
-		char *varType;
-		varName = strtok(node->literalArgs[0], ":");		
-		varType = strtok(NULL, ":");	
-		if (strcmp(varType, "function") == 0){
-			userDefinedFunctions[userFuncCount] = CheckedMalloc(25);
-			userDefinedFunctions[userFuncCount] = varName;
-			userFuncCount++;
-		}else {
-			userDefinedVars[userVarCount] = CheckedMalloc(15);
-			userDefinedVars[userVarCount] = varName;
-			userVarCount++;
-		}
-	}
 
 	CheckedFree(exp);
 
