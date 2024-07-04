@@ -141,14 +141,8 @@ ast_node *tokenize(char *input){
 		}
 		if (tok[0] != '(' && tok[strlen(tok)-1] != ')' && depth == 0){
 			if (node->args[argCount] == NULL){
-				node->literalArgs[argCount] = CheckedMalloc(sizeof(litteral));
-				if (isNum(tok) != NULL){
-					node->literalArgs[argCount]->i64 = isNum(tok);
-				} else if (isFloat(tok) != NULL){
-					node->literalArgs[argCount]->fl = isFloat(tok);
-				} else if (isChar(tok) != NULL){
-					node->literalArgs[argCount]->ch = isChar(tok);
-				}
+				node->literalArgs[argCount] = giveType(tok);
+				
 			}
 			argCount++;
 		}
@@ -158,7 +152,7 @@ ast_node *tokenize(char *input){
 		tok = strtok(NULL, " ");
 	} while (tok != NULL);
 
-	CheckedFree(exp);
+	free(exp);
 
 	return node;
 }

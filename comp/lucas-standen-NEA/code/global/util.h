@@ -4,16 +4,18 @@
 #include <stdbool.h>
 #include <errno.h>
 #include <error.h>
+#include <ctype.h>
 
 
 // functions for user
 void Die(); // brings down the program
 void *CheckedMalloc(long size); // malloc checked with autofree
 void *CheckedRealloc(void *out, long size); // realloc checked with autofree
-int CheckedFree(void *ptr); // frees a pointer if it is in the array MEMptrs
-void CheckedFreeALL(); // frees all pointers in the array MEMptrs
 
-//checking functions, return NULL if the data is not of their type, else return the value.
+literal *giveType(char *tok); // gives a string a type
+
+// gives strings types
 I64 *isNum(char *str); 
 Float *isFloat(char *str);
 Char *isChar(char *str);
+literal *isArr(char *str);

@@ -4,10 +4,10 @@
 #include "../global/types.h"
 #include "../global/util.h"
 
-char *ReadFile(char *fileName); // reads the file into a single var
-char *Parse(char *fileName); // general parser function
+char *readFile(char *fileName); // reads the file into a single var
+char *parse(char *fileName); // general parser function
 
-char *ReadFile(char *filename){
+char *readFile(char *filename){
 	FILE *f = fopen(filename, "r");
 	if (f == NULL)
 		Die();	
@@ -16,7 +16,7 @@ char *ReadFile(char *filename){
 	size_t len = ftell(f);
 	rewind(f);
 	
-	char *out = malloc(len+1);
+	char *out = CheckedMalloc(len+1);
 
 	char c;
 	for (int i = 0; i < len; i++){
@@ -32,6 +32,13 @@ char *ReadFile(char *filename){
 	return out;
 }
 
-char *Parser(char *fileName){
-	return ReadFile(fileName);
+char *preProcess(char *contents){
+	char *out = CheckedMalloc(strlen(contents)+1);
+	for (char c = contents[0]; c != '\0'; c = (contents += 1)[0]){
+		printf("%c", c);
+	}
+}
+
+char *parser(char *fileName){
+	return readFile(fileName);
 }

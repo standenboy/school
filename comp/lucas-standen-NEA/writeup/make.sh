@@ -1,6 +1,8 @@
 #!/bin/bash
 
 for i in $(ls | grep .ms); do 
+	fmt -w80 -s coverpage.ms > shortend.ms
+	mv shortend.ms coverpage.ms
 	groff -ms $i -e -Tps > $(echo $i | cut -f1 -d".").ps
 	ps2pdf $(echo $i | cut -f1 -d".").ps 
 

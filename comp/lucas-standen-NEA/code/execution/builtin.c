@@ -13,32 +13,37 @@ void *doCall(ast_node *node){
 		}
 	}
 
-	I64 *outi64 = CheckedMalloc(sizeof(I64));
+	literal *out = CheckedMalloc(sizeof(literal));
 	switch (id){
 		case ADD:
-			outi64->data = node->literalArgs[0]->i64->data + node->literalArgs[1]->i64->data;
-			return outi64;
+    			out->i64 = CheckedMalloc(sizeof(I64));
+			out->i64->data = node->literalArgs[0]->i64->data + node->literalArgs[1]->i64->data;
+			return out;
 			break;
-		case SUB:
-			outi64->data = node->literalArgs[0]->i64->data - node->literalArgs[1]->i64->data;
-			return outi64;
+			
+	       	case SUB:
+    			out->i64 = CheckedMalloc(sizeof(I64));
+			out->i64->data = node->literalArgs[0]->i64->data - node->literalArgs[1]->i64->data;
+			return out;
 			break;
 		case DIV:
-			outi64->data = node->literalArgs[0]->i64->data / node->literalArgs[1]->i64->data;
-			return outi64;
+    			out->i64 = CheckedMalloc(sizeof(I64));
+			out->i64->data = node->literalArgs[0]->i64->data / node->literalArgs[1]->i64->data;
+			return out;
 			break;
 		case MUL:
-			outi64->data = node->literalArgs[0]->i64->data * node->literalArgs[1]->i64->data;
-			return outi64;
+    			out->i64 = CheckedMalloc(sizeof(I64));
+			out->i64->data = node->literalArgs[0]->i64->data * node->literalArgs[1]->i64->data;
+			return out;
 			break;
 
 		case WRITE:
-			fputs(node->literalArgs[0], stdout);
+			for (int i = 0; i < node->literalArgs[0]->arr->len; i++)
+				fputc(node->literalArgs[0]->arr->arr[i].ch->data, stdout);
 			break;
-
+		
 		case EXIT:
-			int returnValue = node->literalArgs[0]->i64->data;
-			CheckedFreeALL();
+			int returnValue = (int)node->literalArgs[0]->i64->data;
 			exit(returnValue);
 			break;
 	}

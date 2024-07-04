@@ -26,14 +26,21 @@ typedef struct Float {
 	float data;
 } Float;
 
-typedef union litteral {
+typedef struct Arr {
+	union literal *arr;
+	long len;
+} Arr;
+
+typedef union literal {
 	I32 *i32;
 	I64 *i64;
 	U32 *u32;
 	I64 *u64;
 	Char *ch;
 	Float *fl;
-} litteral;
+
+	Arr *arr;
+} literal;
 
 // built in functions
 typedef enum builtInFuncs {
@@ -82,7 +89,7 @@ typedef struct ast_node ast_node;
 
 typedef struct ast_node {
 	functionToken *func; // if it's not builtin then use this
-	litteral **literalArgs; // the args of the node, this will be an array of litteral values
+	literal **literalArgs; // the args of the node, this will be an array of literal values
 	ast_node **args; // the non litteral tokens
 	// if litteralArgs[x] is real then args[x] should be NULL, and vice versa
 } ast_node;

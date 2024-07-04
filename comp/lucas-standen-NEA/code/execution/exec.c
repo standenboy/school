@@ -2,17 +2,15 @@
 #include <stdlib.h>
 
 #include "./builtin.h"
-
 #include "../global/util.h"
-
 #include "../tokenizer/tokenizer.h"
 
 int main(){
-	char *sample = "(exit (+ 1 1))";
+	char *sample = "(write ['h','e','l','l','o','\n'])";
 	ast_node *root = tokenize(sample);
 	doCall(root);	
 
-	CheckedFreeALL();
-	
+	free(root);
+
 	return 0;
 }
