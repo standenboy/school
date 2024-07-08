@@ -1,3 +1,3 @@
-char *Parse(char *fileName); // general parser function
-char *ReadFile(char *fileName); // reads the file into a single var
-char *preProcess(char *contents);
+char *parser(char *fileName); // general parser function
+char *readFile(char *fileName); // reads the file into a single var
+FILE *preProcess(char *contents);

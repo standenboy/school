@@ -1,3 +1,1 @@
-finish the pre processor, it should read through a given input and convert all string litterals to arrays
-
-make it possible to index arrays
+add variables

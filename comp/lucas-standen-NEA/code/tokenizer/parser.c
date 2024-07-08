@@ -5,7 +5,7 @@
 #include "../global/util.h"
 
 char *readFile(char *fileName); // reads the file into a single var
-char *parse(char *fileName); // general parser function
+char *parser(char *fileName); // general parser function
 
 char *readFile(char *filename){
 	FILE *f = fopen(filename, "r");
@@ -32,13 +32,39 @@ char *readFile(char *filename){
 	return out;
 }
 
-char *preProcess(char *contents){
-	char *out = CheckedMalloc(strlen(contents)+1);
+FILE *preProcess(char *contents){
+	int currentSize = strlen(contents)+1;
+	char *out = CheckedMalloc(currentSize);
+
+	FILE *tmp = fopen("/tmp/zpy.tmp", "w+");
+
 	for (char c = contents[0]; c != '\0'; c = (contents += 1)[0]){
-		printf("%c", c);
+		if (c == '"'){
+			fprintf(tmp, "[");
+			c = (contents += 1)[0];
+			do {
+				fprintf(tmp, "'%c'", c);
+				if ((contents+1)[0] != '"') {
+					fprintf(tmp, ",");
+				}
+				c = (contents += 1)[0];
+			} while (c != '"');
+			c = (contents += 1)[0];
+			fprintf(tmp, "]");
+		}	
+		fprintf(tmp, "%c", c);
 	}
+	fprintf(tmp, "\n");
+	return tmp;
 }
 
 char *parser(char *fileName){
-	return readFile(fileName);
+	FILE *tmp = preProcess(readFile(fileName));
+	fseek(tmp, 0, SEEK_END);
+	int len = ftell(tmp);
+	rewind(tmp);
+	char *buf = CheckedMalloc(len);
+	fgets(buf, len, tmp);
+	fclose(tmp);
+	return buf;	
 }
