@@ -8,11 +8,6 @@
 #define MAXFUNCS 2048
 #define MAXVARS 8192
 
-char *userDefinedFunctions[MAXFUNCS];
-char *userDefinedVars[MAXVARS];
-size_t userFuncCount = 0;
-size_t userVarCount = 0;
-
 int getBuiltIn(char *func, ast_node *node); // checks if a function is built in to zippy
 void expressFunction(char *function, ast_node *node); // puts a string into the ast_node struct
 ast_node *tokenize(char *input); // does the tokenization
@@ -142,7 +137,6 @@ ast_node *tokenize(char *input){
 		if (tok[0] != '(' && tok[strlen(tok)-1] != ')' && depth == 0){
 			if (node->args[argCount] == NULL){
 				node->literalArgs[argCount] = giveType(tok);
-				
 			}
 			argCount++;
 		}

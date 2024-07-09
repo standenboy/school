@@ -19,3 +19,4 @@ I64 *isNum(char *str);
 Float *isFloat(char *str);
 Char *isChar(char *str);
 literal *isArr(char *str);
+Vdef *isVdef(char *str);

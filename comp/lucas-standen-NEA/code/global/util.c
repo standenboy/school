@@ -68,6 +68,7 @@ Char *isChar(char *str){
 		}
 		else return NULL;
 	}
+	return NULL;
 }
 
 Arr *isArr(char *str){
@@ -98,12 +99,37 @@ Arr *isArr(char *str){
 	}
 }
 
+Vdef *isVdef(char *str){
+	if (strchr(str, ':') != NULL){
+		Vdef *out = CheckedMalloc(sizeof(Vdef));
+		char *type;
+		type = strtok(str, ":");	
+		if (strcmp(type, "i64") == 0) out->type = TI64;
+		else if (strcmp(type, "i32") == 0) out->type = TI32;
+		else if (strcmp(type, "u64") == 0) out->type = TU64;
+		else if (strcmp(type, "u32") == 0) out->type = TU32;
+
+		else if (strcmp(type, "char") == 0) out->type = TChar;
+		else if (strcmp(type, "float") == 0) out->type = Tfloat;
+		// do something with arrays here
+		else {
+			fprintf(stderr, "%s is not a valid data type\n", type);
+			Die();
+		}
+
+		out->id = strtok(NULL, ":");
+		return out;
+	}
+	return NULL;
+}
+
 literal *giveType(char *tok){
 	literal *out = CheckedMalloc(sizeof(literal));
 	Arr *arr = isArr(tok);
 	I64 *i64 = isNum(tok);
 	Float *fl = isFloat(tok);
 	Char *ch = isChar(tok);
+	Vdef *vdef = isVdef(tok);
 
 	if (arr != NULL){
 		out->arr = arr;
@@ -113,6 +139,8 @@ literal *giveType(char *tok){
 		out->fl = fl;
 	} else if (ch != NULL){
 		out->ch = ch;
+	}else if (vdef != NULL){
+		out->vdef = vdef;
 	} else {
 		fprintf(stderr, "data %s could not be typed\n", tok);
 		errno = 22;

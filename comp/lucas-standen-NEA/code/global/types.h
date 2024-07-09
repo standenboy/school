@@ -1,5 +1,17 @@
 #include <stdint.h>
 
+typedef enum types {
+	TI32 = 0,
+	TI64 = 1,
+	TU32 = 2,
+	TU64 = 3,
+
+	TChar = 4,
+	Tfloat = 5,
+	TArr = 6,
+	TVDef = 7,
+} types;
+
 // int types
 typedef struct I32 {
 	int32_t data;
@@ -31,6 +43,11 @@ typedef struct Arr {
 	long len;
 } Arr;
 
+typedef struct Vdef {
+	char *id;
+	types type;	
+} Vdef;
+
 typedef union literal {
 	I32 *i32;
 	I64 *i64;
@@ -40,6 +57,7 @@ typedef union literal {
 	Float *fl;
 
 	Arr *arr;
+	Vdef *vdef;
 } literal;
 
 // built in functions
