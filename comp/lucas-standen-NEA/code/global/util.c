@@ -17,8 +17,8 @@ literal *giveType(char *tok);
 
 
 void Die(){
-	perror("zpy parser");
-	exit(errno);
+	fprintf(stderr, "error occured, bringing down the program\n");
+	exit(1);
 }
 
 void *CheckedMalloc(long size){
@@ -103,7 +103,10 @@ Vdef *isVdef(char *str){
 	if (strchr(str, ':') != NULL){
 		Vdef *out = CheckedMalloc(sizeof(Vdef));
 		char *type;
-		type = strtok(str, ":");	
+
+		out->id = strtok(str, ":");
+		
+		type = strtok(NULL, ":");	
 		if (strcmp(type, "i64") == 0) out->type = TI64;
 		else if (strcmp(type, "i32") == 0) out->type = TI32;
 		else if (strcmp(type, "u64") == 0) out->type = TU64;
@@ -117,7 +120,6 @@ Vdef *isVdef(char *str){
 			Die();
 		}
 
-		out->id = strtok(NULL, ":");
 		return out;
 	}
 	return NULL;
@@ -143,7 +145,6 @@ literal *giveType(char *tok){
 		out->vdef = vdef;
 	} else {
 		fprintf(stderr, "data %s could not be typed\n", tok);
-		errno = 22;
 		Die();
 	}
 	return out;

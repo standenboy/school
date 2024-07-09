@@ -6,7 +6,7 @@
 #include "../tokenizer/tokenizer.h"
 
 int main(){
-	char *sample = "(write ['h','e','l','l','o','\n'])";
+	char *sample = "(let a:i64 5)";
 	ast_node *root = tokenize(sample);
 	doCall(root);	
 

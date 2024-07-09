@@ -3,20 +3,23 @@
 #include "../global/util.h"
 #include "../tokenizer/tokenizer.h"
 
-char *userVars[MAXVARS];
+var *userVars[MAXVARS];
 long varCount = 0;
 
-literal *newVar(char *name, literal *value){
-	userVars[varCount] = name;
-	varCount++;
-	literal *out = CheckedMalloc(sizeof(literal));
-	
+void newVar(Vdef *definiton, literal *value){
+	var *new = CheckedMalloc(sizeof(var));
+	new->type = definiton->type;
+	new->id = definiton->id;
+	new->value = value;
+	userVars[varCount] = new;
 }
 
-literal *toLiteral(char *str){
-	for (int i = 0; i < userVarCount; i++){
-		if (strcmp(str, userDefinedVars[i]) == 0){
-			
+literal *getVarCalled(char *name){
+	for (int i = 0; i < varCount; i++){
+		if (strcmp(userVars[i]->id, name)){
+			return userVars[i]->value;
 		}
 	}
+	printf("no such variable %s\n", name);
+	return NULL;
 }

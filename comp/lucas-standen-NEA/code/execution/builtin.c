@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "../global/types.h"
+
+#include "vars.h"
+
 #include "../global/util.h"
 
 #define MAXARGS 8
@@ -41,10 +43,18 @@ void *doCall(ast_node *node){
 			for (int i = 0; i < node->literalArgs[0]->arr->len; i++)
 				fputc(node->literalArgs[0]->arr->arr[i].ch->data, stdout);
 			break;
+
+		case LET:
+			newVar(node->literalArgs[0]->vdef, node->literalArgs[1]);
+			break;
 		
 		case EXIT:
-			int returnValue = (int)node->literalArgs[0]->i64->data;
-			exit(returnValue);
+			exit((int)node->literalArgs[0]->i64->data);
+			break;
+
+		default:
+			fprintf(stderr, "command not implemented");
+			exit(1);
 			break;
 	}
 }

@@ -60,6 +60,12 @@ typedef union literal {
 	Vdef *vdef;
 } literal;
 
+typedef struct var {
+	literal *value;
+	types type;
+	char *id;
+} var;
+
 // built in functions
 typedef enum builtInFuncs {
 	// general

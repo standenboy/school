@@ -126,8 +126,11 @@ ast_node *tokenize(char *input){
 
 	expressFunction(function, node);
 
-	char *tok;
-	tok = strtok(strstr(exp, " ") + 1, " ");
+	char *tok, *saveptr, *expptr = exp;
+	
+	exp = strstr(exp, " ");
+	tok = strtok_r(exp, " ", &saveptr);
+
 	argCount = 0;
 	depth = 0;
 	do {
@@ -143,10 +146,10 @@ ast_node *tokenize(char *input){
 		
 		if (tok[0] == '(') depth++;
 		if (tok[strlen(tok)-1] == ')') depth--;
-		tok = strtok(NULL, " ");
+		tok = strtok_r(NULL, " ", &saveptr);
 	} while (tok != NULL);
 
-	free(exp);
+	free(expptr);
 
 	return node;
 }
