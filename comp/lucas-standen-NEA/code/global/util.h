@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <error.h>
-#include <ctype.h>
-
 
 // functions for user
 void Die(); // brings down the program

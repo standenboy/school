@@ -104,7 +104,9 @@ Vdef *isVdef(char *str){
 		Vdef *out = CheckedMalloc(sizeof(Vdef));
 		char *type;
 
-		out->id = strtok(str, ":");
+		char *tmp = strtok(str, ":");
+		out->id = CheckedMalloc(strlen(tmp)+1);
+		memcpy(out->id, tmp, strlen(tmp)+1);
 		
 		type = strtok(NULL, ":");	
 		if (strcmp(type, "i64") == 0) out->type = TI64;

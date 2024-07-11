@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../global/types.h"
 #include "../global/util.h"
-
-char *readFile(char *fileName); // reads the file into a single var
-char *parser(char *fileName); // general parser function
 
 char *readFile(char *filename){
 	FILE *f = fopen(filename, "r");
@@ -58,6 +56,28 @@ FILE *preProcess(char *contents){
 	return tmp;
 }
 
+char **getExpressions(char *file){
+	int depth = 0;
+	char *str = CheckedMalloc(strlen(file)+1);
+	int pos = 0;
+	for (int i = 0; i < strlen(file); i++){
+		str[pos] = str[i];
+		pos++;
+		if (file[i] == '(')
+			depth++;
+		if (file[i] == ')')
+			depth--;
+
+		if (depth == 0) {
+			str[pos] = '\0';
+			printf("%s\n", str);
+			pos = 0;
+		}
+	}
+
+	return NULL;
+}
+
 char *parser(char *fileName){
 	FILE *tmp = preProcess(readFile(fileName));
 	fseek(tmp, 0, SEEK_END);
@@ -66,5 +86,6 @@ char *parser(char *fileName){
 	char *buf = CheckedMalloc(len);
 	fgets(buf, len, tmp);
 	fclose(tmp);
+	getExpressions(buf);
 	return buf;	
 }
