@@ -57,11 +57,13 @@ FILE *preProcess(char *contents){
 }
 
 char **getExpressions(char *file){
+	char **code = CheckedMalloc((strlen(file)/2)*sizeof(char *));
+	int counter = 0;
 	int depth = 0;
 	char *str = CheckedMalloc(strlen(file)+1);
 	int pos = 0;
 	for (int i = 0; i < strlen(file); i++){
-		str[pos] = str[i];
+		str[pos] = file[i];
 		pos++;
 		if (file[i] == '(')
 			depth++;
@@ -71,14 +73,16 @@ char **getExpressions(char *file){
 		if (depth == 0) {
 			str[pos] = '\0';
 			printf("%s\n", str);
+			code[counter] = str;
+			counter++;
 			pos = 0;
 		}
 	}
-
-	return NULL;
+	return code;
+	
 }
 
-char *parser(char *fileName){
+char **parser(char *fileName){
 	FILE *tmp = preProcess(readFile(fileName));
 	fseek(tmp, 0, SEEK_END);
 	int len = ftell(tmp);
@@ -86,6 +90,5 @@ char *parser(char *fileName){
 	char *buf = CheckedMalloc(len);
 	fgets(buf, len, tmp);
 	fclose(tmp);
-	getExpressions(buf);
-	return buf;	
+	return getExpressions(buf);
 }

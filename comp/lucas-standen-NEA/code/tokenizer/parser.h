@@ -1,1 +1,1 @@
-char *parser(char *fileName); // general parser function
+char **parser(char *fileName); // general parser function

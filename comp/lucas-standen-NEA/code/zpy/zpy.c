@@ -2,6 +2,7 @@
 
 #include "../tokenizer/parser.h"
 #include "../global/types.h"
+#include "../tokenizer/tokenizer.h"
 #include "../global/util.h"
 
 int main(int argc, char **argv){
@@ -9,6 +10,10 @@ int main(int argc, char **argv){
 		printf("repl not yet implemented\n");
 		Die();
 	}
-	parser(argv[1]);
+	char **file = parser(argv[1]);
+
+	for (int i = 0; i < 10; i++){
+		printf("%s\n", file[i]);
+	}	
 	return 0;
 }
