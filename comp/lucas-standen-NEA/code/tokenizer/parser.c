@@ -56,7 +56,7 @@ FILE *preProcess(char *contents){
 	return tmp;
 }
 
-char **getExpressions(char *file){
+char **getExpressions(char *file){ // this doesn't work because str gets overwritten which changes the data stored at it's pointer, memcpy should be used
 	char **code = CheckedMalloc((strlen(file)/2)*sizeof(char *));
 	int counter = 0;
 	int depth = 0;
