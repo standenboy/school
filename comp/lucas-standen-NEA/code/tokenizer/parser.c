@@ -57,7 +57,7 @@ FILE *preProcess(char *contents){
 }
 
 char **getExpressions(char *file){ // this doesn't work because str gets overwritten which changes the data stored at it's pointer, memcpy should be used
-	char **code = CheckedMalloc((strlen(file)/2)*sizeof(char *));
+	char **code = CheckedMalloc(strlen(file)/4);
 	int counter = 0;
 	int depth = 0;
 	char *str = CheckedMalloc(strlen(file)+1);
@@ -73,7 +73,8 @@ char **getExpressions(char *file){ // this doesn't work because str gets overwri
 		if (depth == 0) {
 			str[pos] = '\0';
 			printf("%s\n", str);
-			code[counter] = str;
+			code[counter] = malloc(strlen(str)+1);
+			memcpy(code[counter], str, strlen((str)+1));
 			counter++;
 			pos = 0;
 		}
