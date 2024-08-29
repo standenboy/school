@@ -5,7 +5,12 @@
 
 #include "util.h"
 
-int countChars(char *s, char c){
+typedef struct strings {
+	char **strs;
+	int count;
+} strings;
+
+int countChars(char *s, char c){ // counts the number of times c ocurrs in s
 	int count = 0;
 	for (int i = 0; i < strlen(s); i++){
 		if (s[i] == c) count++;	
@@ -13,7 +18,7 @@ int countChars(char *s, char c){
 	return count;
 }
 
-char **parse(FILE *f){
+strings *parse(FILE *f){
 	fseek(f, 0, SEEK_END);
 	int len = ftell(f);
 	rewind(f);
@@ -43,9 +48,12 @@ char **parse(FILE *f){
 			tokCount++;
 		}	
 	}
+	strings *strs = malloc(sizeof(strings));
+	strs->strs = tokens;
+	strs->count = tokCount;
 	
 	free(line);
 	free(contents);
 
-	return tokens;
+	return strs;
 }

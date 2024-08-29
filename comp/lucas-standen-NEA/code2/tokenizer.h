@@ -1,5 +1,5 @@
 typedef struct astNode {
-	char *funcName;
+	char *func;
 	char *args[8];
 	struct astNode *children[8];
 } astNode;

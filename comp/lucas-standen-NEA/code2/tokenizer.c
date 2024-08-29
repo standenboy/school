@@ -5,38 +5,67 @@
 #include "util.h"
 
 typedef struct astNode {
-	char *funcName;
+	char *func;
 	char *args[8];
 	struct astNode *children[8];
 } astNode;
 
-astNode *tokenize(char *line){
+int readuntil(char *src, char c, char *dst){ // returns how many chars read, will read until 
+					     // the end of an expression, not the first 
+					     // occurence
+	int ptr = 0;
+	int depth = 0;
+	int i = 0;
+
+	while ((src[i] != c || depth != 0) && src[i] != '\0'){
+		if (c == ')'){
+			if (src[i] == '('){
+				depth++;
+			}else if (src[i] == ')'){
+				depth--;
+			}
+		}
+		dst[ptr] = src[i];
+		ptr++;
+		i++;
+	}
+	
+	dst[ptr] = '\0';
+
+	return i;
+}
+
+
+astNode *tokenize(char *line){ // asume the first set of brackets have been stripped
 	astNode *head = malloc(sizeof(astNode));
 
 	int depth = 0;
-	int charCount = 0;
 	int argCount = 0;
+	int i = 0;
 
-
-	for (int i = 0; i < strlen(line); i++){
-		switch (line[i]){
-			case ' ':
+top:
+	for (;i < strlen(line); i++){
+		char *chunk = malloc(strlen(line));
+		if (line[i] == ')'){ 
+			i++; 
+			goto top;
+		}
+		if (line[i] == '('){
+			i++;
+			i += readuntil(&line[i], ')', chunk); // reads a nested function
+			i++;
+			head->children[argCount] = tokenize(chunk);
+			argCount++;
+		}else { 
+			i += readuntil(&line[i], ' ', chunk); // reads func name or arg
+			if (head->func == NULL){
+				head->func = chunk;
+			} else{
+				head->args[argCount] = chunk;
 				argCount++;
-				charCount = 0;
-				break;
-			case '(':
-				1
-			default:
-				if (argCount >= 1){
-					head->args[argCount][charCount] = line[i];
-					charCount++;
-				}
-				else {
-					head->funcName[charCount] = line[i];
-					charCount++;
-				}
+			}
 		}
 	}
 
-	return NULL;
+	return head;
 }
