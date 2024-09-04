@@ -1,4 +1,11 @@
-.2C
+.TL
+The solution To bad code
+.AU
+Lucas Standen
+.AI
+7949
+.AB
+
 .NH 1
 Reading this document
 .LP

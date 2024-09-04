@@ -1,19 +1,22 @@
-CFLAGS= -O3 
+CC = gcc
+CFLAGS = -O0 -ggdb
 
-all: _zpy _parser _tokenizer _util _debug
-	cc zpy.o parser.o tokenizer.o util.o debug.o -o zpy ${CFLAGS}
+all: _zpy _parser _tokenizer _comp _util _debug
+	${CC} zpy.o parser.o tokenizer.o comp.o util.o debug.o -o zpy ${CFLAGS}
 
 _zpy: zpy.c
-	cc zpy.c -c -o zpy.o ${CFLAGS}
+	${CC} zpy.c -c -o zpy.o ${CFLAGS}
 _parser: parser.c
-	cc parser.c -c -o parser.o ${CFLAGS}
+	${CC} parser.c -c -o parser.o ${CFLAGS}
 _tokenizer: tokenizer.c
-	cc tokenizer.c -c -o tokenizer.o ${CFLAGS}
+	${CC} tokenizer.c -c -o tokenizer.o ${CFLAGS}
+_comp: comp.c
+	${CC} comp.c -c -o comp.o ${CFLAGS}
 _util: util.c
-	cc util.c -c -o util.o ${CFLAGS}
+	${CC} util.c -c -o util.o ${CFLAGS}
 
 _debug:
-	cc debug.c -c -o debug.o ${CFLAGS}
+	${CC} debug.c -c -o debug.o ${CFLAGS}
 
 clean:
 	rm -rf zpy *.o

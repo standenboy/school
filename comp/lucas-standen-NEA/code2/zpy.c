@@ -3,7 +3,7 @@
 
 #include "util.h"
 #include "parser.h"
-#include "tokenizer.h"
+#include "comp.h"
 
 #include "debug.h"
 
@@ -20,12 +20,11 @@ int main(int argc, char **argv){
 	if (stringTokens == NULL)
 		die("couldn't parse file, is it formated properly?");
 
-
-
 	for (int i = 0; i < stringTokens->count; i++){
 		stringTokens->strs[i]++;
-		stringTokens->strs[i][strlen(stringTokens->strs[i])] = '\0';
+		stringTokens->strs[i][strlen(stringTokens->strs[i]) - 1] = '\0';
 		astNode *line = tokenize(stringTokens->strs[i]);
+		compile(line);
 	}
 	
 	
