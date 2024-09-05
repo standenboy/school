@@ -1,4 +1,4 @@
-CC = gcc
+CC = cc
 CFLAGS = -O0 -ggdb
 
 all: _zpy _parser _tokenizer _comp _util _debug

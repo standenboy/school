@@ -1,9 +1,6 @@
+(let a:int (+ 65 2))
+(symbol putchar int c:int)
 (defun main int)
-(let i:int 10)
-(let a:int 10)
-
-(if (= i a))
-(write a)
-(endif)
+(putchar a)
 
 (endfun)

@@ -1,4 +1,4 @@
 all:
-	exec ./make.sh
+	exec sh ./make.sh
 clean:
 	rm -rf ./*.pdf

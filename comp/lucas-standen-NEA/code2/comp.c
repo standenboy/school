@@ -12,11 +12,11 @@ char *names[] = {
 	"if", // takes a condition // 4
 	"endif", // takes no args  // 5
 	"elif", // same as if, but only executes if the prev statment didnt // 6
-	"else", // its else! //
+	"else", // its else! // 7
 	"for", // takes a iterator and type, a condition, and an increment // 8
 	"endfor", // takes no args // 9
 	"write", // takes an int and puts it on the screen // 10
-	"symbol",
+	"symbol", // takes a name and return type and args
 	"+",
 	"-",
 	"*",
@@ -33,7 +33,7 @@ char *names[] = {
 	"return",
 };
 
-void vartypeToC(char *str){
+void vartypeToC(char *str, FILE *f){
 	char *name = malloc(strlen(str));
 	char *type = malloc(strlen(str));
 	
@@ -57,12 +57,12 @@ void vartypeToC(char *str){
 	}
 	type[j] = '\0';
 
-	printf("%s %s", type, name);
+	fprintf(f, "%s %s", type, name);
 	free(type);
 	free(name);
 }
 
-char *getVarName(char *exp){
+char *getVarName(char *exp, FILE *f){
 	char *out = malloc(strlen(exp));
 	memcpy(out, exp, strlen(exp));
 	char *pos = strchr(out, ':');
@@ -70,68 +70,90 @@ char *getVarName(char *exp){
 	return out;
 }
 
-void reversepolishToC(astNode *exp){
-	printf("%s ", exp->args[0]);
-	if (exp->func[0] == '=') printf("==");
-	else printf("%s", exp->func);
-	printf(" %s", exp->args[1]);
+void reversepolishToC(astNode *exp, FILE *f){
+	fprintf(f, "%s ", exp->args[0]);
+	if (exp->func[0] == '=') fprintf(f, "==");
+	else fprintf(f, "%s", exp->func);
+	fprintf(f, " %s", exp->args[1]);
 }
 
-void compile(astNode *node){
+void compile(astNode *node, FILE *f){
 	if (strcmp(names[0], node->func) == 0){
-		printf("%s %s(", node->args[1], node->args[0]);
+		fprintf(f, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
-			vartypeToC(node->args[i]);
+			vartypeToC(node->args[i], f);
 			i++;
 		}
-		printf("){\n");
+		fprintf(f, "){\n");
 	}
 	else if (strcmp(names[1], node->func) == 0){
-		printf("\n}\n");
+		fprintf(f, "\n}\n");
 	}
 	else if (strcmp(names[2], node->func) == 0){
-		printf("const ");
-		vartypeToC(node->args[0]);
-		printf(" = %s;\n", node->args[1]);
+		fprintf(f, "const ");
+		vartypeToC(node->args[0], f);
+		fprintf(f, " = %s;\n", node->args[1]);
 	}
 	else if (strcmp(names[3], node->func) == 0){
-		vartypeToC(node->args[0]);
-		printf(" = %s;\n", node->args[1]);
+		vartypeToC(node->args[0], f);
+		fprintf(f, " = %s;\n", node->args[1]);
 	}
 	else if (strcmp(names[4], node->func) == 0){
-		printf("if (");
-		reversepolishToC(node->children[0]);
-		printf("){\n");
+		fprintf(f, "if (");
+		reversepolishToC(node->children[0], f);
+		fprintf(f, "){\n");
 	}
 	else if (strcmp(names[5], node->func) == 0){
-		printf("\n}\n");
+		fprintf(f, "\n}\n");
 	}
 	else if (strcmp(names[6], node->func) == 0){
-		printf("\n}\n");
-		printf("else if (");
-		reversepolishToC(node->children[0]);
-		printf("){\n");
+		fprintf(f, "\n}\n");
+		fprintf(f, "else if (");
+		reversepolishToC(node->children[0], f);
+		fprintf(f, "){\n");
 	}
 	else if (strcmp(names[7], node->func) == 0){
-		printf("\n}\n");
-		printf("else{");
+		fprintf(f, "\n}\n");
+		fprintf(f, "else{");
 	} 
 	else if (strcmp(names[8], node->func) == 0){
-		printf("for (");
-		vartypeToC(node->args[0]);
-		printf(" = 0;");
-		reversepolishToC(node->children[1]);
-		printf("; %s+=%s){", getVarName(node->args[0]), node->args[2]);
+		fprintf(f, "for (");
+		vartypeToC(node->args[0], f);
+		fprintf(f, " = 0;");
+		reversepolishToC(node->children[1], f);
+		fprintf(f, "; %s+=%s){", getVarName(node->args[0], f), node->args[2]);
 	} 
 	else if (strcmp(names[9], node->func) == 0){
-		printf("\n}\n");
+		fprintf(f, "\n}\n");
 	}
 	else if (strcmp(names[10], node->func) == 0){
-		printf("printf(\"");
-		printf("%%d\\n");
-		printf("\", %s);", node->args[0]);
+		fprintf(f, "printf(\"");
+		fprintf(f, "%%d\\n");
+		fprintf(f, "\", %s);", node->args[0]);
 		
 	}
+	else if (strcmp(names[11], node->func) == 0){
+		fprintf(f, "%s %s(", node->args[1], node->args[0]);
+		int i = 2;
+		while (node->args[i] != NULL){
+			vartypeToC(node->args[i], f);
+			i++;
+		}
+		fprintf(f, ");\n");
+	}
+	else if (strcmp(names[12], node->func) == 0){
+		reversepolishToC(node->children[0], f);
+	}
 
+	else {
+		fprintf(f, "%s(", node->func);
+		int i = 0;
+		while (node->args[i] != NULL){
+			fprintf(f, "%s", node->args[i]);
+			i++;
+		}
+		fprintf(f, ");\n");
+	}	
 }
+

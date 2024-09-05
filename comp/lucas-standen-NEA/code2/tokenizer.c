@@ -38,6 +38,11 @@ int readuntil(char *src, char c, char *dst){ // returns how many chars read, wil
 
 astNode *tokenize(char *line){ // asume the first set of brackets have been stripped
 	astNode *head = malloc(sizeof(astNode));
+	head->func = NULL;
+	for (int i = 0; i < 8; i++){
+		head->args[i] = NULL;
+		head->children[i] = NULL;
+	}	
 
 	int depth = 0;
 	int argCount = 0;

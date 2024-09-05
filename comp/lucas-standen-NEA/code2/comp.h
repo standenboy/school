@@ -1,2 +1,3 @@
 #include "tokenizer.h"
-void compile(astNode *node);
+#include <stdio.h>
+void compile(astNode *node, FILE *f);
