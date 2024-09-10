@@ -19,4 +19,4 @@ _debug:
 	${CC} debug.c -c -o debug.o ${CFLAGS}
 
 clean:
-	rm -rf zpy *.o
+	rm -rf zpy *.o *.core

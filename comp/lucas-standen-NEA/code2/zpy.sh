@@ -1,2 +1,3 @@
 #!/bin/sh
-./zpy $1 | cc -x c - -Wno-implicit -Wno-missing-declarations -o $2
+CC=cc
+./zpy $1 | ${CC} -x c - -Wno-implicit -Wno-missing-declarations -o $2

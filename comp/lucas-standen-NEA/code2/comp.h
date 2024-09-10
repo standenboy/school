@@ -1,3 +1,6 @@
 #include "tokenizer.h"
 #include <stdio.h>
-void compile(astNode *node, FILE *f);
+
+#define MAXOUTLEN 512
+void compile(astNode *node, char *out);
+

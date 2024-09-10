@@ -25,7 +25,10 @@ int main(int argc, char **argv){
 		stringTokens->strs[i]++;
 		stringTokens->strs[i][strlen(stringTokens->strs[i]) - 1] = '\0';
 		astNode *line = tokenize(stringTokens->strs[i]);
-		compile(line, stdout);
+		char *out = malloc(MAXOUTLEN);
+		compile(line, out);
+		printf("%s", out);
+		free(out);
 	}
 	
 	
