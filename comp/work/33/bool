@@ -1,0 +1,25 @@
+a+b+a+!b
+a+b+!b
+a+1
+1
+
+
+!(a+b)+(!a+c)
+!a.!b + !a+c
+!a+!b+c
+!(a.b) + c
+
+!d + !(e+!d)
+!d + !e.d
+!d + !e
+!(d.e)
+
+b.(a+!b)
+b.a + b.!b
+b.a + 0
+b.a
+
+(!a+a.b).!b
+!a.!b + !b.a.b
+!(a+b) + o
+!(a+b)

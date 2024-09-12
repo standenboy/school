@@ -1,0 +1,10 @@
+a) baud rate of 10, 20 / 2 bits per change
+b) 20
+
+a) baud rate of 100, 300 / 3 bits per change
+b) 300
+
+the bit rate is the same as the baudrate when the bitrate is equal to the number of bits per signal change
+
+the baud rate will be higher than the bitrate when the bitrate is lower than the number of bits per signal change
+
