@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "tokenizer.h"
 #include "appendsnprintf.h"
@@ -16,25 +17,27 @@ char *names[] = {
 	"endif", // takes no args  // 5
 	"elif", // same as if, but only executes if the prev statment didnt // 6
 	"else", // its else! // 7
-	"for", // takes a iterator and type, a condition, and an increment // 8
+	"for", // takes a iterator and type, a start point, a condition, and an increment // 8
 	"endfor", // takes no args // 9
-	"write", // takes an int and puts it on the screen // 10
-	"symbol", // takes a name and return type and args
-	"+",
-	"-",
-	"*",
-	"/",
-	"=",
-	"!=",
-	"<",
-	">",
-	"<=",
-	">=",
-	"cast",
-	"typeof",
-	"exit",
-	"return",
+	"symbol", // takes a name and return type and args // 10
+	// arithmetic
+	"+", // 11
+	"-", // 12
+	"*", // 13
+	"/", // 14
+	// comparison
+	"=", // 15
+	"!=", // 16
+	"<", // 17
+	">", // 18
+	"<=", // 19
+	">=", // 20
+
+	"exit", // 21
+	"return", // 22
 };
+
+char *compile(astNode *node);
 
 char *vartypeToC(char *str, char *out){
 	char *name = malloc(strlen(str));
@@ -60,7 +63,7 @@ char *vartypeToC(char *str, char *out){
 	}
 	type[j] = '\0';
 
-	char *outbuf = malloc(64);
+	char *outbuf = calloc(0, 64);
 	outbuf = appendsnprintf(outbuf, MAXOUTLEN, "%s %s", type, name);
 	out = appendsnprintf(out, MAXOUTLEN, "%s", outbuf);
 	free(type);
@@ -84,12 +87,25 @@ char *reversepolishToC(astNode *exp, char *out){
 	return out;
 }
 
+astNode *processChildren(astNode *node){
+	for (int i = 0; i < 8; i++){
+		if (node->children[i] != NULL){
+			node->args[i] = compile(node->children[i]);
+			node->children[i] = NULL;
+		}
+	}
+	return node;
+}
+
+
 char *compile(astNode *node){
-	char *out = malloc(MAXOUTLEN);
+	char *out = calloc(0, MAXOUTLEN);
+	node = processChildren(node);
 	if (strcmp(names[0], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
+			if (i != 2) out = appendsnprintf(out, MAXOUTLEN, ",", node->args[i]);
 			out = vartypeToC(node->args[i], out);
 			i++;
 		}
@@ -108,17 +124,14 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, " = %s;\n", node->args[1]);
 	}
 	else if (strcmp(names[4], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "if (");
-		out = reversepolishToC(node->children[0], out);
+		out = appendsnprintf(out, MAXOUTLEN, "if (%s", node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[5], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[6], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "}\n");
-		out = appendsnprintf(out, MAXOUTLEN, "else if (");
-		out = reversepolishToC(node->children[0], out);
+		out = appendsnprintf(out, MAXOUTLEN, "else if (%s", node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[7], node->func) == 0){
@@ -128,20 +141,14 @@ char *compile(astNode *node){
 	else if (strcmp(names[8], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "for (");
 		out = vartypeToC(node->args[0], out);
-		out = appendsnprintf(out, MAXOUTLEN, " = 0;");
-		out = reversepolishToC(node->children[1], out);
-		out = appendsnprintf(out, MAXOUTLEN, "; %s+=%s){", getVarName(node->args[0]), node->args[2]);
+		out = appendsnprintf(out, MAXOUTLEN, " = %s;", node->args[1]);
+		out = appendsnprintf(out, MAXOUTLEN, "%s", node->args[2]);
+		out = appendsnprintf(out, MAXOUTLEN, "; %s+=%s){", getVarName(node->args[0]), node->args[3]);
 	} 
 	else if (strcmp(names[9], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[10], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "printf(\"");
-		out = appendsnprintf(out, MAXOUTLEN, "%%d\\n");
-		out = appendsnprintf(out, MAXOUTLEN, "\", %s);", node->args[0]);
-		
-	}
-	else if (strcmp(names[11], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
@@ -150,19 +157,39 @@ char *compile(astNode *node){
 		}
 		out = appendsnprintf(out, MAXOUTLEN, ");\n");
 	}
-	else if (strcmp(names[12], node->func) == 0){
-		out = reversepolishToC(node->children[0], out);
-	}
-
+	else if (strcmp(names[21], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "exit(%s);\n", node->args[0]);
+	}	
+	else if (strcmp(names[22], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "return %s;\n", node->args[0]);
+	}	
+	
 	else {
+		// arithmetic operators and comparitors
+		for (int i = 0; i < 9; i++){
+			if (strcmp(names[11+i], node->func) == 0){
+				out = reversepolishToC(node, out);
+				goto end;
+			}
+		}
+
 		out = appendsnprintf(out, MAXOUTLEN, "%s(", node->func);
 		int i = 0;
 		while (node->args[i] != NULL){
+			if (i != 0) out = appendsnprintf(out, MAXOUTLEN, ",", node->args[i]);
 			out = appendsnprintf(out, MAXOUTLEN, "%s", node->args[i]);
 			i++;
 		}
-		out = appendsnprintf(out, MAXOUTLEN, ");\n");
+		out = appendsnprintf(out, MAXOUTLEN, ")");
 	}	
+end:
 	return out;
 }
 
+void Compile(astNode *line, FILE *f){
+	char *code = compile(line);
+	int len = strlen(code);
+	if (code[len-2] == ';' || code[len-2] == '{' || code[len-2] == '}')  fprintf(f, "%s", code);
+	else fprintf(f, "%s;\n", code);
+	free(code);
+}

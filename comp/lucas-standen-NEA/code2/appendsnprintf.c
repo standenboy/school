@@ -17,6 +17,7 @@ char *genfmt(char *buf, char *fmt){
 		i++;
 		j++;
 	}
+	out[i] = '\0';
 	return out;
 }
 
