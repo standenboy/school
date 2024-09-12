@@ -2,5 +2,5 @@
 #include <stdio.h>
 
 #define MAXOUTLEN 512
-void compile(astNode *node, char *out);
+char *compile(astNode *node);
 

@@ -1,3 +1,7 @@
+(symbol putchar int c:int)
+
 (defun main int)
-	(putchar a)
+	(if (= 1 1))
+	(putchar 65)
+	(endif)
 (endfun)
