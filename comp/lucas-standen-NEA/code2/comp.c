@@ -35,9 +35,15 @@ char *names[] = {
 
 	"exit", // 21
 	"return", // 22
+	
+	"alloc", // takes a size and allocates a block of it // 23
 };
 
 char *compile(astNode *node);
+
+char *tofree[256];
+int freeptr = 0;
+bool neededmemptr = false;
 
 char *vartypeToC(char *str, char *out){
 	char *name = malloc(strlen(str));
@@ -112,16 +118,25 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[1], node->func) == 0){
+		for (int i = 0; i < 256; i++){
+			if (tofree[i] != NULL){
+				out = appendsnprintf(out, MAXOUTLEN, "free(%s);\n", tofree[i]);
+			} else{
+				for (int j = 0; j < 256; j++){
+					tofree[j] = NULL;
+				}
+				freeptr = 0;
+				break;
+			}
+		}
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[2], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "const ");
 		out = vartypeToC(node->args[0], out);
 		out = appendsnprintf(out, MAXOUTLEN, " = %s;\n", node->args[1]);
 	}
 	else if (strcmp(names[3], node->func) == 0){
-		out = vartypeToC(node->args[0], out);
-		out = appendsnprintf(out, MAXOUTLEN, " = %s;\n", node->args[1]);
+		out = appendsnprintf(out, MAXOUTLEN, "%s = %s;\n", node->args[0], node->args[1]);
 	}
 	else if (strcmp(names[4], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "if (%s", node->args[0]);
@@ -152,6 +167,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
+			if (i != 2) out = appendsnprintf(out, MAXOUTLEN, ",", node->args[i]);
 			out = vartypeToC(node->args[i], out);
 			i++;
 		}
@@ -162,6 +178,10 @@ char *compile(astNode *node){
 	}	
 	else if (strcmp(names[22], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "return %s;\n", node->args[0]);
+	}	
+	else if (strcmp(names[23], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "calloc(0, %s)", node->args[0]);
+		neededmemptr = true;
 	}	
 	
 	else {
@@ -188,6 +208,11 @@ end:
 
 void Compile(astNode *line, FILE *f){
 	char *code = compile(line);
+	if (neededmemptr == true){
+		tofree[freeptr] = getVarName(line->args[0]);
+		freeptr++;
+		neededmemptr = false;
+	}
 	int len = strlen(code);
 	if (code[len-2] == ';' || code[len-2] == '{' || code[len-2] == '}')  fprintf(f, "%s", code);
 	else fprintf(f, "%s;\n", code);

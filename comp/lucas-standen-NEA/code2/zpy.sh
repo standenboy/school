@@ -1,3 +1,4 @@
 #!/bin/sh
 CC=cc
-./zpy $1 | ${CC} -O3 -x c - -Wno-implicit -Wno-missing-declarations -o $2
+warnings="-Wno-builtin-declaration-mismatch -Wno-implicit -Wno-missing-declarations" 
+./zpy $1 | ${CC} ${warnings} -x c - -o $2 

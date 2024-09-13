@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -O3
+CFLAGS = -O0 -ggdb
 
 all: _zpy _parser _tokenizer _comp _appendsnprintf _util _debug
 	${CC} zpy.o parser.o tokenizer.o comp.o appendsnprintf.o util.o debug.o -o zpy ${CFLAGS}
