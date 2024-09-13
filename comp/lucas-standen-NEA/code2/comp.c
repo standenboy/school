@@ -33,17 +33,31 @@ char *names[] = {
 	"<=", // 19
 	">=", // 20
 
-	"exit", // 21
-	"return", // 22
+	"exit", // takes an int // 21
+	"return", // takes an int // 22
 	
 	"alloc", // takes a size and allocates a block of it // 23
+	
+	"struct", // takes a name for the struct // 24
+	"endstruct", // takes nothing // 25
+	
+	"def", // takes a name and type does not asign // 26
+	
+	"sizeof", // takes a datatype and returns its size // 27
+	
+	"defunptr" // takes the same stuff as defun but outputs it in fuction ptr form 
 };
 
+// function prototype for recursion
 char *compile(astNode *node);
 
+// globals for memory management
 char *tofree[256];
 int freeptr = 0;
 bool neededmemptr = false;
+
+// globals for stucts
+char *structname;
 
 char *vartypeToC(char *str, char *out){
 	char *name = malloc(strlen(str));
@@ -118,17 +132,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[1], node->func) == 0){
-		for (int i = 0; i < 256; i++){
-			if (tofree[i] != NULL){
-				out = appendsnprintf(out, MAXOUTLEN, "free(%s);\n", tofree[i]);
-			} else{
-				for (int j = 0; j < 256; j++){
-					tofree[j] = NULL;
-				}
-				freeptr = 0;
-				break;
-			}
-		}
+		
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[2], node->func) == 0){
@@ -177,12 +181,38 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "exit(%s);\n", node->args[0]);
 	}	
 	else if (strcmp(names[22], node->func) == 0){
+		for (int i = 0; i < 256; i++){
+			if (tofree[i] != NULL){
+				out = appendsnprintf(out, MAXOUTLEN, "free(%s);\n", tofree[i]);
+			} else{
+				for (int j = 0; j < 256; j++){
+					tofree[j] = NULL;
+				}
+				freeptr = 0;
+				break;
+			}
+		}
 		out = appendsnprintf(out, MAXOUTLEN, "return %s;\n", node->args[0]);
 	}	
 	else if (strcmp(names[23], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "calloc(0, %s)", node->args[0]);
 		neededmemptr = true;
 	}	
+	else if (strcmp(names[24], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "typedef struct %s %s;\n", node->args[0], node->args[0]);
+		out = appendsnprintf(out, MAXOUTLEN, "typedef struct %s {", node->args[0]);
+		structname = node->args[0];
+	}	
+	else if (strcmp(names[25], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "} %s", structname);
+		structname = NULL;
+	}	
+	else if (strcmp(names[26], node->func) == 0){
+		out = vartypeToC(node->args[0], out);
+	}	
+	else if (strcmp(names[27], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "sizeof(%s)", node->args[0]); 
+	}
 	
 	else {
 		// arithmetic operators and comparitors

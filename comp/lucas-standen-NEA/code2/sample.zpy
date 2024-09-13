@@ -1,22 +1,9 @@
-(symbol putchar int c:int)
-(symbol getchar int)
-
-(defun read char* str:char*)
-	(let count:int 0)
-	(for c:char (getchar) (!= c '\n') 0)
-		(set str[count] c)
-		(set c (getchar))
-		(set count (+ count 1))
-	(endfor)
-	(return str)
-(endfun)
+(struct ll)
+	(def data:void*)
+	(def next:ll*)
+(endstruct)
 
 (defun main int)
-	(let str:char* (alloc 10))
-
-	(set str (read str))
-
-	(for i:int 0 (< i 10) 1)
-		(putchar str[i])
-	(endfor)
+	(let node:ll* (alloc (sizeof ll*)))
+	(return 0)
 (endfun)
