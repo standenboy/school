@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "tokenizer.h"
+#include "util.h"
 #include "appendsnprintf.h"
 
 #define MAXOUTLEN 512
@@ -99,6 +100,13 @@ char *getVarName(char *exp){
 	return out;
 }
 
+char *getVarType(char *exp){
+	char *out = malloc(strlen(exp));
+	char *pos = strchr(exp, ':')+1;
+	memcpy(out, pos, strlen(pos) + 1);	
+	return out;
+}
+
 char *reversepolishToC(astNode *exp, char *out){
 	out = appendsnprintf(out, MAXOUTLEN, "%s ", exp->args[0]);
 	if (exp->func[0] == '=') out = appendsnprintf(out, MAXOUTLEN, "==");
@@ -125,7 +133,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
-			if (i != 2) out = appendsnprintf(out, MAXOUTLEN, ",", node->args[i]);
+			if (i != 2) out = appendsnprintf(out, MAXOUTLEN, ",");
 			out = vartypeToC(node->args[i], out);
 			i++;
 		}
@@ -212,6 +220,17 @@ char *compile(astNode *node){
 	}	
 	else if (strcmp(names[27], node->func) == 0){
 		out = appendsnprintf(out, MAXOUTLEN, "sizeof(%s)", node->args[0]); 
+	}
+	else if (strcmp(names[28], node->func) == 0){
+		out = appendsnprintf(out, MAXOUTLEN, "%s (*%s)", node->args[1], node->args[0]);
+		int i = 2;
+		while (node->args[i] != NULL){
+			if (i != 2) out = appendsnprintf(out, MAXOUTLEN, ",");
+			else out = appendsnprintf(out, MAXOUTLEN, "(");
+			out = appendsnprintf(out, MAXOUTLEN, "%s", getVarType(node->args[i]));
+			i++;
+		}
+		out = appendsnprintf(out, MAXOUTLEN, ")");
 	}
 	
 	else {

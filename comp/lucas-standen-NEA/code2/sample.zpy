@@ -1,9 +1,0 @@
-(struct ll)
-	(def data:void*)
-	(def next:ll*)
-(endstruct)
-
-(defun main int)
-	(let node:ll* (alloc (sizeof ll*)))
-	(return 0)
-(endfun)
