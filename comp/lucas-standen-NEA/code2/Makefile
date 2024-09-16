@@ -18,4 +18,4 @@ _util: util.c
 	${CC} util.c -c -o util.o ${CFLAGS}
 
 clean:
-	rm -rf zpy *.o *.core sample
+	rm -rf zpy *.o *.core sample out

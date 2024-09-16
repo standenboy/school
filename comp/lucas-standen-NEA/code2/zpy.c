@@ -1,18 +1,70 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "util.h"
 #include "parser.h"
 #include "comp.h"
+#include "appendsnprintf.h"
 
-#include "debug.h"
+
+char infilename[128];
+char outfilename[128];
+/*
+char libs[64][128];
+int libcount = 0;
+*/
+bool omitc = false;
+char compilerflags[64][128];
+int compilerflagscount = 0;
+
+void processargs(int argc, char **argv){
+	for (int i = 1; i < argc; i++){
+		if (argv[i][0] == '-'){
+			switch (argv[i][1]){
+				case 'o':
+					i++;
+					strcpy(outfilename, argv[i]);
+					break;
+				/*
+				case 'i': 
+					i++;
+					strcpy(libs[libcount], argv[i]);
+					libcount++;
+					break;
+				*/
+				case 'c':
+					omitc = true;
+					break;
+				case 'f':
+					i++;
+					strcpy(compilerflags[compilerflagscount], argv[i]);
+					compilerflagscount++;
+					break;
+				default:
+					die("unknown argument!");
+					break;
+			}
+		}else strcpy(infilename, argv[i]);
+	}
+}
 
 int main(int argc, char **argv){
-	if (argc < 2)
-		die("no input files!");
-	
-	FILE *f = fopen(argv[1], "r");
+	processargs(argc, argv);
+
+
+	FILE *f = fopen(infilename, "r");
 	if (f == NULL)
+		die("no such file or directory");
+	
+	FILE *fout;
+	if (omitc == false) {
+		fout = fopen("./tmp.zpy.c", "w");
+	}else {
+		fout = fopen(outfilename, "w");
+	}
+
+	if (fout == NULL)
 		die("no such file or directory");
 
 	strings *stringTokens = parse(f);
@@ -26,7 +78,19 @@ int main(int argc, char **argv){
 		stringTokens->strs[i][strlen(stringTokens->strs[i]) - 1] = '\0';
 		astNode *line = tokenize(stringTokens->strs[i]);
 			
-		Compile(line, stdout);
+		Compile(line, fout);
+	}
+	fclose(fout);
+	fclose(f);
+
+	if (omitc == false){
+		char *cmd = malloc(512);
+		snprintf(cmd, 512, "cc ./tmp.zpy.c -o %s ", outfilename);
+		for (int i = 0; i < compilerflagscount; i++){
+			cmd = appendsnprintf(cmd, 512, "%s ", compilerflags[i]);
+		}
+		system(cmd);
+		remove("./tmp.zpy.c");
 	}
 	
 	
