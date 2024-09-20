@@ -1,14 +1,24 @@
 * mon
-work on maths
+  work on maths
+  ** topics
+  focus alot on stats on mondays
 * tue
-work on comp sci cw
+  work on comp sci cw
+  ** topics
+  move towards a useable stdlib and then pkgmanager
 * wed
-work on maths
+  work on maths
+  ** topics
+  focus on some pure, mostly the harder stuff like exponentals and trig
 * thu
-break
+  break
 * fri
-electronics
+  electronics
+  ** topics
+  power suplys and audio is key
 * sat
-epu stuff
+  epu stuff
+  ** research until further notice
 * sun
-more maths
+  more maths
+  ** anything from the prior week

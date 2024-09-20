@@ -1,0 +1,35 @@
+Lucas standen electronics test 1 year 2
+
+1)a)i) in book
+1)a)ii) in book
+1)a)iii) in book
+1)b) in book
+
+2)a) in book
+2)b) in book
+2)c) in book
+2)c)i) in book
+2)c)ii) in book
+2)c)iii) in book
+
+3)a) in book
+3)b) The red LED will be on as the amp will be outputing 11V (see diagram for workings), which would mean that
+over the green led and resistor is only 1V which wont be enough to light the LED, however over the red LED and 
+resistor, is 11V which is enough to light the led
+3)c)i) in book
+3)c)ii) in book
+3)c)iii) R2 will recive a higher current than R1 as it has the higher resistance and it is in parralel with R1
+meaning the current splits between them proportional to resistance
+
+4)a) in book
+4)b)i) in book
+4)b)ii) a ripple counter will move upwards/downwards when the previce dtype has changed state, however a 
+syncrhronos counter will count using a logic system from the clock and other outputs, (avoids propigation 
+delay, and makes all outputs change at the same time whereas an asynchronos counter will change its outputs 
+change at different times)
+4)c) in book
+4)d) in book
+
+
+
+

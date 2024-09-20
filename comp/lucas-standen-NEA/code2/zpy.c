@@ -10,10 +10,8 @@
 
 char infilename[128];
 char outfilename[128];
-/*
 char libs[64][128];
 int libcount = 0;
-*/
 bool omitc = false;
 char compilerflags[64][128];
 int compilerflagscount = 0;
@@ -26,13 +24,12 @@ void processargs(int argc, char **argv){
 					i++;
 					strcpy(outfilename, argv[i]);
 					break;
-				/*
+				
 				case 'i': 
 					i++;
 					strcpy(libs[libcount], argv[i]);
 					libcount++;
 					break;
-				*/
 				case 'c':
 					omitc = true;
 					break;
@@ -71,7 +68,11 @@ int main(int argc, char **argv){
 
 	if (stringTokens == NULL)
 		die("couldn't parse file, is it formated properly?");
-
+	
+	fprintf(fout, "#include <zpylib.h>\n");
+	for (int i = 0; i < libcount; i++){
+		fprintf(fout, "#include <%s>\n", libs[i]);
+	}
 	
 	for (int i = 0; i < stringTokens->count; i++){
 		stringTokens->strs[i]++;
@@ -81,11 +82,10 @@ int main(int argc, char **argv){
 		Compile(line, fout);
 	}
 	fclose(fout);
-	fclose(f);
 
 	if (omitc == false){
 		char *cmd = malloc(512);
-		snprintf(cmd, 512, "cc ./tmp.zpy.c -o %s ", outfilename);
+		snprintf(cmd, 512, "cc ./tmp.zpy.c /usr/local/share/zpylib/*.o -o %s -I/usr/local/share/zpylib/include -Wno-implicit-function-declaration ", outfilename);
 		for (int i = 0; i < compilerflagscount; i++){
 			cmd = appendsnprintf(cmd, 512, "%s ", compilerflags[i]);
 		}

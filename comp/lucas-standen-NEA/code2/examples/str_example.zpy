@@ -1,0 +1,5 @@
+(defun main int)
+	(let str:string* (String "hello"))
+	(printchar str->_str[0])
+	(str->free str)
+(endfun)

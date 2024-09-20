@@ -1,0 +1,40 @@
+5)
+the circit should work at night as, the ldr will dawf the other resistor
+
+the circit will not work at day as the ldr is still 400 OHM's which is
+higher than the 100 OHM resistor
+
+because the bulb has a resistance of 100 OHM's it will not work as expected
+
+this will cause the bulb to never be properly on as the resistance in the bulbs branch
+will limit the voltage through it to be <100 OHM's and thus it wont get 6V over it
+
+to fix this a voltage follower can be place between the bulb and the potential divider
+to keep the impedances at the right locations
+
+(see book for details)
+6)a)i) in book
+6)a)ii) in book
+6)a)iii) when the switch is releases the voltage over the capacitor will be at 8.65 V
+this will mean the led is on.
+when it falls to 6V the capacitor will make the logic gate switch 3.34 seconds after the switch 
+is released, this will cause the not gate to switch and the led to be on
+6)b)i) in book
+6)b)ii) in book
+
+7)a) in book
+7)b)i) in book
+7)b)ii) in book
+7)b)iii) in book
+7)b)iv) in book
+7)b)v) in book
+
+8)a) in book
+8b) in book
+8)c)i) because it has a higher input imedance
+8)c)ii) in book
+8)c)iii) in book
+8)d)i) in book
+8)d)ii) to smooth the signal of noise
+8)d)iii) in book
+8)d)e) in book

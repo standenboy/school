@@ -1,21 +1,20 @@
 CC = cc
 CFLAGS = -O0 -ggdb
 
-all: _zpy _parser _tokenizer _comp _appendsnprintf _util 
-	${CC} zpy.o parser.o tokenizer.o comp.o appendsnprintf.o util.o -o zpy ${CFLAGS}
-
-_zpy: zpy.c
-	${CC} zpy.c -c -o zpy.o ${CFLAGS}
-_parser: parser.c
-	${CC} parser.c -c -o parser.o ${CFLAGS}
-_tokenizer: tokenizer.c
-	${CC} tokenizer.c -c -o tokenizer.o ${CFLAGS}
-_comp: comp.c
-	${CC} comp.c -c -o comp.o ${CFLAGS}
-_appendsnprintf: appendsnprintf.c
-	${CC} appendsnprintf.c -c -o appendsnprintf.o ${CFLAGS}
-_util: util.c
-	${CC} util.c -c -o util.o ${CFLAGS}
-
+all: 
+	${CC} *.c -c ${CFLAGS}
+	${CC} *.o -o zpy ${CFLAGS}
+	cd stdlib && make	
 clean:
-	rm -rf zpy *.o *.core sample out
+	rm -rf zpy *.o *.core sample out stdlib/*.o
+	cd stdlib && make clean
+
+install: all 
+	mkdir -p /usr/local/share/zpylib
+	mkdir -p /usr/local/share/zpylib/include
+	cp ./zpy /usr/local/bin/zpy
+
+	cd stdlib && make install
+
+uninstall: 
+	rm /usr/local/bin/zpy
