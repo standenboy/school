@@ -158,7 +158,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[6], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "else if (%s", node->args[0]);
+		out = appendsnprintf(out, MAXOUTLEN, "}else if (%s", node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[7], node->func) == 0){

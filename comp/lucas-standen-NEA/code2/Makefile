@@ -8,6 +8,7 @@ all:
 clean:
 	rm -rf zpy *.o *.core sample out stdlib/*.o
 	cd stdlib && make clean
+	cd examples && make clean
 
 install: all 
 	mkdir -p /usr/local/share/zpylib
@@ -15,6 +16,9 @@ install: all
 	cp ./zpy /usr/local/bin/zpy
 
 	cd stdlib && make install
+
+example: all
+	cd examples && make
 
 uninstall: 
 	rm /usr/local/bin/zpy

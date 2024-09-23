@@ -3,6 +3,7 @@
 #include<string.h>
 
 #include "util.h"
+#include "appendsnprintf.h"
 
 typedef struct astNode {
 	char *func;
@@ -68,7 +69,7 @@ top:
 			} else{
 				head->args[argCount] = chunk;
 				argCount++;
-			}
+			} 
 		}
 	}
 

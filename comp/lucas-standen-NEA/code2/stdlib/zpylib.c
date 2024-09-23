@@ -35,6 +35,5 @@ double readfloat(){
 }
 
 int randint(int lower, int upper){
-	srand(time(NULL));
-	return rand() % (((upper + 1) - lower) + lower);
+	return random() % (((upper + 1) - lower) + lower);
 }
