@@ -1,6 +1,6 @@
 (defun main int)
 	(InitWindow 800 800 "test_test")
-	(SetTargetFPS 60)
+	(SetTargetFPS 30)
 
 	(let img:Image (LoadImage "dvd.png"))
 	(let tex:Texture (LoadTextureFromImage img))
