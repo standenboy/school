@@ -1,9 +1,9 @@
 CC=cc
-CLFAGS=-O0 -ggdb
+CFLAGS=-O0 -ggdb
 
 stdlib:
 	cd String && make
-	${CC} *.c -c ${CFLAGS}
+	${CC} zpylib.c -c -o zpylib.o  ${CFLAGS}
 
 clean:
 	rm -rf *.o
