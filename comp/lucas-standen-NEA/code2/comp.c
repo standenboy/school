@@ -258,7 +258,7 @@ end:
 void Compile(astNode *line, FILE *f){
 	char *code = compile(line);
 	if (neededmemptr == true){
-		tofree[freeptr] = getVarName(line->args[0]);
+		tofree[freeptr] = line->args[0];
 		freeptr++;
 		neededmemptr = false;
 	}
