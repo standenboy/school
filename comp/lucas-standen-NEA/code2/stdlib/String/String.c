@@ -11,6 +11,16 @@ void __stringfree(string *self){
 	free(self);
 }
 
+void __stringprint(string *self){
+	printf("%s\n", self->_str);
+}
+
+void __stringinput(string *self, size_t len){
+	char *tmp = calloc(0, len);
+	fgets(tmp, len, stdin);
+	self->fromcstring(self, tmp);
+}
+
 void __stringappendchar(string *self, char c){
 	self->_len++;
 	self->_str = realloc(self->_str, self->_len);
@@ -132,6 +142,8 @@ string *String(char *cstring){ // returns an allocated String from a C string in
 	str->fromcstring = &__stringfromcstring;
 	str->tocstring = &__stringtocstring;
 	str->split = &__stringsplit;
+	str->print = &__stringprint;
+	str->input = &__stringinput;
 
 	return str;
 }

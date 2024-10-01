@@ -63,7 +63,20 @@ top:
 			head->children[argCount] = tokenize(chunk);
 			argCount++;
 		}else { 
-			i += readuntil(&line[i], ' ', chunk); // reads func name or arg
+			if (line[i] == '"'){
+				i += readuntil(&line[i+1], '"', chunk); // reads a comptime string 
+				i++;
+				char *tmp = malloc(strlen(chunk)+2);
+				tmp[0] = '"';
+				tmp[1] = '\0';
+				strcat(tmp, chunk);
+				strcat(tmp, "\"");
+				chunk = tmp;
+
+			}
+			else {
+				i += readuntil(&line[i], ' ', chunk); // reads func name or arg
+			}
 			if (head->func == NULL){
 				head->func = chunk;
 			} else{

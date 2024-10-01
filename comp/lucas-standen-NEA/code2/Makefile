@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -O0 -ggdb
 
-all: 
+zpy: 
 	${CC} *.c -c ${CFLAGS}
 	${CC} *.o -o zpy ${CFLAGS}
 	cd stdlib && make	
@@ -10,15 +10,16 @@ clean:
 	cd stdlib && make clean
 	cd examples && make clean
 
-install: all 
+install: zpy
 	mkdir -p /usr/local/share/zpylib
 	mkdir -p /usr/local/share/zpylib/include
 	cp ./zpy /usr/local/bin/zpy
 
 	cd stdlib && make install
 
-example: all
+example: zpy
 	cd examples && make
 
 uninstall: 
 	rm /usr/local/bin/zpy
+	rm -rf /usr/local/share/zpylib

@@ -1,0 +1,18 @@
+1) hardware is the physical device that code runs on
+software is the code itself, it tells the hardware what to do
+2) core software that is needed for other software to run
+3) software that the user uses to do things
+4) to manage memory and allow for multitasking, as well as 
+abstracting the hardware from the user
+5) to give each process the memory it needs and not allow
+one process to read anothers memory
+6) a driver that the operating sytstem uses to talk to a peice of hardware
+7) a high level language abstracts away low level concepts, whereas a low level languge doesnt
+8) a system designed for one use case
+9) a low level langugue is better as it is faster and has a smaller footprint
+10) i do this enough i cant be asked to describe it
+11) see Q.10
+12) many wires next to eachother that move data around quickly
+13) it loses all state when power is lost
+14) memory can only be read not written too
+15)

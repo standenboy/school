@@ -203,7 +203,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "return %s;\n", node->args[0]);
 	}	
 	else if (strcmp(names[23], node->func) == 0){
-		out = appendsnprintf(out, MAXOUTLEN, "calloc(0, %s)", node->args[0]);
+		out = appendsnprintf(out, MAXOUTLEN, "malloc(%s)", node->args[0]);
 		neededmemptr = true;
 	}	
 	else if (strcmp(names[24], node->func) == 0){

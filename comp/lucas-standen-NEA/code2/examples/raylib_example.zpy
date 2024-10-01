@@ -1,15 +1,15 @@
 (defun main int)
-	(InitWindow 800 800 "test_test")
-	(SetTargetFPS 30)
+	(InitWindow 800 800 "test test")
+	(SetTargetFPS 60)
 
 	(let img:Image (LoadImage "dvd.png"))
 	(let tex:Texture (LoadTextureFromImage img))
 	(UnloadImage img)
 
-	(let x:int (randint 1 9))
-	(let y:int (randint 1 9))
-	(let xd:int (randint 1 5))
-	(let yd:int (randint 1 5))
+	(let x:int (randint 4 9))
+	(let y:int (randint 4 9))
+	(let xd:int (randint 3 5))
+	(let yd:int (randint 3 5))
 
 	(for i:int 0 (= (WindowShouldClose) 0) 0)
 		(BeginDrawing)

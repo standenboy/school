@@ -13,6 +13,8 @@ typedef struct string {
 	void (*fromcstring)(string *, char *);
 	char *(*tocstring)(string *);
 	string **(*split)(string *, char);
+	void (*print)(string *);
+	void (*input)(string *, size_t);
 } string;
 
 string *String(char *cstring);
@@ -25,3 +27,6 @@ int __stringcmp(string *str1, string *str2);
 void __stringfromcstring(string *self, char *cstring);
 char *__stringtocstring(string *self);
 string **__stringsplit(string *self, char delim);
+void *print(string *self);
+void *input(string *self, size_t len);
+
