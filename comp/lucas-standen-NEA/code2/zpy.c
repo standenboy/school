@@ -69,6 +69,8 @@ int main(int argc, char **argv){
 	if (stringTokens == NULL)
 		die("couldn't parse file, is it formated properly?");
 	
+	CompilerInit();
+
 	fprintf(fout, "#include <zpylib.h>\n");
 	for (int i = 0; i < libcount; i++){
 		fprintf(fout, "#include <%s>\n", libs[i]);
@@ -79,7 +81,7 @@ int main(int argc, char **argv){
 		stringTokens->strs[i][strlen(stringTokens->strs[i]) - 1] = '\0';
 		astNode *line = tokenize(stringTokens->strs[i]);
 			
-		Compile(line, fout);
+		Compile(line, fout, stringTokens->strs[i]);
 	}
 	fclose(fout);
 

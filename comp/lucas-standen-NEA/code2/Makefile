@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -O0 -ggdb
 
-zpy: 
+zpy: zpy.c comp.c parser.c tokenizer.c util.c
 	${CC} *.c -c ${CFLAGS}
 	${CC} *.o -o zpy ${CFLAGS}
 	cd stdlib && make	

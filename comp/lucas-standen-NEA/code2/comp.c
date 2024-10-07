@@ -2,12 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <signal.h>
+#include <unistd.h>
 
 #include "tokenizer.h"
 #include "util.h"
 #include "appendsnprintf.h"
 
 #define MAXOUTLEN 512
+
+pid_t pid;
+int linecount = 0;
+char *currentLine;
+char *errmsg;
+
+void errorhandle(int type){
+	fprintf(stderr, "err:%d (%s)\n", linecount, currentLine);
+	fprintf(stderr, "%s\n", errmsg); 
+
+	exit(1);
+}
 
 char *names[] = {
 	"defun", // takes a func name, func return type, and args // 0
@@ -125,11 +139,19 @@ astNode *processChildren(astNode *node){
 	return node;
 }
 
+void checkNULL(void *value, char *msg){
+	if (value == NULL) {
+		errmsg = msg;
+		kill(pid, SIGSEGV);
+	}
+}
 
 char *compile(astNode *node){
 	char *out = calloc(0, MAXOUTLEN);
 	node = processChildren(node);
 	if (strcmp(names[0], node->func) == 0){
+		checkNULL(node->args[0], "expected func name");
+		checkNULL(node->args[1], "expected return type");
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
@@ -140,17 +162,21 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
 	else if (strcmp(names[1], node->func) == 0){
-		
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[2], node->func) == 0){
+		checkNULL(node->args[0], "expected var name");
+		checkNULL(node->args[1], "expected var value");
 		out = vartypeToC(node->args[0], out);
 		out = appendsnprintf(out, MAXOUTLEN, " = %s;\n", node->args[1]);
 	}
 	else if (strcmp(names[3], node->func) == 0){
+		checkNULL(node->args[0], "expected var name");
+		checkNULL(node->args[1], "expected var value");
 		out = appendsnprintf(out, MAXOUTLEN, "%s = %s;\n", node->args[0], node->args[1]);
 	}
 	else if (strcmp(names[4], node->func) == 0){
+		checkNULL(node->args[0], "expected sub expression");
 		out = appendsnprintf(out, MAXOUTLEN, "if (%s", node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
@@ -158,6 +184,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[6], node->func) == 0){
+		checkNULL(node->args[0], "expected sub expression");
 		out = appendsnprintf(out, MAXOUTLEN, "}else if (%s", node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "){\n");
 	}
@@ -166,6 +193,10 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "else{");
 	} 
 	else if (strcmp(names[8], node->func) == 0){
+		checkNULL(node->args[0], "expected iterator");
+		checkNULL(node->args[1], "expected iterator value");
+		checkNULL(node->args[2], "expected condition");
+		checkNULL(node->args[3], "expected iterator increment");
 		out = appendsnprintf(out, MAXOUTLEN, "for (");
 		out = vartypeToC(node->args[0], out);
 		out = appendsnprintf(out, MAXOUTLEN, " = %s;", node->args[1]);
@@ -176,6 +207,8 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, "}\n");
 	}
 	else if (strcmp(names[10], node->func) == 0){
+		checkNULL(node->args[0], "expected symbol type");
+		checkNULL(node->args[1], "expected symbol name");
 		out = appendsnprintf(out, MAXOUTLEN, "%s %s(", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
@@ -186,6 +219,7 @@ char *compile(astNode *node){
 		out = appendsnprintf(out, MAXOUTLEN, ");\n");
 	}
 	else if (strcmp(names[21], node->func) == 0){
+		checkNULL(node->args[0], "expected exit code");
 		out = appendsnprintf(out, MAXOUTLEN, "exit(%s);\n", node->args[0]);
 	}	
 	else if (strcmp(names[22], node->func) == 0){
@@ -200,13 +234,16 @@ char *compile(astNode *node){
 				break;
 			}
 		}
+		checkNULL(node->args[0], "expected return value");
 		out = appendsnprintf(out, MAXOUTLEN, "return %s;\n", node->args[0]);
 	}	
 	else if (strcmp(names[23], node->func) == 0){
+		checkNULL(node->args[0], "expected alloc size");
 		out = appendsnprintf(out, MAXOUTLEN, "malloc(%s)", node->args[0]);
 		neededmemptr = true;
 	}	
 	else if (strcmp(names[24], node->func) == 0){
+		checkNULL(node->args[0], "expected type name");
 		out = appendsnprintf(out, MAXOUTLEN, "typedef struct %s %s;\n", node->args[0], node->args[0]);
 		out = appendsnprintf(out, MAXOUTLEN, "typedef struct %s {", node->args[0]);
 		structname = node->args[0];
@@ -216,12 +253,16 @@ char *compile(astNode *node){
 		structname = NULL;
 	}	
 	else if (strcmp(names[26], node->func) == 0){
+		checkNULL(node->args[0], "expected variable definition");
 		out = vartypeToC(node->args[0], out);
 	}	
 	else if (strcmp(names[27], node->func) == 0){
+		checkNULL(node->args[0], "expected variable type");
 		out = appendsnprintf(out, MAXOUTLEN, "sizeof(%s)", node->args[0]); 
 	}
 	else if (strcmp(names[28], node->func) == 0){
+		checkNULL(node->args[0], "expected function ptr type");
+		checkNULL(node->args[0], "expected function ptr name");
 		out = appendsnprintf(out, MAXOUTLEN, "%s (*%s)", node->args[1], node->args[0]);
 		int i = 2;
 		while (node->args[i] != NULL){
@@ -236,12 +277,14 @@ char *compile(astNode *node){
 	else {
 		// arithmetic operators and comparitors
 		for (int i = 0; i < 9; i++){
+			checkNULL(node->func, "expected func name");
 			if (strcmp(names[11+i], node->func) == 0){
 				out = reversepolishToC(node, out);
 				goto end;
 			}
 		}
 
+		checkNULL(node->func, "expected func name");
 		out = appendsnprintf(out, MAXOUTLEN, "%s(", node->func);
 		int i = 0;
 		while (node->args[i] != NULL){
@@ -255,7 +298,13 @@ end:
 	return out;
 }
 
-void Compile(astNode *line, FILE *f){
+void CompilerInit(){
+	signal(SIGSEGV, &errorhandle);
+	pid = getpid();
+}
+
+void Compile(astNode *line, FILE *f, char* strline){
+	currentLine = strline;
 	char *code = compile(line);
 	if (neededmemptr == true){
 		tofree[freeptr] = line->args[0];
@@ -265,5 +314,6 @@ void Compile(astNode *line, FILE *f){
 	int len = strlen(code);
 	if (code[len-2] == ';' || code[len-2] == '{' || code[len-2] == '}')  fprintf(f, "%s", code);
 	else fprintf(f, "%s;\n", code);
+	linecount++;
 	free(code);
 }
