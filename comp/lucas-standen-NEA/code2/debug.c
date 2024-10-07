@@ -3,6 +3,7 @@
 
 #include "util.h"
 
+//# a simple util function to visulize an astNode, never used but nice for debugging
 void printAST(astNode *head){
 	printf("\n>>>\nfunc: %s\n", head->func);
 	printf("args: ");

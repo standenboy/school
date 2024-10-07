@@ -11,9 +11,8 @@ typedef struct astNode {
 	struct astNode *children[8];
 } astNode;
 
-int readuntil(char *src, char c, char *dst){ // returns how many chars read, will read until 
-					     // the end of an expression, not the first 
-					     // occurence
+//# reads a block of code from src, until char, outputting to dst, it allows for brackets so it stays on the same depth
+int readuntil(char *src, char c, char *dst){ 
 	int ptr = 0;
 	int depth = 0;
 	int i = 0;
@@ -36,7 +35,7 @@ int readuntil(char *src, char c, char *dst){ // returns how many chars read, wil
 	return i;
 }
 
-
+//# this function will converts one line of zpy into an astNode, which can be compiled
 astNode *tokenize(char *line){ // asume the first set of brackets have been stripped
 	astNode *head = malloc(sizeof(astNode));
 	head->func = NULL;

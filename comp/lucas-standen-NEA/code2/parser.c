@@ -10,7 +10,8 @@ typedef struct strings {
 	int count;
 } strings;
 
-int countChars(char *s, char c){ // counts the number of times c ocurrs in s
+//# counts the number of times c ocurrs in s
+int countChars(char *s, char c){ 
 	int count = 0;
 	for (int i = 0; i < strlen(s); i++){
 		if (s[i] == c) count++;	
@@ -18,6 +19,7 @@ int countChars(char *s, char c){ // counts the number of times c ocurrs in s
 	return count;
 }
 
+//# returns an array of strings (type strings) of the file contents, split by line
 strings *parse(FILE *f){
 	strings *strs = malloc(sizeof(strings));
 	strs->strs = malloc(sizeof(char **));

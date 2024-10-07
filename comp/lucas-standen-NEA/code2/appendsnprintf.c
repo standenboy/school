@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//# this function will generate the fmt specifier for appendsnprintf, should only be used for this use case
 char *genfmt(char *buf, char *fmt){
 	int len = strlen(buf) + strlen(fmt) + 1;
 	char *out = malloc(len);
@@ -21,6 +22,7 @@ char *genfmt(char *buf, char *fmt){
 	return out;
 }
 
+//# this function will append size number of bytes, onto the end of buf, a format string in the form of vaargs
 char *appendsnprintf(char *buf, int size, char *format, ...){
 	va_list ap;
 	char *outputbuf = malloc(size);
