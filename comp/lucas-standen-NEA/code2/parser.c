@@ -27,7 +27,7 @@ strings *parse(FILE *f){
 	char *line = alloca(256);
 	int count = 0;
 	while (fgets(line, 256, f) != NULL){
-		if (line[0] != '\n'){ 
+		if (line[0] != '\n' && line[0] != '/'){ 
 			while (line[0] == '\t') line++;
 			line[strlen(line)-1] = '\0';
 			strs->strs[count] = malloc(256);

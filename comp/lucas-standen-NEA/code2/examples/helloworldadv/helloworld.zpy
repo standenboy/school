@@ -1,0 +1,3 @@
+(defun helloworld void)
+	(printstr "hello world\n")
+(endfun)

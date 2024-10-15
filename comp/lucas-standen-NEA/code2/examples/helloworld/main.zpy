@@ -1,0 +1,3 @@
+(defun main int)
+	(printstr "hello world\n")
+(endfun)

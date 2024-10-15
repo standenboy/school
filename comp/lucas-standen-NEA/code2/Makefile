@@ -16,6 +16,7 @@ install: zpy
 	cp ./zpy /usr/local/bin/zpy
 
 	cd stdlib && make install
+	cd zpypkg && make install
 
 example: zpy
 	cd examples && make

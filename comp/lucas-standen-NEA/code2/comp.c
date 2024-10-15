@@ -33,6 +33,14 @@ void errorhandle(int type){
 	exit(1);
 }
 
+//# this function will check if the value given is null, if it is, it will cause a sig segv and set the error msg
+void checkNULL(void *value, char *msg){
+	if (value == NULL) {
+		errmsg = msg;
+		kill(pid, SIGSEGV);
+	}
+}
+
 char *names[] = {
 	"defun", // takes a func name, func return type, and args // 0
 	"endfun", // takes no args // 1
@@ -91,6 +99,8 @@ char *vartypeToC(char *str, char *out){
 	}
 	name[i] = '\0';
 	i++;
+	
+	if (i > strlen(str)) checkNULL(NULL, "expected var type, got nothing");
 
 	for (; i < strlen(str); i++){
 		if (str[i] == ':'){
@@ -114,6 +124,7 @@ char *getVarName(char *exp){
 	char *out = malloc(strlen(exp));
 	memcpy(out, exp, strlen(exp));
 	char *pos = strchr(out, ':');
+	if (pos == NULL) checkNULL(NULL, "expected var type, got nothing");
 	pos[0] = '\0';
 	return out;
 }
@@ -122,7 +133,8 @@ char *getVarName(char *exp){
 char *getVarType(char *exp){
 	char *out = malloc(strlen(exp));
 	char *pos = strchr(exp, ':')+1;
-	memcpy(out, pos, strlen(pos) + 1);	
+	if (pos == NULL) checkNULL(NULL, "expected var type, got nothing");
+	memcpy(out, pos, strlen(pos) + 1);
 	return out;
 }
 //# this will convert mathmatical expressions, to the c style of maths
@@ -143,14 +155,6 @@ astNode *processChildren(astNode *node){
 		}
 	}
 	return node;
-}
-
-//# this function will check if the value given is null, if it is, it will cause a sig segv and set the error msg
-void checkNULL(void *value, char *msg){
-	if (value == NULL) {
-		errmsg = msg;
-		kill(pid, SIGSEGV);
-	}
 }
 
 //# this function will do the bulk of converting from zpy into c code

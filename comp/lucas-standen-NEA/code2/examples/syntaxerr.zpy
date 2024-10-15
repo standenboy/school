@@ -1,3 +1,5 @@
 (defun main int)
-	(return)
+	(let x:int)
+	(set x 10)
+	(return 10)
 (endfun)
