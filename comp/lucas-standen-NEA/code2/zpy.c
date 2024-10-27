@@ -88,7 +88,7 @@ int main(int argc, char **argv){
 
 	if (omitc == false){
 		char *cmd = malloc(512);
-		snprintf(cmd, 512, "cc ./tmp.zpy.c /usr/local/share/zpylib/*.o -o %s -I/usr/local/share/zpylib/include -Wno-implicit-function-declaration ", outfilename);
+		snprintf(cmd, 512, "cc -O3 ./tmp.zpy.c /usr/local/share/zpylib/*.o -o %s -I/usr/local/share/zpylib/include -Wno-implicit-function-declaration ", outfilename);
 		for (int i = 0; i < compilerflagscount; i++){
 			cmd = appendsnprintf(cmd, 512, "%s ", compilerflags[i]);
 		}

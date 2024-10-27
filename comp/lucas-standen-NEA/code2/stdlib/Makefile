@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-O0 -ggdb
+CFLAGS=-O3
 
 stdlib:
 	cd String && make

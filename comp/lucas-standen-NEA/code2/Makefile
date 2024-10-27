@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -O0 -ggdb
+CFLAGS =-O3
 
 zpy: zpy.c comp.c parser.c tokenizer.c util.c
 	${CC} *.c -c ${CFLAGS}

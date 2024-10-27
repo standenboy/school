@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-ggdb
+CFLAGS=-O3
 
 all: String.c
 	${CC} String.c -c -o String.o ${CFLAGS}

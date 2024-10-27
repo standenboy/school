@@ -38,8 +38,6 @@ main:
 
 	swapf	tmpdata, W 
 	movwf	PORTB
-
 noend:
 	goto 	noend
-
 	END		        ; ends the program

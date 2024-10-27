@@ -13,9 +13,9 @@ main:
 	movlw 	 b'11111111'    
 	movwf	 PORTB
 	call 	 wait1000ms
-	call 	 wait1000ms
 	movlw 	 b'00000000'    
 	movwf	 PORTB
 	call 	 wait1000ms
 	goto 	 main
+
 	END		        ; ends the program

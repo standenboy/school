@@ -7,6 +7,7 @@
 (endfun)
 
 (defun main int)
+	(printstr "give me a number (bellow 30 if you want it to be quick): ")
 	(let n:int (readint))
 	(printint (fib n))
 	(printchar '\n')

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1728905490.10155 "writeup.tex" "writeup.pdf" "writeup" 1728905492.58947 0
+["pdflatex"] 1729593294.73764 "writeup.tex" "writeup.pdf" "writeup" 1729593297.07819 0
   "../code/proto/AST/ast.c" 1726310530.07745 2961 c47f93a2515bbdc975ff63648a7cdd5e ""
   "../code/proto/AST/astg.c" 1726310530.07745 952 02073ee7971b5c86c469ca9979e7558e ""
   "../code/proto/AST/astg.h" 1726310530.07745 275 d81b6b122dc745e84025255cf68ff265 ""
@@ -186,10 +186,10 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1727349926 41588 b43d3e860a4f94167ee1e725ff526a72 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1727772120.4956 5312047 b07fcd2a9090df96fc745b92a3db793b ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1727771987 7112995 7933768d5ebcb328850d23523e531d79 ""
-  "writeup.aux" 1728905492.33432 4432 710fbc040802dbc9eb40406952fd6ed2 "pdflatex"
-  "writeup.out" 1728905492.33765 4997 e70a9c8f057c1547035bac5d30a3014a "pdflatex"
-  "writeup.tex" 1728905489.59434 20681 18e84f17b265407f364fdfa5882ac984 ""
-  "writeup.toc" 1728905492.33765 2529 a2fe1657a58b702f5bfb72c069988614 "pdflatex"
+  "writeup.aux" 1729593296.82823 5023 b94e2bad255ab6fc65527a147ae1fd64 "pdflatex"
+  "writeup.out" 1729593296.83157 5613 7c3ad93782220212e41c0210b94b7a3a "pdflatex"
+  "writeup.tex" 1729593291.60157 21720 39514597b13b8cf3e51451b7a897ebc0 ""
+  "writeup.toc" 1729593296.83157 2914 8c622606e53239bead78f7db81bd25ed "pdflatex"
   (generated)
   "writeup.aux"
   "writeup.log"

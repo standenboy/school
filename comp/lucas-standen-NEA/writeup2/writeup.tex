@@ -35,6 +35,7 @@
     tabsize=8
 }
 
+
 \lstset{style=mystyle}
 
 \titleformat{\section}
@@ -58,6 +59,7 @@
 \tableofcontents
 \newpage
 
+\setlength{\parskip}{1em}
 {\setlength{\parindent}{0cm}
 
 \section{A breif head note and introduction}
@@ -321,10 +323,8 @@ this is an alternative implementation of a list, where you store some data, and
 the memory address to the next node. Then you can move through the list by reading 
 the data then reading the data of the next node, and then repeating until the 
 'next' part of the node is empty.
-\\
 
 A diagram showing this can be seen here:
-\\
 
 \begin{tikzpicture}
 	\tikzset{edge from parent/.style={draw,edge from parent path={(\tikzparentnode.south)-- +(0,-8pt)-| (\tikzchildnode)}}}
@@ -396,10 +396,8 @@ be used to show mathematical expressions and function calls, but I thing easiest
 show it is via a mathematical example.
 
 Take the follow expression for example:
-\\
 
 {\Large{\(1 + (10 * (3 - (2 * 4)))\)}}
-\\
 
 We know that this is equal to \(-49\)
 
@@ -459,15 +457,12 @@ expression to evaluate.
 
 \lstinputlisting[language=C++]{../code/proto/AST/ast.c}
 \textit{The main loop for the ast code.}
-\\
 
 \lstinputlisting[language=C++]{../code/proto/AST/astg.c}
 \textit{The execution loop for the ast code.}
-\\
 
 \lstinputlisting[language=C++]{../code/proto/AST/astg.h}
 \textit{The definition of the ast, and function prototypes.}
-\\
 
 Above is the code for the AST, it stores an operation (which is just an integer), and 
 it stores a real left and real right value, along side two other nodes. The real values
@@ -476,17 +471,14 @@ recursive data structure, much like putting an object of a class inside the defi
 itself. They are used to store values that may still be expressions, for example 
 (+ [1] (+ [1] [1])) the second part of this expression would be in the "right" 
 variable. 
-\\
 
 When code is executed I can check if "left", or "right" are NULL and if 
 they are I know that I am at the lowest expression that is only literal values.
 Then I can execute that node and work my way up the tree.
-\\
 
 The exec function will execute the operation, unless there is a deeper node, if there is 
 a deeper node, then it executes it, and places the result in the right or left spot 
 respectively.
-\\
 
 \textbf{Here is an example input and output:}
 
@@ -495,11 +487,9 @@ respectively.
 4
 
 {\small Note the [ ] used to tell the program where the literal values are.}
-\\
 
 Overall this was a relatively successful prototype, however it isn't fully functional 
 as a language but it has fit the design for a prototype.
-\\
 
 \textbf{The code for the AST can be found here:
 \url{https://github.com/standenboy/school/tree/master/comp/lucas-standen-NEA/code/proto/ast}}
@@ -519,5 +509,35 @@ linked list, and in the data element put a AST, then the next node can contain t
 This might be a help to zippy as the compiler can convert all code to an AST, then 
 compile it.
 }
+\section{Objectives}
+Zippy must support the following features, it needs them to be a usable language that has 
+many uses.
+\subsection{Core objectives}
+\begin{description}
+	\item[A compiler for the Zippy language]
+	\item[AST's used to compile source code]
+	\item[A lisp like syntax]
+	\item[Functional paradigm language]
+	\item[Recursion]
+	\item[Higher order functions] \textit{(this means functions can be passed as arguments to 
+		other functions)}
+	\item[High performance language]
+	\item[A package manager]
+	\item[Ability to call C functions]
+\end{description}
+If possible I would like Zippy to also meet the following extra objectives
+\subsection{Extra objectives}
+\begin{description}
+	\item[String parsing in the stdlib]
+	\item[graphs in the stdlib]
+	\item[networking in the stdlib]
+	\item[graphics in the stdlib]
+\end{description}
+
+\section{Design}
+\subsection{Language specification}
+Like any other programming language Zippy needs to have a defined syntax, bellow
+you can find a syntax for zippy that will be complaint with my objectives.
+
 \end{document}
 

@@ -1,7 +1,9 @@
 start: 
 init: 
 	clrf    PORTA          	; make sure port A output latches are low 
+	clrf 	PORTB
 	bsf     STATUS,RP0     	; select memory bank 1 
+
 	movlw 	b'11111111'    	; set port A data direction to inputs 
 	movwf   TRISA         
 	movlw   b'00000000'    	; set port B data direction to outputs 
@@ -16,18 +18,29 @@ init:
 
 	movlw	5	
 	movwf	countdown
-
 	movlw 	0
 
 	goto    main 
 
 interrupt:
-	clrf    PORTB          	; clear PORTB
+	btfss	INTCON, INT0IF
+	retfie
+
+	clrf 	PORTB
+
+	bcf 	INTCON, INT0IF
+	bsf 	INTCON, GIE
+	bsf 	INTCON,	INT0IE 
+	
+	; USE A TRANSITOR WITH 1K resistor to the power rail of chip
+
 	goto 	start		; restarts the program
+	retfie
 
 beep:				; a for loop that beeps a buzzer and turns on a led then sets a led on
 				; if nothing is done
 
+	bcf 	PORTB, 3 	; turn off the status
 	bsf	PORTB, 0	; put a RED LED on PORTB:0
 	bsf	PORTB, 1	; put a BUZZER on PORTB:1
 	call 	wait1000ms
@@ -42,6 +55,8 @@ beep:				; a for loop that beeps a buzzer and turns on a led then sets a led on
 
 	goto 	start	
 main: 				; reads the temprature
+	bsf  	PORTB,3		; put a GREEN LED for status on PORTB:3
+
 	call 	readadc1 	; put a THERMISTOR on PORTA:1
 	movf	B1, W
 	movwf	rawtemp

@@ -12,27 +12,27 @@ init:
 	;bsf	INTCON, INT0IE
 	;bsf	INTCON, GIE
 
-	rawtemp EQU B5
+	rawtemp EQU B6
 
 	goto    main 
-
 showme:
-	movlw 255
-	movwf PORTB
-	return
-
+	movlw 	255
+	movwf 	PORTB
+	goto 	main
 main: 
-	call 	readadc1
+	call 	readadc1 	; read the thermistor (at room tem its 73)
 	movf	B1, W
 	movwf	rawtemp
 
-	call 	readadc0
+	call	readadc0
 	movf	B0, W
 
 	subwf	rawtemp, w
-	
-	btfsc	STATUS, 2
-	call 	showme
+	btfsc	STATUS, 0
+	goto 	showme 
+
+	movlw	0 
+	movwf 	PORTB
 
 	goto 	main
 
