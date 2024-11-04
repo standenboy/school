@@ -7,7 +7,6 @@
 #include "comp.h"
 #include "appendsnprintf.h"
 
-
 char infilename[128];
 char outfilename[128];
 char libs[64][128];
@@ -56,26 +55,21 @@ int main(int argc, char **argv){
 		die("no such file or directory");
 	
 	FILE *fout;
-	if (omitc == false) {
-		fout = fopen("./tmp.zpy.c", "w");
-	}else {
-		fout = fopen(outfilename, "w");
-	}
+	if (omitc == false) fout = fopen("./tmp.zpy.c", "w");
+	else  fout = fopen(outfilename, "w");
+	
 
-	if (fout == NULL)
-		die("no such file or directory");
+	if (fout == NULL) die("no such file or directory");
 
 	strings *stringTokens = parse(f);
 
-	if (stringTokens == NULL)
-		die("couldn't parse file, is it formated properly?");
+	if (stringTokens == NULL) die("couldn't parse file, is it formated properly?");
 	
 	CompilerInit();
 
 	fprintf(fout, "#include <zpylib.h>\n");
-	for (int i = 0; i < libcount; i++){
-		fprintf(fout, "#include <%s>\n", libs[i]);
-	}
+
+	for (int i = 0; i < libcount; i++) fprintf(fout, "#include <%s>\n", libs[i]);
 	
 	for (int i = 0; i < stringTokens->count; i++){
 		stringTokens->strs[i]++;
