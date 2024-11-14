@@ -638,6 +638,84 @@ following arguments to allow the programmer to quickly write zippy code.
 
 \section{Implementation}
 As has been previously mentioned, zippy will have its compiler written in C and its package manager writen in bash.
+The code will be displayed bellow, it has been commented to use a tool I wrote called autodoc, which can function
+like a doc-string in python, after each file I will explain in detail what it does and why it is in its own file.
+
+PUT A LIST OF FILES HERE
+
+\lstinputlisting[language=C++]{../code2/zpy.c}
+\textit{zpy.c}
+
+This is the main executable, containing my main function, which is the program entry point. This file handles the
+opening of input and output files, calling other functions, and processing the command line arguments.
+\lstinputlisting[language=C++]{../code2/fileread.c}
+\textit{fileread.c}
+
+This file is responsible for reading in the file contents, into and array list of strings (an array list is an array
+with a length attached to it, to help with memory managemnt). This file also handles the stripping of tabs and other 
+forms of white space.
+
+\lstinputlisting[language=C++]{../code2/tokenizer.c}
+\textit{tokenizer.c}
+
+This file has the job of converting a single line of code into An abstract syntax tree, it splits each expression into
+its function name, as a string, and each of its arguments (max 8) as a string, and if there are nested function calls, 
+it will create more AST nodes for them, in the recursive data structure. The main tokenizer function is using
+a lesser known feature of the C programming language, \textit{goto}, it uses this to achieve recursion, without needing
+to define a second function, as goto lets the user define a label in their code, just like in ASM. 
+
+\lstinputlisting[language=C++]{../code2/appendsnprintf.c}
+\textit{appendsnprintf.c}
+
+This is a smaller file, that defines a helper function used heavily in the comp.c file, this function allows the user
+to concatenate an unknown amount of strings together. It uses another lesser known feature of C, \textit{vardic functions},
+which allow the program to parse an unknown amount of arguments to a function. This function is needed, as C does not
+provide an effective way to concatenate strings multiple times, the function that this is built off \textit{snprintf} can only be used 
+once per variable, which didn't fit my use case.
+
+\lstinputlisting[language=C++]{../code2/comp.c}
+\textit{comp.c}
+
+This file is by far the largest and most important in the program, it converts a zpy AST to C code, and writes it to an output
+file. It also handles syntax errors in the users code. The first function from this file that is called, is the CompilerInit,
+this sets up an interrupt which is used to jump the program to a different point, if there is a syntax error.
+
+The next function from this file that is called, is the main Compile function, this is actually a wrapper around the compile function.
+This function is used to set the current line, which is used if there is an error, call the main compile function, write to 
+the output file and add newlines, if needed. And finally it handles the automatic free function of zippy.
+
+The main function that this provides is the compile function, this starts by processing child arguments, A child argument can be created
+by the tokenizer when a nest function is used in zpy, for example (let a:int (+ 2 2)), in this case the child function is (+ 2 2). It
+will compile the children function first, using the processChildren function, assigning their outputs to the argument section of the AST.
+It then uses a large if block, to determine which function it is needing to generate. Each branch, use the appendsnprintf function to
+combine the arguments and templated C code. The checkNULL function is used a lot in this function. This is because if the user does 
+not provide enough arguments to a function call, which is the most common syntax error after a missing bracket, the argument slot, will
+be null, thus I can check if it is NULL, to tell if the user made an error. If an error is made a signal is sent to the process, which 
+will cause the interrupt handler function to be triggered, telling the user the line number they made the error on with a brief description
+of the issue.
+
+Also in this file are a handful of helper functions in the conversion process, these convert zippy's reverse polish notation to traditional 
+infix definition, and convert zippy's type annotations to C's type annotations.
+
+Finally, as previously mention there is the errorhandle function. This is triggered by a signal being sent to the program, and will cause 
+it to stop instantly, and will trigger an error print.
+
+\lstinputlisting[language=C++]{../code2/util.c}
+\textit{util.c}
+
+This file defines a smaller helper function, which is used in the main executable to gracefully exit if there is an error.
+
+\subsection{Header files}
+\lstinputlisting[language=C++]{../code2/fileread.h}
+\textit{fileread.h}
+\lstinputlisting[language=C++]{../code2/tokenizer.h}
+\textit{tokenizer.h}
+\lstinputlisting[language=C++]{../code2/comp.h}
+\textit{comp.h}
+\lstinputlisting[language=C++]{../code2/appendsnprintf.h}
+\textit{appendsnprintf.h}
+\lstinputlisting[language=C++]{../code2/util.h}
+\textit{util.h}
 
 
 }

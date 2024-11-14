@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2024.11.3)  5 NOV 2024 11:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2024.11.14)  14 NOV 2024 10:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -892,22 +892,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (../code/proto/AST/astg.h)
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 495.
- [14] [15] [16] [17] [18] [19] (./writeup.aux)
+ [14] [15] [16] [17] [18] (../code2/zpy.c [19]
+[20]) (../code2/fileread.c [21]) (../code2/tokenizer.c [22])
+(../code2/appendsnprintf.c [23]) (../code2/comp.c [24] [25] [26] [27] [28]
+[29] [30]) (../code2/util.c) [31] (../code2/fileread.h) (../code2/tokenizer.h)
+(../code2/comp.h) (../code2/appendsnprintf.h) (../code2/util.h) [32]
+(./writeup.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `writeup.out' has not changed.
-(rerunfilecheck)             Checksum: 46D59C96DCC63599096D6D4A7A3CDC09;6742.
+(rerunfilecheck)             Checksum: EC9E124D52F403C09C503D53CC7A8E26;6863.
  ) 
 Here is how much of TeX's memory you used:
- 33324 strings out of 476076
- 715421 string characters out of 5793775
- 2239187 words of memory out of 5000000
- 54699 multiletter control sequences out of 15000+600000
+ 34252 strings out of 476076
+ 729071 string characters out of 5793774
+ 2372187 words of memory out of 5000000
+ 54943 multiletter control sequences out of 15000+600000
  565524 words of font info for 61 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 98i,9n,101p,1606b,2286s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,9n,101p,1606b,2370s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/pub
@@ -918,10 +923,10 @@ st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.p
 fb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on writeup.pdf (19 pages, 207854 bytes).
+Output written on writeup.pdf (32 pages, 269626 bytes).
 PDF statistics:
- 655 PDF objects out of 1000 (max. 8388607)
- 603 compressed objects within 7 object streams
- 288 named destinations out of 1000 (max. 500000)
- 325 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1495 PDF objects out of 1728 (max. 8388607)
+ 1422 compressed objects within 15 object streams
+ 943 named destinations out of 1000 (max. 500000)
+ 333 words of extra memory for PDF output out of 10000 (max. 10000000)
 
