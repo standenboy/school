@@ -20,7 +20,7 @@ int countChars(char *s, char c){
 }
 
 //# returns an array of strings (type strings) of the file contents, split by line
-strings *parse(FILE *f){
+strings *fileread(FILE *f){
 	strings *strs = malloc(sizeof(strings));
 	strs->strs = malloc(sizeof(char **));
 

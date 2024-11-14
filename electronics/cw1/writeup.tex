@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{titlesec}
+\usepackage[english]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\usepackage{setspace}
+
+
+\titleformat{\section}
+{\Huge}
+{}
+{0em}
+{}[\titlerule]
+\geometry{a4paper,total={170mm,257mm},left=25mm,right=25mm,}
+
+\author{Lucas Standen}
+\title{Creating a simple temprature sensing circuit}
+
+
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\setlength{\parskip}{1em}
+
+{\setlength{\parindent}{0cm}
+
+\section{System Planning}
+\subsection{Problem analysis}
+My circuit will sense temperature, and will be taking into consideration pet owners, worried about 
+their homes over-heating for their pets, this will be especially helpful for owners of sensitive pets 
+such as fish. People who own these pets often leave them at home alone, which can be deadly on summer 
+days, my device plans to alert the owner, and can be attached to other systems such as a cooling system. 
+
+My system, will flash an LED and pulse a buzzer to make it clear that it is too hot, have an indicator 
+to tell the user that something has gone wrong, and have a pin to free to attach to an external system.
+It will have a adjustment dial to change the threshold, so the user can specify what temperature is too
+hot.
+
+\subsection{Who is it for?}
+\subsection{Design specification}
+
+\section{System Design}
+\subsection{Showing how it will function}
+\subsection{The code}
+
+\section{System Realisation}
+\subsection{Ciruit realisation}
+\subsection{Calibrating the sensors}
+\subsection{Results}
+
+\section{System Evaluation}
+\subsection{Did it work?}
+\subsection{What could go better?}
+}
+\end{document}

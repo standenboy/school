@@ -21,7 +21,7 @@ void printfloat(double f){
 }
 
 char *readstr(){
-	char *str = calloc(0, 256);
+	char *str = calloc(1, 256);
 	fgets(str, 256, stdin);
 	return str;
 }

@@ -16,7 +16,7 @@ void __stringprint(string *self){
 }
 
 void __stringinput(string *self, size_t len){
-	char *tmp = calloc(0, len);
+	char *tmp = calloc(1, len);
 	fgets(tmp, len, stdin);
 	self->fromcstring(self, tmp);
 }
@@ -109,7 +109,7 @@ string **__stringsplit(string *self, char delim){
 
 	int j = 0;
 	for (int i = 0; i < splitcount; i++){
-		char *str = calloc(0, self->_len);
+		char *str = calloc(1, self->_len);
 		int charcount = 0;
 		for (; self->_str[j] != delim && j < self->_len; j++){
 			str[charcount] = self->_str[j];
@@ -129,7 +129,7 @@ string *String(char *cstring){ // returns an allocated String from a C string in
 	size_t len = strlen(cstring);
 	string *str = malloc(sizeof(string));
 
-	str->_str = calloc(0, len);
+	str->_str = calloc(1, len);
 	memcpy(str->_str, cstring, len);
 	str->_len = len; 
 

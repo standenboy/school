@@ -1,14 +1,16 @@
 CC=cc
 CFLAGS=-O3
 
-SRC = zpylib.c
+SRC = zpy.c comp.c tokenizer.c fileread.c util.c appendsnprintf.c
 OBJ = ${SRC:.c=.o}
 
 all: zpy 
 
 .c.o:
 	${CC} -c ${CFLAGS} $<
-	cd String && make
+zpy: ${OBJ}
+	${CC} -o $@ ${OBJ}
+        cd stdlib && make
 install: all 
 	cp zpy /usr/local/bin/zpy
 	cd stdlib && make install

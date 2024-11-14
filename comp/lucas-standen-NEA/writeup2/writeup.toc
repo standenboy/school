@@ -1,0 +1,40 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}A breif head note and introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}Analysis}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}The current problem}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}A solution}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}What is a programming language}{4}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}A very simple explanation}{4}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Why are there so many}{4}{subsubsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.4}Researching and getting a scope of the project}{4}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Examples of older similar projects}{4}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}Examples of newer similar projects}{5}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}What should be taken away from these languages}{5}{subsubsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.5}Clients}{6}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Client 1: Amy C}{6}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Client 2: Rayn M}{6}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}Client 3: Myself}{6}{subsubsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.6}Questionnaires}{6}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}Amy C, initial ideas}{6}{subsubsection.2.6.1}%
+\contentsline {subsubsection}{\numberline {2.6.2}Notes from questionnare 1}{7}{subsubsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.7}The first elements of the project}{7}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Modelling}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Linked lists}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Dictionaries}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Prototyping harder features}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Abstract syntax trees (AST's) theory}{9}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Abstract syntax trees (AST's) practical}{10}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}Feedback}{15}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Mixing linked lists and AST's}{15}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Objectives}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Core objectives}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Extra objectives}{16}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Design}{16}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Language specification}{16}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Keywords}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Other code elements}{17}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Memory management}{18}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}The steps in compiling a zippy program}{18}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Converting zippy to C}{18}{subsubsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.6}Actually using zippy}{18}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Implementation}{19}{section.6}%

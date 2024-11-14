@@ -508,7 +508,6 @@ list of AST's is how Zippy will represent all code the user writes. To do this, 
 linked list, and in the data element put a AST, then the next node can contain the same. 
 This might be a help to zippy as the compiler can convert all code to an AST, then 
 compile it.
-}
 \section{Objectives}
 Zippy must support the following features, it needs them to be a usable language that has 
 many uses.
@@ -534,10 +533,113 @@ If possible I would like Zippy to also meet the following extra objectives
 	\item[graphics in the stdlib]
 \end{description}
 
+I think with these objectives in mind I will make a well rounded language that achieves my
+goal of being used in the same way and places that C is. If all goes to plan I will 
+create a high level, compiled, functional programming language.
+
 \section{Design}
 \subsection{Language specification}
 Like any other programming language Zippy needs to have a defined syntax, bellow
 you can find a syntax for zippy that will be complaint with my objectives.
+\subsection{Keywords}
+\begin{description}
+	\item[defun] starts the definition of a function, will take in a name, return type, and arguments with types
+	\item[endfun] ends the definition of a function
+	\item[let] define a variable with a initial value, takes a variable name and a value
+	\item[set] change a pre defined variable, takes a variable name and a new value
+	\item[def] define a variable which doesn't have a initial value, takes a variable name
+	\item[defunptr] defines a ptr to a function same as defun, but used to pass functions as arguments
+	\item[if] starts an if block, takes a condition
+	\item[elif] starts an elif block, must come after and if block, takes a condition
+	\item[else] starts an else block, must come after an elif or if block
+	\item[endif] must be at the end of an if/elif/else block
+	\item[for] defines a for loop, takes a variable name to use as an iterator, a starting value for that variable, a condition, and a difference to change the iterator by each loop
+	\item[endfor] ends a for block
+	\item[symbol] defines a function for semantic purposes from an external executable, take a name and arguments, the symbol must be in a linked binary
+	\item[+] addition, takes 2 arguments
+	\item[-] subtraction, takes 2 arguments
+	\item[*] multiplication, takes 2 arguments
+	\item[/] division, takes 2 arguments
+	\item[=] equality comparison operation, takes 2 arguments
+	\item[!=] negative equality operation, takes 2 arguments
+	\item[\(<\)] less than equality operation, takes 2 arguments
+	\item[\(>\)] greater than equality operation, takes 2 arguments
+	\item[\(<=\)] less than or equal operation, takes 2 arguments
+	\item[\(>=\)] greater than or equal operation, takes 2 arguments
+	\item[exit] exits the program, takes a value to exit on
+	\item[return] returns from a function, and takes a value to return
+	\item[alloc] allocates a block of memory, takes a size in bytes
+	\item[struct] defines a struct, takes a name as an argument
+	\item[endstruct] ends the definition of a struct
+	\item[sizeof] returns the size of a given type, takes the type name as an argument
+\end{description}  
+\subsection{Other code elements}
+As one can see from the list of keywords, all blocks such as functions are defined and ended. This leads to a nice
+form of code that isn't reliant on indentation, where blocks can be easily seen. I have made sure to keep the 
+language uniform, so function, struts, if statements and for loops all use this syntax.
 
+Comments can be written in zippy by prefacing a line with a '/'.
+
+All code must have a main function, if it doesn't the linker will fail. This is the entry point to the program, so
+it is where code will start executing from.
+
+Reverse Polish notation is used for mathematical and comparison operations, so \((2 + (4 + 3))\) would be written
+as \((+\; 2\; (+\; 4\; 3))\). 
+\subsection{Memory management}
+In zippy memory is semi manual to manage, like in C the programmer needs to allocate blocks of a large enough size,
+however they do not need to free the memory, as all allocs will be freed just before a function returns. This means 
+that memory has a life time of the function it was defined in. One should note that this means that if an allocated 
+block needs to be returned, the caller function needs to allocate the block, or else the memory returned will be 
+freed as soon as the function has finished. 
+\subsection{The steps in compiling a zippy program}
+All the programmer should need to do is call the "zpy" command, and then the code will be converted from zippy to 
+binary. However on the back end of the project, more has to happen. First the zippy code gets converted to C, this 
+is how zippy will be cross compatible with C, then the C code is compiled to ASM, then the ASM, is converted to
+binary, and finally the linker will convert the binary into an executable, and add any libraries that are used.
+
+For my project I will only need to do the first step, and slightly edit the second step, as C compilers, assemblers
+and linkers already exist. So I don't need to reinvent the wheel.
+\subsubsection{Converting zippy to C}
+The process of converting zippy to C is yet again another long one. It starts with reading in the program, 
+then converting that into individual expressions (in zippy one expression takes up one line), then the expression
+is converted to a data structure that holds a function name, and its arguments in individual variables and finally
+it converts that data structure to C code via substituting names, functions, and literal values into template C code.
+\subsection{Actually using zippy}
+For the programmer to use zippy they must be able to call it as a command, on a text file containing their code and
+they must give an output file name, to place the binary. To call the command, it can be simply done using the command
+line with the "zpy" command, which the user will need to install, this is the compiler.
+
+The compiler will have the following options to tweak the output.
+All options are prefixed with a '-', to denote that they are not the input file.
+
+\begin{description}
+	\item{o} - changes the output file location
+	\item{i} - tells the C compiler to include a library that is given after this argument
+	\item{c} - tells the zippy compiler to return C code instead of a compiled binary,
+		this is helpful when using zippy to make small functions in a C/C++ code
+		base
+	\item{f} - pass a flag to the C compiler, the next option should be an argument 
+		accepted by gcc.
+\end{description}
+
+The programmer will also have access to "zpypkg" which will automatically setup their project with compile commands 
+and a template executable. It will be a very simple tool, that copies needed files around to the correct folders,
+it will be written using Bash, (the main scripting language used by unix, along with sh and perl). It will have the 
+following arguments to allow the programmer to quickly write zippy code.
+
+\begin{description}
+	\item[init] this will initialize the package manager, creating the needed files.
+	\item[advinit] this is an advanced form of init, it will set things up to have interoperability with C.
+	\item[build] this command can be used from within a zippy project directory, and will build the project into an executable.
+	\item[run] this will build the project, and run the newly built executable.
+	\item[clean] this will remove all temp files and binaries from the project folder, this is helpful when sharing code.
+	\item[remove] this will remove zpypkg from the current directory (think of it like a de-init).
+\end{description}
+
+\section{Implementation}
+As has been previously mentioned, zippy will have its compiler written in C and its package manager writen in bash.
+
+
+}
 \end{document}
 

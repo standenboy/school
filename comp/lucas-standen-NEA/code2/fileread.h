@@ -10,4 +10,4 @@ typedef struct strings {
 	int count;
 } strings;
 
-strings *parse(FILE *f);
+strings *fileread(FILE *f);

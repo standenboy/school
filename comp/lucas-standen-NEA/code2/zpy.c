@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #include "util.h"
-#include "parser.h"
+#include "fileread.h"
 #include "comp.h"
 #include "appendsnprintf.h"
 
@@ -61,7 +61,7 @@ int main(int argc, char **argv){
 
 	if (fout == NULL) die("no such file or directory");
 
-	strings *stringTokens = parse(f);
+	strings *stringTokens = fileread(f);
 
 	if (stringTokens == NULL) die("couldn't parse file, is it formated properly?");
 	
