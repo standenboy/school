@@ -16,10 +16,11 @@ install: all
 	cd stdlib && make install
 	cd zpypkg && make install
 clean:
-	rm -rf zpy*.o
+	rm -rf zpy *.o
 	cd stdlib && make clean
 	cd examples && make clean
 uninstall: 
-	rm /usr/local/bin/zpy
+	rm -f /usr/local/bin/zpy
+	cd stdlib && make uninstall
 
 .PHONY: all clean install uninstall

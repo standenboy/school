@@ -4,20 +4,21 @@ CFLAGS=-O3
 SRC = zpylib.c
 OBJ = ${SRC:.c=.o}
 
-all: zpy 
 
-.c.o:
-	${CC} -c ${CFLAGS} $<
+all:
+	${CC} -c ${SRC} -o ${OBJ} ${CFLAGS}
 	cd String && make
 install: all 
-	cp zpy /usr/local/bin/zpy
-	cd stdlib && make install
-	cd zpypkg && make install
+	mkdir -p /usr/local/share/zpylib
+	cp zpylib.o /usr/local/share/zpylib/
+	
+	mkdir -p /usr/local/share/zpylib/include
+	cp zpylib.h /usr/local/share/zpylib/include/
+	cd String && make install
 clean:
-	rm -rf zpy*.o
-	cd stdlib && make clean
-	cd examples && make clean
+	rm -rf *.o
+	cd String && make clean
 uninstall: 
-	rm /usr/local/bin/zpy
+	rm -rf /usr/local/share/zpylib
 
 .PHONY: all clean install uninstall

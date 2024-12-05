@@ -8,8 +8,10 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
 \usepackage{forest}
 \usepackage{tikz-qtree}
+\usepackage{bchart}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -37,6 +39,13 @@
 
 
 \lstset{style=mystyle}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=0cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{subroutine} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=yellow!30, double distance=1]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
 \titleformat{\section}
 {\Huge}
@@ -524,7 +533,8 @@ many uses.
 	\item[A package manager]
 	\item[Ability to call C functions]
 \end{description}
-If possible I would like Zippy to also meet the following extra objectives
+If possible I would like Zippy to also meet the following extra objectives. While not needed to make the project
+usable, it will make it far nicer to work with.
 \subsection{Extra objectives}
 \begin{description}
 	\item[String parsing in the stdlib]
@@ -627,7 +637,7 @@ and a template executable. It will be a very simple tool, that copies needed fil
 it will be written using Bash, (the main scripting language used by unix, along with sh and perl). It will have the 
 following arguments to allow the programmer to quickly write zippy code.
 
-\begin{description}
+C\begin{description}
 	\item[init] this will initialize the package manager, creating the needed files.
 	\item[advinit] this is an advanced form of init, it will set things up to have interoperability with C.
 	\item[build] this command can be used from within a zippy project directory, and will build the project into an executable.
@@ -636,12 +646,100 @@ following arguments to allow the programmer to quickly write zippy code.
 	\item[remove] this will remove zpypkg from the current directory (think of it like a de-init).
 \end{description}
 
+\subsection{Modelling the compilation process}
+\begin{tikzpicture}[node distance=2cm]
+	\node (start) [startstop] {Start};
+
+	\node (in1) [io, below of=start] {Read in command line arguments};
+	\node (proc1) [process, below of=in1] {Set global variables based on command line arguments};
+	\node (in2) [io, below of=proc1] {Read input file into an array of strings};
+	\node (proc2) [process, below of=in2] {Convert line to an AST containing relevant info};
+	\node (proc3) [process, below of=proc2] {Convert AST into C code};
+	\node (out1) [io, below of=proc3] {Output C code to file};
+	\node (dec1) [decision, below of=out1, yshift=-1cm] {Is end of file?};
+	\node (proc4) [io, right of=dec1, xshift=6cm] {Load next line for processing};
+	\node (out2) [io, below of=dec1, yshift=-1cm] {Use C compiler on output file};
+
+	\node (end) [startstop, below of=out2] {End};
+	
+	\draw [arrow] (start) -- (in1);
+	\draw [arrow] (in1) -- (proc1);
+	\draw [arrow] (proc1) -- (in2);
+	\draw [arrow] (in2) -- (proc2);
+	\draw [arrow] (proc2) -- (proc3);
+	\draw [arrow] (proc3) -- (out1);
+	\draw [arrow] (out1) -- (dec1);
+	\draw [arrow] (dec1) -- (out2);
+	\draw [arrow] (out2) -- (end);
+	\draw [arrow] (dec1) -- (proc4);
+	\draw [arrow] (proc4) |- (proc2);
+\end{tikzpicture}
+This is a high level diagram of what will go on in my code, with each box corresponding to around 1 function.
+
+\subsection{Modelling data structures I will use}
+\subsubsection{AstNode}
+\begin{tikzpicture}
+	\tikzset{edge from parent/.style={draw,edge from parent path={(\tikzparentnode.south)-- +(0,-8pt)-| (\tikzchildnode)}}}
+	\Tree 
+	[.astNode
+		[.function
+		]
+		[.arguments[8]
+		]
+		[.children[8]
+			[.function
+			]
+			[.arguments[8]
+			]
+			[.children[8]
+				[.function
+				]
+				[.arguments[8]
+				]
+				[.children[8]
+					[....
+					]
+				]
+			]
+		]
+	]
+\end{tikzpicture}
+\\
+This is the main data structure that powers the compiler, it takes a fuction name as a string, an array of 8 arguments as
+strings, and an array of 8 children as astNodes. The fuction argument will be the first word of a line of Zippy, it is the 
+name of the function. The argument variables are each litteral argument, such as a string or integer litteral that is given
+to the fuction, this can be empty. The children argument contain more astNode, they are arguments that are given in the 
+form of functions, for example (printint (+ 2 2)), would result in (+ 2 2) having its own astNode made, and put as the child
+of the (printint) astNode.
+
+\subsubsection{Array list}
+\begin{tikzpicture}
+	\tikzset{edge from parent/.style={draw,edge from parent path={(\tikzparentnode.south)-- +(0,-8pt)-| (\tikzchildnode)}}}
+	\Tree 
+	[.arrayList
+		[.data[length]
+		]
+		[.length
+		]
+	]
+\end{tikzpicture}
+\\
+This is a far simpler data structure, it is useful in languages such as C, C++ and rust to represent non fixed length
+arrays. This is because in these languages arrays are stored as continous bytes in memory, making it hard to tell where
+they end. An array list is a data structure that store the array with an interger value of the length, thus making it
+so one knows how long the list is. This is important to avoid runtime errors such as segmentation faults, caused by 
+reading out of bounds memory.
+
+\subsection{Why so few?}
+It was an intentional choice to uses so few data structures, in languages like C, where OOP is not possible,
+the importance of bundling data is far smaller, with arrays and variables being far more useful than anything
+else; they have faster runtime speeds and a cleaner syntax that makes them preferable. One will find alot of
+C projects will follow this phylosophy, as it generally leads to better projects.
+
 \section{Implementation}
 As has been previously mentioned, zippy will have its compiler written in C and its package manager writen in bash.
 The code will be displayed bellow, it has been commented to use a tool I wrote called autodoc, which can function
 like a doc-string in python, after each file I will explain in detail what it does and why it is in its own file.
-
-PUT A LIST OF FILES HERE
 
 \lstinputlisting[language=C++]{../code2/zpy.c}
 \textit{zpy.c}
@@ -717,7 +815,287 @@ This file defines a smaller helper function, which is used in the main executabl
 \lstinputlisting[language=C++]{../code2/util.h}
 \textit{util.h}
 
+These files are used internally to allow for the linking of C code to function properly; see the following section for 
+more info on the C linking process.
+
+\subsection{The C linking process}
+When one writes C code, it is first compiled by a compiler, in most cases this is a compiler like GCC, or clang.
+These will convert the C code into ASM, (sometimes through a middle man language to make compiling for many systems
+easier), which then gets assembled into an object file. These object files are not executable, in this state they
+are libraries that can be used in other code. To make them executable they must be linked with the C stdlib and any
+other used binary files; this is done by the linker. The linker will take the list of symbols defined in the object file,
+each symbol will correspond to one function in C. It will also take all the symbols in the libarys that the code is linked 
+with. This means common libraries only need to be compiled once, and the linker can take pre compiled binarys.
+
+In this project, each .c file is converted to a .o file (an object file), and then the linker will link all of them together
+to produce the final executable.
+
+To automate the process of compiling and linking, I've used a make file, a build tool which can have multiple functions defined
+that will compile all the given code. Here is makefile:
+
+\lstinputlisting[language=C++]{../code2/Makefile}
+
+This may look confusing, however its goal is very simple, each label (which are denoted with a ':') is a function 
+that can be run, the 'all' function is an omni function ran when the user types in 'make' with no arguments, whereas the others 
+can be called with 'make install' and 'make clean'. The .c.o label is special, it compiles every C file, to a .o file, this is a 
+shorthand syntax, that isn't very readable, but is easy to use. The .PHONY function is another special option, this is used to ensure 
+autocomplete works in the terminal when typing the make commands. Finally the variables defined at the top, are used to define compiler
+options. In this case, im using -O3, which tells the compiler to perform the maximum optimisations to my code. Ensuring the compiler is
+fast.
+
+\subsection{Zpypkg}
+To make the package manager, I will be using bash to generate simple build scripts and default files. The tool doesn't need to do too
+much it just needs to make it easier to initialize a project. It will not use networking in any way, instead, it will leave it up
+to the programmer, so they can use any protocol or tool they like, such as git.
+
+The code for zpypkg can be seen below.
+\lstinputlisting[language=Bash]{../code2/zpypkg/zpypkg.sh}
+\textit{zpypkg.sh}
+
+This code is very simple, it can create a default main.zpy file and a zpybuild.sh file that can be used to compile a zpy project 
+in one instruction. It also has build and run functions to allow the developer to quickly produce and run up to date binaries.
+
+\subsection{Zpylib}
+The language needs a simple standard library that will handle the simple IO functions, this is by no means perfect but it is a 
+good enough base, that it can be easily extended to a full project.
+\lstinputlisting[language=C++]{../code2/stdlib/zpylib.c}
+\textit{zpylib.c}
+
+These functions for the most part are a wrapper around the c stdlib, which is what makes them such a good base to use.
+
+\lstinputlisting[language=C++]{../code2/stdlib/String/String.c}
+\textit{String.c}
+
+These functions will create a simple object oriented style development for the use of strings, allowing the user to split, create,
+destroy and insert into strings. This library allows the user to easily make parsers and other such string related tools.
+
+\subsection{Other libraries}
+While I haven't ported or made any other libraries for zpy, this doesn't mean they can't be used, as long as a library can be linked
+with C code (see the linking section above for more info), it can be used within zpy, and any function in the C stdlib is already
+available to use. I will use this later in my examples to use the raylib graphics library.
+
+\section{Testing}
+\subsection{Introduction}
+To test zpy, I have made a few sections of example code, to test that the compiler can indeed convert code to C. I decided I would
+test the following
+\begin{description}
+	\item[Recursive Fibonacci program] A simple program that will calculate the n'th Fibonacci number
+	\item[String splitting] A small program that splits a string, to test the string processing class
+	\item[A incorrect program] To test the languages error messages
+	\item[A hello world program using zpypkg] To test that zpypkg can be used to manage projects
+	\item[Space invaders] Using the raylib graphics library, I will build a clone of space invaders
+\end{description}
+\subsection{Fibonacci}
+The N'th number in the  Fibonacci sequence can be calculated by adding the previous 2 numbers in the sequence, and assuming the first 
+2 numbers are both 1.
+
+For example here is the first few digits:
+
+\(1, 1, 2, 3, 5, 8, 13, 21\)
+
+\subsubsection{Code}
+In zpy this code can be written as follows:
+
+\lstinputlisting[language=lisp]{../code2/examples/fib_example.zpy}
+\textit{fib\_example.zpy}
+
+A simple explanation of what is happening in this code is,
+
+\begin{description}
+	\item[] I make a function called fib, that returns an int, and takes an int called \(n\) in as input
+	\item[] I create a base case using the if statement, comparing if \(n < 2\)
+	\item[] I return the value of \(n\) if it is less than 2
+	\item[] Otherwise I return the sum of the previous to values in the sequence
+	
+	\item[] I then define a main function that is marked as returning an int, this is where execution of the 
+		program begins
+	\item[] I prompt the user for an input and read it in as an integer
+	\item[] I perform the fib calculation and print the value
+\end{description}
+
+
+\subsubsection{Demo}
+\lstinputlisting{./examples/fib.example}
+
+55 is indeed the 10th Fibonacci number. 
+
+The following python code produces the same output
+
+\lstinputlisting[language=python]{./examples/fib.py}
+\textit{fib.py}
+
+\subsubsection{Performance}
+The zippy code is orders of magnitude faster than the python code, the time command in Unix can be used to show this.
+
+\begin{center}
+\small{\textit{A table comparing the performace of zippy and python, when finding the 30'th Fibonacci number.}}
+\end{center}
+\begin{center}
+\begin{bchart}[max=0.4]
+	\bcbar[label=Zippy, color=yellow]{0.02}
+	\smallskip
+	\bcbar[label=Python, color=blue]{0.339}
+	\smallskip
+	\bcxlabel{time in seconds \textit{lower is better}}
+\end{bchart}
+\end{center}
+
+\subsection{String splitting}
+\subsubsection{Code}
+The following code is a simple example of string splitting in zpy, using the standard library. All it does 
+is split the string hello\_world into the substrings of hello and world, using the \_ as a delimiter.
+\lstinputlisting[language=lisp]{./examples/str_example.zpy}
+\textit{str\_example.zpy}
+
+The code is in 3 main sections:
+\begin{description}
+	\item[] Defining the starting string
+	\item[] Splitting the string
+	\item[] Cleaning up the memory
+\end{description}
+\subsubsection{Output}
+\lstinputlisting{./examples/string.example}
+\subsubsection{Explaining}
+The cleaning of the memory isn't strictly needed in this situation, as it will be freed automatically when
+the program ends. As Zippy is closely related to C, this is still a needed feature for the program to be 
+safe, however code written in Zippy has some extra safety features, such as auto freeing of memory when 
+a function finishes. However as that feature only works on memory allocated with \((alloc)\), freeing must be done
+manually for other things, such as the string library.
+
+\subsection{zpypkg example}
+To use zpypkg I wanted it to be very easy, and hassle free. Other packaging tools like cargo, require entire
+projects to be built with them in mind, this forces a specific project structure that isn't tuned to all use
+cases. I believe that \(Go\) hits the mark on a good packaging tool, it is clean, small and out of the way, 
+simply providing automated builds and running of the code.
+\subsubsection{Using zpypkg}
+\lstinputlisting[language=bash]{./examples/zpypkg.example}
+Its as simple as that! Out of the way, and customizable via the build.sh file that zpypkg generates.
+
+\subsection{Space invaders}
+\subsubsection{Background}
+To build a small space invaders game, I'm going to use the raylib graphics library 
+(\url{https://www.raylib.com/})
+based on GLFW. It is well known and over 10 years old at this point, it is fast, supports most devices and 
+operating systems under the sun, and is written in C for C, and due to this, it is also compatible with Zippy!
+\subsubsection{Code}
+\lstinputlisting[language=lisp]{./examples/spaceinvaders.zpy}
+\textit{spaceinvaders.zpy}
+
+While this may look like a large amount of code, it is actually quite simple, it opens a window, starts a loop, if
+the player shoots the alien it takes damage, if the alien has taken enough damage the game ends, and if the alien 
+reaches the ground the player loses. For simplicity's sake, the program uses exit codes to establish what the outcome
+of the game was, this can be checked on a Unix like system like so: echo \$?. For this game, if this returns a 0, the
+player has one, otherwise the alien enemy has won
+\subsubsection{Seeing it go}
+Bellow is a screenshot of the game working, its graphics are minimal to say the least, but it does prove Zippy can be 
+used with C libraries.
+
+\includegraphics[width=\textwidth, left]{./examples/spaceinvaders.png}
+\textit{The player is green, The alien is red}
+
+\section{Evaluation}
+At this stage in my project, I have created a full project, and now I need to compare it to my original goals. 
+
+Here is a copy of my original goals to avoid needing to flick between many points.
+\subsection{Core objectives}
+\begin{description}
+	\item[A compiler for the Zippy language]
+	\item[AST's used to compile source code]
+	\item[A lisp like syntax]
+	\item[Functional paradigm language]
+	\item[Recursion]
+	\item[Higher order functions] \textit{(this means functions can be passed as arguments to 
+		other functions)}
+	\item[High performance language]
+	\item[A package manager]
+	\item[Ability to call C functions]
+\end{description}
+\subsection{Extra objectives}
+\begin{description}
+	\item[String parsing in the stdlib]
+	\item[graphs in the stdlib]
+	\item[networking in the stdlib]
+	\item[graphics in the stdlib]
+\end{description}
+
+\subsection{Comparing the goals to the product}
+In order I will evaluate and show where and how these came to be.
+
+\subsubsection{A compiler for the Zippy language}
+This was the main goal of the project and I achieved this perfectly as planned, the compiler generates C code that runs
+quickly and efficiently with extra safety features. This is a language that is less dangerous that C, while keeping the 
+same performance.
+
+This goal was fully met.
+
+\subsubsection{AST's used to compile source code}
+This was a goal for the internal design of the project, and I achieved this too with my ast\_node tree data structure, 
+it made the rest of the compilation process far easier as there was less worry for passing data around in random ways.
+
+This goal was fully met.
+
+\subsubsection{A lisp like syntax}
+This goal was also met thanks to the advanced tokeniser I wrote that is capable of generating AST's from individual lines 
+of Zippy, you can see this first hand when you look at the use of parentheses in the language.
+
+This goal was fully met.
+
+\subsubsection{Functional paradigm language}
+This goal is more up to argument, as to weather I achieved it or not. The language definitely has many features from functional
+programming, however none of them are enforced, making it harder to achieve the benefits. In terms of paradigm I feel Zippy
+fell closer to imperative, but one should note Zippy does support all major functional features, such as higher order functions and
+recursion. Functional programming really shows its benefits when it is used exclusively, which isn't done in zippy, however with 
+determination, one could definitely use Zippy in the same way one uses Lisp.
+
+This goal was met, however not to the fullest.
+
+\subsubsection{Recursion}
+As zippy is dependant on C, it can support any feature C can out the box, and C is perfectly capable of using advanced recursive 
+algorithms.
+
+This goal was fully met.
+
+\subsubsection{Higher order functions}
+To achieve this goal I created the \((defunptr)\) keyword which allows the programmer to pass a function as a pointer from within 
+a struct or variable. I find this to be a very elegant way of implementing higher order functions, as it is very simple for 
+low level development, which is where Zippy lies on the tech stack.
+
+This goal was fully met.
+
+\subsubsection{A high performance language} 
+As it was previously seen in the examples section, zippy has been able to crush python, and for me this was enough. For most 
+use cases python is fast enough, and thus zippy being faster means it will never be too slow.
+
+This goal was fully met.
+
+\subsubsection{A package manager} 
+I believe zpypkg was exactly what I wanted to make, it is small fast and too the point, it doesn't get in the programmers way
+like larger tools available.
+
+This goal was fully met.
+
+\subsubsection{Ability to call C functions}
+Zippy is fully able to call C functions and I even created a keyword to define prototypes for them \((symbol)\), this made
+it very easy to call C functions when needed, however it is not needed, as the linker is what puts in most the work to
+achieve this.
+
+This goal was fully met.
+
+\subsection{Thoughts on the core objectives}
+I believe that I have hit all of my core objectives well enough to define my project as complete, I have made a programming 
+language that I would happily use for many projects, with it supporting all the features I could need. Although if I had more 
+time there are some things I would have liked to add, notable a more full standard library, as of current Zippy is reliant
+on the C stdlib and many of its downsides have been passed over into Zippy.
+
+\subsection{Extra objectives}
+While these were optional, I still took the liberty of making them to make a more achieved project. I did not complete them
+all due to time constraints. I made string parsing and graphics available in the standard library, via the string functions
+previously shown, and linking with the raylib graphics library.
+
+One could argue that all of these things are possible, as it is possible to link with a pre existing library to do the work 
+for you, but in some ways that cheating, and also won't work for libraries written in c++.
 
 }
+
 \end{document}
 

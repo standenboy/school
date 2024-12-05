@@ -12,7 +12,7 @@ typedef struct astNode {
 } astNode;
 
 //# reads a block of code from src, until char, outputting to dst, it allows for brackets so it stays on the same depth
-int readuntil(char *src, char c, char *dst){ 
+static int readuntil(char *src, char c, char *dst){ 
 	int ptr = 0;
 	int depth = 0;
 	int i = 0;

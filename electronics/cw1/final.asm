@@ -1,6 +1,7 @@
 start: 
 init: 
-	clrf    PORTA          	; make sure port A output latches are low 
+	clrf    PORTA          	; make sure port A output latches are 
+				; low 
 	clrf 	PORTB
 	bsf     STATUS, RP0    	; select memory bank 1 
 
@@ -10,16 +11,14 @@ init:
 	movwf   TRISB          
 	bcf     STATUS,RP0     	; select memory bank 0 
 
-	;bsf	INTCON, INT0IE
-	;bsf	INTCON, GIE
-
 	rawtemp EQU B6
 	countdown EQU B7
 
 	goto    main 
 
-beep:				; a for loop that beeps a buzzer and turns on a led then sets a led on
-				; if nothing is done
+beep:				; a for loop that beeps a buzzer and 
+				; turns on a led then sets a led on if 
+				; nothing is done
 	movlw 	5
 	movwf	countdown
 
@@ -28,11 +27,10 @@ loop1:
 	bsf	PORTB, 0	; put a RED LED on PORTB:0
 	bsf	PORTB, 1	; put a BUZZER on PORTB:1
 	call 	wait1000ms
-	bcf	PORTB, 0
-	bcf	PORTB, 1
+	clrf	PORTB
 	call	wait1000ms
 
-	decfsz	countdown, F
+	decfsz	countdown, F	; the main part of the loop
 	goto	loop1	
 	
 	bsf	PORTB, 2	; put an AMBER LED on PORTB:2
@@ -51,9 +49,9 @@ main: 				; reads the temprature
 
 	subwf	rawtemp, w	; subtract the from the threshold value
 	btfss	STATUS, 0 	; if higher than desired temp
-	goto 	beep		; ^	
+	goto 	beep	 	
 
-	clrf	STATUS
+	clrf 	STATUS		; clears the status flag, which might have a carry bit set
 
 	goto 	main
 

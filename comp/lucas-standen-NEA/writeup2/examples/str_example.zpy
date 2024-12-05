@@ -1,0 +1,17 @@
+(defun main int)
+	(let str:string* (String "hello_world"))
+	(printstr str->_str)
+	(printchar '\n')
+
+	(let strs:string** (str->split str '_'))
+
+	(printstr strs[0]->_str)
+	(printchar '\n')
+	(printstr strs[1]->_str)
+	(printchar '\n')
+
+	(strs[0]->free strs[0])
+	(strs[1]->free strs[1])
+	(free strs)
+	(str->free str)
+(endfun)

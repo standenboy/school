@@ -34,7 +34,7 @@ void errorhandle(int type){
 }
 
 //# this function will check if the value given is null, if it is, it will cause a sig segv and set the error msg
-void checkNULL(void *value, char *msg){
+static void checkNULL(void *value, char *msg){
 	if (value == NULL) {
 		errmsg = msg;
 		kill(pid, SIGSEGV);
@@ -82,10 +82,10 @@ char *names[] = {
 };
 
 // function prototype for recursion of the compile function
-char *compile(astNode *node);
+static char *compile(astNode *node);
 
 //# this function will convert the zpy style variable defintion, to the c style
-char *vartypeToC(char *str, char *out){
+static char *vartypeToC(char *str, char *out){
 	char *name = malloc(strlen(str));
 	char *type = malloc(strlen(str));
 	
@@ -120,7 +120,7 @@ char *vartypeToC(char *str, char *out){
 }
 
 //# this function will give the user the variable name, without its type, which is useful for translation
-char *getVarName(char *exp){
+static char *getVarName(char *exp){
 	char *out = malloc(strlen(exp));
 	memcpy(out, exp, strlen(exp));
 	char *pos = strchr(out, ':');
@@ -130,7 +130,7 @@ char *getVarName(char *exp){
 }
 
 //# this function will give the user the type, without its name, which is useful for translation
-char *getVarType(char *exp){
+static char *getVarType(char *exp){
 	char *out = malloc(strlen(exp));
 	char *pos = strchr(exp, ':')+1;
 	if (pos == NULL) checkNULL(NULL, "expected var type, got nothing");
@@ -138,7 +138,7 @@ char *getVarType(char *exp){
 	return out;
 }
 //# this will convert mathmatical expressions, to the c style of maths
-char *reversepolishToC(astNode *exp, char *out){
+static char *reversepolishToC(astNode *exp, char *out){
 	out = appendsnprintf(out, MAXOUTLEN, "%s ", exp->args[0]);
 	if (exp->func[0] == '=') out = appendsnprintf(out, MAXOUTLEN, "==");
 	else out = appendsnprintf(out, MAXOUTLEN, "%s", exp->func);
@@ -147,7 +147,7 @@ char *reversepolishToC(astNode *exp, char *out){
 }
 
 //# this is a recursive loop that will call the compile function recursivly to flatten the tree
-astNode *processChildren(astNode *node){
+static astNode *processChildren(astNode *node){
 	for (int i = 0; i < 8; i++){
 		if (node->children[i] != NULL){
 			node->args[i] = compile(node->children[i]);
@@ -158,7 +158,7 @@ astNode *processChildren(astNode *node){
 }
 
 //# this function will do the bulk of converting from zpy into c code
-char *compile(astNode *node){
+static char *compile(astNode *node){
 	char *out = calloc(0, MAXOUTLEN);
 	node = processChildren(node);
 	if (strcmp(names[0], node->func) == 0){ // converting function definitions

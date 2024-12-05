@@ -11,7 +11,7 @@ typedef struct strings {
 } strings;
 
 //# counts the number of times c ocurrs in s
-int countChars(char *s, char c){ 
+static int countChars(char *s, char c){ 
 	int count = 0;
 	for (int i = 0; i < strlen(s); i++){
 		if (s[i] == c) count++;	

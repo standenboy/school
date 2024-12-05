@@ -1,0 +1,6 @@
+zpypkg init # makes a new zpypkg project
+zpypkg build # make a binary of a project
+zpypkg run # make a binary and run it
+zpypkg clean # remove all binaries 
+zpypkg remove # remove zpypkg from the project
+
