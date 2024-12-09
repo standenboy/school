@@ -1,0 +1,3 @@
+	subwf	rawtemp	; subtract the from the threshold value
+	     	       	                                        ^
+line# 50, col# 55 Error: syntax error

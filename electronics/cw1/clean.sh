@@ -1,4 +1,4 @@
 #!/bin/bash
 shopt -s extglob
 
-rm -rf !(*.tex|*.sh|ref.bib|*.asm)
+rm -rf !(*.tex|*.sh|ref.bib|*.asm|images)

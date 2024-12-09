@@ -1,0 +1,33 @@
+Script started on 2024-12-06 09:11:30+00:00 [TERM="st-256color" TTY="/dev/pts/1" COLUMNS="158" LINES="48"]
+[?2004h[01;36m[thing1@Thing1LAP[01;37m cw1[01;36m]$[00m ps1[K[K[KPS![K1="#" "
+[?2004l[?2004h# PS1="# "[C[C[4Pexit[C[Csudo wjecasm -s final.asm 
+[?2004l002c:err:winediag:getaddrinfo Failed to resolve your host name IP
+008c:fixme:wineusb:add_usb_device Interface 1 has 15 alternate settings; using the first one.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+0088:fixme:wineusb:query_id Unhandled ID query type 0x5.
+
+[?25lPICAXE-18M2 (WJEC Assembler) Compiler
+[?25h[?25lVersion 4.0
+[?25h[?25lCopyright (c) 1996-2017
+[?25h[?25lRevolution Education Ltd
+
+[?25h
+[?25l        subwf   rawtemp ; subtract the from the threshold value
+[?25h[?25l                                                                ^
+[?25h[?25lline# 50, col# 55
+
+[?25h[?25lError:[K[1C[?25h[?25lsyntax error[?25h
+[?2004h# exit
+[?2004lexit
+
+Script done on 2024-12-06 09:11:46+00:00 [COMMAND_EXIT_CODE="1"]
